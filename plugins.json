@@ -1,0 +1,31 @@
+/* This file lists all the plugins that the application will load on startup. */
+/* Template to add a new plugin descriptor :
+    {
+        "name":"myPlugin",
+        "description":"This is my plugin",
+        "className":"IMyPlugin",
+        "version":"1.0",
+        "language":"FR",
+        "attributes":
+        {
+            "difficulty":"ez"
+        }
+    }
+*/
+[   
+    /* Player classes */
+    {
+        "name":"Example",
+        "description":"Example",
+        "className":"Example",
+        "version":"0",
+        "language":"Example",
+        "attributes":
+        {
+            "difficulty":"ez"
+        }
+    }
+    
+    /* Tile behaviours */
+
+]
