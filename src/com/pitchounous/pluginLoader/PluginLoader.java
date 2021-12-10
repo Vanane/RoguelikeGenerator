@@ -18,26 +18,30 @@ public class PluginLoader {
     private static Properties FILE_PROPERTIES = new Properties();
     private static PluginLoader _INSTANCE;
     
-    private Map<Class<?>, List<PluginDescriptor>> plugins;
+    private Map<Class<?>, List<PluginDescriptor>> pluginDescriptors;
+    private Map<Class<?>, List<Object>> loadedPlugins;
 
     /**
-     * 
+     * Constructeur privé de la classe Singleton.
+     * Lit le fichier des plugins et instancie les PluginDescriptors
      */
     private PluginLoader() {
         try {
-            plugins = new HashMap<>();         
+            pluginDescriptors = new HashMap<>();      
+            loadedPlugins = new HashMap<>();   
+
             PluginDescriptor[] descriptors = new GsonBuilder().create().fromJson(
                 new FileReader(CONFIG_FILENAME),
                 PluginDescriptor[].class);
             for (PluginDescriptor p : descriptors) {
                 try {
                     Class<?> pClass = Class.forName(p.getClassName());
-                    if(!plugins.containsKey(pClass)) plugins.put(pClass, null);
-                    plugins.get(pClass).add(p);
+                    if(!pluginDescriptors.containsKey(pClass)) pluginDescriptors.put(pClass, null);
+                    pluginDescriptors.get(pClass).add(p);
                     System.out.println("Plugin " + p.getName() + " loaded for class " + pClass.getName());
                 }
                 catch(ClassNotFoundException e) {
-                    System.out.println("Class " + p.getClassName() + " not found for plugin " + p.getName());
+                    System.out.println("Class " + p.getClassName() + " not found for plugin " + p.getName() + ", skipping.");
                 }     
             }
         } catch (IOException e) {
@@ -60,7 +64,7 @@ public class PluginLoader {
      * Retourne les descriptions de tous les plugins implémentant ou héritant de <b>intenf</b>.
      */
     public List<PluginDescriptor> getPluginDescriptors(Class<?> intenf) {
-        return plugins.get(intenf);
+        return pluginDescriptors.get(intenf);
     }
 
     /**

@@ -6,13 +6,6 @@ public class App
 {
     private String[] arguments;
 
-
-    public static void main(String[] args)
-    {
-        new App(args).run();
-    }
-
-
     public App(String[] args)
     {
         arguments = args;
