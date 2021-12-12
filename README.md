@@ -15,6 +15,7 @@ Les prérequis pour pouvoir télécharger, compiler et exécuter ce logiciel son
 2. Depuis la racine du projet dans un invite de commande, compilez le programme :
 
 `javac -cp "src;lib/*;" .\src\Main.java -d bin`
+
 3. Toujours depuis l'invite de commande, exécutez le programme ainsi :
 
 `java -cp "bin;lib/*;" Main`
