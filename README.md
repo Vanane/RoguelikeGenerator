@@ -13,12 +13,15 @@ Les prérequis pour pouvoir télécharger, compiler et exécuter ce logiciel son
 1. Clonez ou téléchargez ce repository
 ### Windows (par ligne de commande)
 2. Depuis la racine du projet dans un invite de commande, compilez le programme :
-    `javac -cp "src;lib/*;" .\src\Main.java -d bin`
+
+`javac -cp "src;lib/*;" .\src\Main.java -d bin`
 3. Toujours depuis l'invite de commande, exécutez le programme ainsi :
-    `java -cp "bin;lib/*;" Main`
+
+`java -cp "bin;lib/*;" Main`
 
 Il est possible de souhaiter compiler vers une autre destination. Dans ce cas, les fichiers de librairies externes devront être copiées manuellement dans le dossier de destination, et le dossier devra être référencé dans la commande d'exécution : 
-    `java -cp "bin;chemin/vers/les/librairies/*;" Main`
+
+`java -cp "bin;chemin/vers/les/librairies/*;" Main`
 
 ### Linux (par ligne de commande)
 2. Suivez la procédure pour Windows, mais remplacez les ; par des :
