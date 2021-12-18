@@ -1,13 +1,19 @@
-package com.pitchounous.roguelike.entities;
+package com.pitchounous.roguelike.entities.creatures;
 
 import java.util.Random;
 
+import com.pitchounous.roguelike.entities.Entity;
 import com.pitchounous.roguelike.world.World;
 
 public class Creature extends Entity {
 
-	public Creature(String type, String colorString, Integer xPos, Integer yPos) {
-		super(type, colorString, xPos, yPos);
+	public int attack;
+	public int hp;
+
+	public Creature(String type, String colorString, int attack, int hp, int xPos, int yPos) {
+		super(type, colorString, "black", xPos, yPos);
+		this.hp = hp;
+		this.attack = attack;
 	}
 
 	public void move(World world, int dx, int dy) {
@@ -15,6 +21,11 @@ public class Creature extends Entity {
 			x += dx;
 			y += dy;
 			world.getTile(x, y).onStep(this);
+		} else if (Creature.class.isInstance(world.getCreatureAt(x + dx, y + dy))) {
+			Creature c = world.getCreatureAt(x + dx, y + dy);
+			c.hp -= this.attack;
+			System.out.println(
+					c.getType() + " get attacked by " + this.getType() + " and lost " + this.attack + " hp");
 		}
 	}
 

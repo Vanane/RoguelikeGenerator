@@ -7,11 +7,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.google.gson.GsonBuilder;
 
 import plugins.Grass;
+import plugins.Fire;
+import plugins.Wolf;
 
 public class PluginLoader {
 
@@ -85,7 +86,7 @@ public class PluginLoader {
 		return inheritedPlugins;
 	}
 
-	public Class<?> getPluginDescriptorClass(PluginDescriptor pd){
+	public Class<?> getPluginDescriptorClass(PluginDescriptor pd) {
 		try {
 			return Class.forName(pd.getClassName());
 		} catch (ClassNotFoundException e) {
@@ -96,6 +97,7 @@ public class PluginLoader {
 
 	/**
 	 * Retourne une instance du PluginDescriptor passé en paramètre.
+	 * 
 	 * @param pd
 	 * @param args
 	 * @return

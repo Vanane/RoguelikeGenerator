@@ -11,6 +11,7 @@ public class Entity {
 
 	protected String type;
 	protected Color color;
+	protected Color backgroundColor;
 
 	public int getX() {
 		return x;
@@ -21,7 +22,7 @@ public class Entity {
 	}
 
 	public char getGlyph() {
-		return type.charAt(0);
+		return type.toUpperCase().charAt(0);
 	}
 
 	public String getType() {
@@ -32,11 +33,16 @@ public class Entity {
 		return this.color;
 	}
 
-	public Entity(String type, String colorString, Integer xPos, Integer yPos) {
+	public Color getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public Entity(String type, String charColor, String backColor, int xPos, int yPos) {
 		x = xPos;
 		y = yPos;
 		this.type = type;
-		color = Roguelike.stringToColor(colorString);
+		color = Roguelike.stringToColor(charColor);
+		backgroundColor = Roguelike.stringToColor(backColor);
 	}
 
 }

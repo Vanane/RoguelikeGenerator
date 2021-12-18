@@ -3,7 +3,7 @@ package com.pitchounous.roguelike.ui;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import com.pitchounous.roguelike.entities.Creature;
+import com.pitchounous.roguelike.entities.creatures.Creature;
 import com.pitchounous.roguelike.world.World;
 import com.pitchounous.roguelike.world.tiles.Tile;
 
@@ -33,18 +33,6 @@ public class AsciiCamera {
         return new Point(spx, spy);
     }
 
-    /*
-     * public Tile GetObjectAt(World world, int x, int y)
-     * {
-     * Point playerPosition = GetScreenCoords(world.player.getX(),
-     * world.player.getY(), world.player.getX(), world.player.getY());
-     * 
-     * int tileX = world.player.getX() + (x - playerPosition.x);
-     * int tileY = world.player.getY() + (y - playerPosition.y);
-     * return world.tile(tileX, tileY);
-     * }
-     */
-
     public void Rotate(int direction) {
         this.direction = direction;
     }
@@ -72,8 +60,10 @@ public class AsciiCamera {
             spy = entity.getY() - origin.y;
 
             if ((spx >= 0 && spx < screenWidth) && (spy >= 0 && spy < screenHeight)) {
-                terminal.write(entity.getGlyph(), spx, spy, entity.getColor(),
-                        world.getTile(entity.getX(), entity.getY()).getBackgroundColor());
+                terminal.write(
+                        entity.getGlyph(), spx, spy,
+                        entity.getColor(),
+                        entity.getBackgroundColor());
             }
         }
     }

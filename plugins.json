@@ -15,25 +15,39 @@
 [
     /* Player classes */
     {
-        "name":"Example",
-        "description":"Example",
-        "className":"Example",
-        "version":"0",
-        "language":"Example",
-        "attributes":
-        {
-            "difficulty":"ez"
+        "name": "Example",
+        "description": "Example",
+        "className": "Example",
+        "version": "0",
+        "language": "Example",
+        "attributes": {
+            "difficulty": "ez"
         }
     },
-    /* Tile behaviours */
+    /* Tiles */
     {
-        "name":"Grass.java",
-        "description":"Add a grass tile",
-        "className":"plugins.Grass",
-        "version":"0.1",
-        "language":"en",
-        "attributes":
-        {}
+        "name": "Grass.java",
+        "description": "Add a grass tile",
+        "className": "plugins.Grass",
+        "version": "0.1",
+        "language": "en",
+        "attributes": {}
+    },
+    {
+        "name": "Fire.java",
+        "description": "Add a fire tile that burns",
+        "className": "plugins.Fire",
+        "version": "0.1",
+        "language": "en",
+        "attributes": {}
+    },
+    /* Creatures */
+    {
+        "name": "Wolf.java",
+        "description": "A big predator",
+        "className": "plugins.Wolf",
+        "version": "0.1",
+        "language": "en",
+        "attributes": {}
     }
-
 ]

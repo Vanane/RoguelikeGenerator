@@ -7,13 +7,11 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.LinkedList;
-import java.util.HashMap;
 import java.util.Queue;
 
 import javax.swing.JFrame;
 
 import com.pitchounous.roguelike.world.World;
-import com.pitchounous.roguelike.world.tiles.Tile;
 
 import asciiPanel.AsciiPanel;
 

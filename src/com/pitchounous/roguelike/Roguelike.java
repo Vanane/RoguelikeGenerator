@@ -4,15 +4,10 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.lang.reflect.Field;
-import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Set;
 
-import com.pitchounous.roguelike.entities.Creature;
+import com.pitchounous.roguelike.entities.creatures.Player;
 import com.pitchounous.roguelike.ui.Interface;
 import com.pitchounous.roguelike.world.World;
 import com.pitchounous.roguelike.world.WorldBuilder;
@@ -24,63 +19,26 @@ public class Roguelike {
 	private int timePerLoop = 1000000000 / framesPerSecond;
 
 	private World world;
-	private Creature player;
-
-	private HashMap<String, HashMap<String, String>> creatureData;
+	private Player player;
 
 	private static final int mapWidth = 100;
 	private static final int mapHeight = 100;
 
 	private Interface ui;
 
-	public Roguelike(int screenWidth, int screenHeight, Set<Class<?>> pluginTiles) {
+	public Roguelike(int screenWidth, int screenHeight, Set<Class<?>> pluginTiles, Set<Class<?>> pluginCreatures) {
 		ui = new Interface(screenWidth, screenHeight, new Rectangle(mapWidth, mapHeight));
 
-		creatureData = loadData(Paths.get("src", "com", "pitchounous", "roguelike", "creatures.csv").toString());
-
-		createWorld(pluginTiles);
+		createWorld(pluginTiles, pluginCreatures);
 	}
 
-	public HashMap<String, HashMap<String, String>> loadData(String file) {
-		HashMap<String, HashMap<String, String>> entityMap = new HashMap<>();
-		String line = "";
-		String[] attributeNames = new String[10];
-
-		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-
-			line = br.readLine();
-
-			if (line != null) {
-				attributeNames = line.split(", ");
-			}
-
-			while ((line = br.readLine()) != null) {
-				String[] data = line.split(", ");
-				HashMap<String, String> entityData = new HashMap<>();
-
-				for (int i = 0; i < attributeNames.length; i++) {
-					entityData.put(attributeNames[i], data[i]);
-				}
-
-				String name = data[1];
-				entityMap.put(name, entityData);
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return entityMap;
-	}
-
-	private void createWorld(Set<Class<?>> pluginTiles) {
-		player = new Creature("player", "white", 10, 10);
-		world = new WorldBuilder(creatureData, mapWidth, mapHeight, pluginTiles)
+	private void createWorld(Set<Class<?>> pluginTiles, Set<Class<?>> pluginCreatures) {
+		player = new Player(10, 10);
+		world = new WorldBuilder(mapWidth, mapHeight, pluginTiles, pluginCreatures, player)
 				.fillWithWall()
 				.createRandomWalkCave(12232, 10, 10, 6000)
 				.populateWorld(10)
 				.build();
-		world.player = player;
-		world.addEntity(player);
 	}
 
 	public void processInput() {
@@ -109,6 +67,11 @@ public class Roguelike {
 		ui.refresh();
 	}
 
+	public void renderGameOver() {
+		ui.pointCameraAt(world, player.getX(), player.getY());
+		ui.refresh();
+	}
+
 	public void update() {
 		world.update();
 	}
@@ -120,7 +83,11 @@ public class Roguelike {
 			long startTime = System.nanoTime();
 
 			processInput();
-			update();
+			try {
+				update();
+			} catch (Error e) {
+				renderGameOver();
+			}
 			render();
 
 			long endTime = System.nanoTime();

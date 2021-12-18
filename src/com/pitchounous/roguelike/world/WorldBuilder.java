@@ -4,11 +4,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.HashMap;
 import java.util.Random;
 import java.util.Set;
 
-import com.pitchounous.roguelike.entities.Creature;
+import com.pitchounous.roguelike.entities.creatures.Creature;
+import com.pitchounous.roguelike.entities.creatures.Player;
+import com.pitchounous.roguelike.entities.creatures.Sheep;
+import com.pitchounous.roguelike.entities.creatures.Zombie;
 import com.pitchounous.roguelike.world.tiles.Ground;
 import com.pitchounous.roguelike.world.tiles.Tile;
 import com.pitchounous.roguelike.world.tiles.Wall;
@@ -19,28 +21,30 @@ public class WorldBuilder {
 
 	Tile[][] tiles;
 	List<Class<?>> availableTileTypes;
+	List<Class<?>> availableCreatureTypes;
 
 	Set<Creature> creatures;
 
-	HashMap<String, HashMap<String, String>> creatureData;
+	Player player;
 
-	public WorldBuilder(
-			HashMap<String, HashMap<String, String>> creatureData,
-			int width, int height, Set<Class<?>> pluginTiles) {
+	public WorldBuilder(int width, int height,
+			Set<Class<?>> pluginTiles, Set<Class<?>> pluginCreatures,
+			Player player) {
 		this.width = width;
 		this.height = height;
-		this.tiles = new Tile[width][height];
-		this.creatureData = creatureData;
-		this.creatures = new HashSet<Creature>();
+		tiles = new Tile[width][height];
+		creatures = new HashSet<Creature>();
+
+		// Set ensure only one occurence of the class
+		pluginCreatures.add(Zombie.class);
+		pluginCreatures.add(Sheep.class);
+		availableCreatureTypes = new ArrayList<Class<?>>(pluginCreatures);
 
 		// Set ensure only one occurence of the class
 		pluginTiles.add(Ground.class);
-		this.availableTileTypes = new ArrayList<Class<?>>(pluginTiles);
-	}
+		availableTileTypes = new ArrayList<Class<?>>(pluginTiles);
 
-	public WorldBuilder load(String file) {
-		// Loads map from file
-		return this;
+		this.player = player;
 	}
 
 	public Tile createTile(String type, int x, int y) {
@@ -49,7 +53,7 @@ public class WorldBuilder {
 
 		if (type.equals("ground")) {
 			Class<?> tileType = availableTileTypes.get(rnd.nextInt(availableTileTypes.size()));
-			Class[] parameters = { Integer.class, Integer.class };
+			Class<?>[] parameters = { int.class, int.class };
 			try {
 				tile = (Tile) tileType.getDeclaredConstructor(parameters).newInstance(x, y);
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
@@ -61,12 +65,20 @@ public class WorldBuilder {
 		return tile;
 	}
 
-	public Creature createCreature(String type, int x, int y) {
-		return new Creature(type, "white", x, y);
+	public Creature createCreature(Class<?> creatureType, int x, int y) {
+		Creature c = null;
+
+		Class<?>[] parameters = { int.class, int.class };
+		try {
+			c = (Creature) creatureType.getDeclaredConstructor(parameters).newInstance(x, y);
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+		}
+		return c;
 	}
 
 	public World build() {
-		return new World(tiles, creatures);
+		return new World(tiles, creatures, player);
 	}
 
 	public WorldBuilder fillWithWall() {
@@ -105,9 +117,6 @@ public class WorldBuilder {
 		int rndX;
 		int rndY;
 
-		List<String> creatureTypes = new ArrayList<String>(creatureData.keySet());
-		creatureTypes.remove("player");
-
 		for (int i = 0; i < nrOfCreatures; i++) {
 
 			// Find an empty cell to add a creature
@@ -116,7 +125,7 @@ public class WorldBuilder {
 				rndY = rnd.nextInt(height);
 			} while (!(tiles[rndX][rndY] instanceof Ground));
 
-			String creatureType = creatureTypes.get(rnd.nextInt(creatureTypes.size()));
+			Class<?> creatureType = availableCreatureTypes.get(rnd.nextInt(availableCreatureTypes.size()));
 			creatures.add(createCreature(creatureType, rndX, rndY));
 		}
 

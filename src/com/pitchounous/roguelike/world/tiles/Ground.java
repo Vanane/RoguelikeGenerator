@@ -1,19 +1,16 @@
 package com.pitchounous.roguelike.world.tiles;
 
-import java.util.HashMap;
-import java.util.HashMap;
-
-import com.pitchounous.roguelike.entities.Creature;
+import com.pitchounous.roguelike.entities.creatures.Creature;
 
 public class Ground extends Tile {
 
-    public Ground(Integer xPos, Integer yPos) {
+    public Ground(int xPos, int yPos) {
         super("ground", "brown", xPos, yPos, "black", true);
     }
 
     public char getGlyph() {
-		return '.';
-	}
+        return ' ';
+    }
 
     @Override
     public void onFootOn(Creature c) {
