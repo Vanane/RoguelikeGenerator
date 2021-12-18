@@ -1,15 +1,22 @@
 package com.pitchounous.roguelike.world.tiles;
 
-import java.util.Map;
+import java.util.HashMap;
+import java.util.HashMap;
+
+import com.pitchounous.roguelike.entities.Creature;
 
 public class Wall extends Tile {
 
-    public Wall(Map<String, String> tileData, int xpos, int ypos) {
-        super(tileData, xpos, ypos, "black", false);
+    public Wall(Integer xPos, Integer yPos) {
+        super("wall", "white", xPos, yPos, "black", false);
     }
 
+    public char getGlyph() {
+		return 'X';
+	}
+
     @Override
-    public void onFootOn() {
+    public void onFootOn(Creature c) {
         // Not  a crossable tile so this does nothing
     }
 }

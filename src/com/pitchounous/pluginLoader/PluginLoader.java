@@ -2,32 +2,30 @@ package com.pitchounous.pluginLoader;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
-import com.google.gson.*;
+import com.google.gson.GsonBuilder;
+
+import plugins.Grass;
 
 public class PluginLoader {
 
 	private final static String CONFIG_FILENAME = "plugins.json";
-	private final static String PACKAGE_NAME = "com.pitchounous";
-	private static Properties FILE_PROPERTIES = new Properties();
 	private static PluginLoader _INSTANCE;
 
-	/**
-	 * Map contenant, pour chaque nom de classe, les PluginDescriptors qui
-	 * l'implémentent
-	 */
-	private Map<String, List<PluginDescriptor>> pluginDescriptors;
-	/** Map contenant, pour chaque nom de plugin, l'instance du plugin */
-	private Map<String, Object> loadedPlugins;
+	// Map between class name and PluginDescriptor
+	private HashMap<String, PluginDescriptor> pluginDescriptors;
+	// Map between plugin name and plugin object
+	private HashMap<String, Object> loadedPlugins;
 
 	/**
-	 * Constructeur privé de la classe Singleton.
-	 * Lit le fichier des plugins et instancie les PluginDescriptors.
+	 * Singleton constructor
+	 * Read plugin file and loads according PluginDescriptors.
 	 */
 	private PluginLoader() {
 		try {
@@ -44,8 +42,8 @@ public class PluginLoader {
 					Class<?> pluginClass = Class.forName(className);
 
 					if (!pluginDescriptors.containsKey(className))
-						pluginDescriptors.put(className, null);
-					pluginDescriptors.get(className).add(p);
+						pluginDescriptors.put(className, p);
+					pluginDescriptors.get(className);
 					System.out.println("Plugin " + p.getName() + " loaded for class " + className);
 				} catch (ClassNotFoundException e) {
 					System.out.println(
@@ -72,23 +70,53 @@ public class PluginLoader {
 	 * <b>intenf</b>.
 	 */
 	public List<PluginDescriptor> getPluginDescriptors(Class<?> intenf) {
-		return pluginDescriptors.get(intenf);
+		List<PluginDescriptor> inheritedPlugins = new ArrayList<>();
+		for (PluginDescriptor pd : pluginDescriptors.values()) {
+			Class<?> pluginClass = null;
+			try {
+				pluginClass = Class.forName(pd.getClassName());
+			} catch (ClassNotFoundException e) {
+			}
+
+			if (intenf.isAssignableFrom(pluginClass)) {
+				inheritedPlugins.add(pd);
+			}
+		}
+		return inheritedPlugins;
+	}
+
+	public Class<?> getPluginDescriptorClass(PluginDescriptor pd){
+		try {
+			return Class.forName(pd.getClassName());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	/**
 	 * Retourne une instance du PluginDescriptor passé en paramètre.
-	 * 
 	 * @param pd
+	 * @param args
 	 * @return
 	 */
-	public Object loadPlugin(PluginDescriptor pd) {
+	public Object instanciatePluginClass(PluginDescriptor pd, Object[] args) {
 		Object plugin = null;
 		try {
 			if (loadedPlugins.containsKey(pd.getName()))
 				plugin = loadedPlugins.get(pd.getName());
 			else {
 				Class<?> pluginClass = Class.forName(pd.getClassName());
-				plugin = pluginClass.getConstructor().newInstance();
+				Class<?>[] constructorParameters = new Class[args.length];
+
+				for (int i = 0; i < args.length; i++) {
+					Class<?> type = args[i].getClass();
+					constructorParameters[i] = type;
+				}
+
+				System.out.println("Constructor available for :   " + pluginClass.getDeclaredConstructors()[0]);
+				Constructor<?> c = pluginClass.getDeclaredConstructor(constructorParameters);
+				plugin = c.newInstance(args);
 			}
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
@@ -96,26 +124,5 @@ public class PluginLoader {
 			e.printStackTrace();
 		}
 		return plugin;
-	}
-
-	/**
-	 * Retourne un objet PluginDescriptor à partir de son nom.
-	 * 
-	 * @return
-	 */
-	private PluginDescriptor getPluginDescriptor(String pluginName) {
-		return null;
-		/*
-		 * if(pluginName == null) return null;
-		 * Properties plugin = this.FILE_PROPERTIES.
-		 * PluginDescriptor desc = new PluginDescriptor(
-		 * 
-		 * description,
-		 * className,
-		 * version,
-		 * language,
-		 * attributes
-		 * );
-		 */
 	}
 }

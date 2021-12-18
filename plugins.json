@@ -24,7 +24,16 @@
         {
             "difficulty":"ez"
         }
-    }
+    },
     /* Tile behaviours */
+    {
+        "name":"Grass.java",
+        "description":"Add a grass tile",
+        "className":"plugins.Grass",
+        "version":"0.1",
+        "language":"en",
+        "attributes":
+        {}
+    }
 
 ]

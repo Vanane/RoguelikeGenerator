@@ -1,20 +1,20 @@
 package com.pitchounous.roguelike.entities;
 
-import java.util.Map;
 import java.util.Random;
 
 import com.pitchounous.roguelike.world.World;
 
 public class Creature extends Entity {
 
-	public Creature(Map<String, String> creatureData, int x, int y) {
-		super(creatureData, x, y);
+	public Creature(String type, String colorString, Integer xPos, Integer yPos) {
+		super(type, colorString, xPos, yPos);
 	}
 
 	public void move(World world, int dx, int dy) {
 		if (world.isTileCrossable(x + dx, y + dy)) {
 			x += dx;
 			y += dy;
+			world.getTile(x, y).onStep(this);
 		}
 	}
 

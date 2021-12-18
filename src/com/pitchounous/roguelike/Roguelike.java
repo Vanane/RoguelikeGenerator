@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Set;
 
 import com.pitchounous.roguelike.entities.Creature;
 import com.pitchounous.roguelike.ui.Interface;
@@ -26,29 +26,23 @@ public class Roguelike {
 	private World world;
 	private Creature player;
 
-	private Map<String, Map<String, String>> creatureData;
-	private Map<String, Map<String, String>> tileData;
-
-	private Rectangle gameViewArea;
+	private HashMap<String, HashMap<String, String>> creatureData;
 
 	private static final int mapWidth = 100;
 	private static final int mapHeight = 100;
 
 	private Interface ui;
 
-	public Roguelike(int screenWidth, int screenHeight) {
-		gameViewArea = new Rectangle(screenWidth, screenHeight - 5);
-
+	public Roguelike(int screenWidth, int screenHeight, Set<Class<?>> pluginTiles) {
 		ui = new Interface(screenWidth, screenHeight, new Rectangle(mapWidth, mapHeight));
 
 		creatureData = loadData(Paths.get("src", "com", "pitchounous", "roguelike", "creatures.csv").toString());
-		tileData = loadData(Paths.get("src", "com", "pitchounous", "roguelike", "tiles.csv").toString());
 
-		createWorld();
+		createWorld(pluginTiles);
 	}
 
-	public Map<String, Map<String, String>> loadData(String file) {
-		Map<String, Map<String, String>> entityMap = new HashMap<>();
+	public HashMap<String, HashMap<String, String>> loadData(String file) {
+		HashMap<String, HashMap<String, String>> entityMap = new HashMap<>();
 		String line = "";
 		String[] attributeNames = new String[10];
 
@@ -62,7 +56,7 @@ public class Roguelike {
 
 			while ((line = br.readLine()) != null) {
 				String[] data = line.split(", ");
-				Map<String, String> entityData = new HashMap<>();
+				HashMap<String, String> entityData = new HashMap<>();
 
 				for (int i = 0; i < attributeNames.length; i++) {
 					entityData.put(attributeNames[i], data[i]);
@@ -78,9 +72,9 @@ public class Roguelike {
 		return entityMap;
 	}
 
-	private void createWorld() {
-		player = new Creature(creatureData.get("player"), 10, 10);
-		world = new WorldBuilder(tileData, creatureData, mapWidth, mapHeight)
+	private void createWorld(Set<Class<?>> pluginTiles) {
+		player = new Creature("player", "white", 10, 10);
+		world = new WorldBuilder(creatureData, mapWidth, mapHeight, pluginTiles)
 				.fillWithWall()
 				.createRandomWalkCave(12232, 10, 10, 6000)
 				.populateWorld(10)
@@ -112,7 +106,6 @@ public class Roguelike {
 
 	public void render() {
 		ui.pointCameraAt(world, player.getX(), player.getY());
-		ui.drawDynamicLegend(gameViewArea, world, tileData, creatureData);
 		ui.refresh();
 	}
 

@@ -1,9 +1,10 @@
 package com.pitchounous.roguelike.world;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Set;
 
@@ -17,21 +18,24 @@ public class WorldBuilder {
 	int height;
 
 	Tile[][] tiles;
+	List<Class<?>> availableTileTypes;
+
 	Set<Creature> creatures;
 
-	Map<String, Map<String, String>> tileData;
-	Map<String, Map<String, String>> creatureData;
+	HashMap<String, HashMap<String, String>> creatureData;
 
 	public WorldBuilder(
-			Map<String, Map<String, String>> tileData,
-			Map<String, Map<String, String>> creatureData,
-			int width, int height) {
+			HashMap<String, HashMap<String, String>> creatureData,
+			int width, int height, Set<Class<?>> pluginTiles) {
 		this.width = width;
 		this.height = height;
 		this.tiles = new Tile[width][height];
-		this.tileData = tileData;
 		this.creatureData = creatureData;
 		this.creatures = new HashSet<Creature>();
+
+		// Set ensure only one occurence of the class
+		pluginTiles.add(Ground.class);
+		this.availableTileTypes = new ArrayList<Class<?>>(pluginTiles);
 	}
 
 	public WorldBuilder load(String file) {
@@ -41,16 +45,24 @@ public class WorldBuilder {
 
 	public Tile createTile(String type, int x, int y) {
 		Tile tile = null;
-		if (type.equals("ground")){
-			tile = new Ground(tileData.get(type), x, y);
-		}else if(type.equals("wall")){
-			tile = new Wall(tileData.get(type), x, y);
+		Random rnd = new Random();
+
+		if (type.equals("ground")) {
+			Class<?> tileType = availableTileTypes.get(rnd.nextInt(availableTileTypes.size()));
+			Class[] parameters = { Integer.class, Integer.class };
+			try {
+				tile = (Tile) tileType.getDeclaredConstructor(parameters).newInstance(x, y);
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+			}
+		} else if (type.equals("wall")) {
+			tile = new Wall(x, y);
 		}
 		return tile;
 	}
 
 	public Creature createCreature(String type, int x, int y) {
-		return new Creature(creatureData.get(type), x, y);
+		return new Creature(type, "white", x, y);
 	}
 
 	public World build() {
@@ -60,7 +72,7 @@ public class WorldBuilder {
 	public WorldBuilder fillWithWall() {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				tiles[x][y] = new Wall(tileData.get("wall"), x, y);
+				tiles[x][y] = new Wall(x, y);
 			}
 		}
 		return this;

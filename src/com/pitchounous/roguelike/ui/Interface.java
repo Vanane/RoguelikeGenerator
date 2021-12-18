@@ -7,12 +7,13 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.LinkedList;
-import java.util.Map;
+import java.util.HashMap;
 import java.util.Queue;
 
 import javax.swing.JFrame;
 
 import com.pitchounous.roguelike.world.World;
+import com.pitchounous.roguelike.world.tiles.Tile;
 
 import asciiPanel.AsciiPanel;
 
@@ -66,35 +67,6 @@ public class Interface extends JFrame implements KeyListener, MouseListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		inputQueue.add(e);
-	}
-
-	public void drawDynamicLegend(Rectangle gameViewArea, World world, Map<String, Map<String, String>> tileData,
-			Map<String, Map<String, String>> creatureData) {
-		int x = 5;
-		int y = gameViewArea.height;
-		char glyph;
-
-		for (String tileType : world.getTileTypesInArea(gameViewArea)) {
-			glyph = tileData.get(tileType).get("glyph").charAt(0);
-			terminal.write(glyph + "   " + tileType, x, y);
-			y += 1;
-
-			if (y == gameViewArea.height + 2) {
-				x += 15;
-				y = gameViewArea.height;
-			}
-		}
-
-		for (String creatureType : world.getCreatureTypesInArea(gameViewArea)) {
-			glyph = creatureData.get(creatureType).get("glyph").charAt(0);
-			terminal.write(glyph + "   " + creatureType, x, y);
-			y += 1;
-
-			if (y == gameViewArea.height + 5) {
-				x += 15;
-				y = gameViewArea.height;
-			}
-		}
 	}
 
 	@Override

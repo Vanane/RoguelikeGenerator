@@ -1,7 +1,6 @@
 package com.pitchounous.roguelike.entities;
 
 import java.awt.Color;
-import java.util.Map;
 
 import com.pitchounous.roguelike.Roguelike;
 
@@ -11,7 +10,6 @@ public class Entity {
 	protected int y;
 
 	protected String type;
-	protected char glyph;
 	protected Color color;
 
 	public int getX() {
@@ -23,7 +21,7 @@ public class Entity {
 	}
 
 	public char getGlyph() {
-		return this.glyph;
+		return type.charAt(0);
 	}
 
 	public String getType() {
@@ -34,12 +32,11 @@ public class Entity {
 		return this.color;
 	}
 
-	public Entity(Map<String, String> entityData, int xPos, int yPos) {
+	public Entity(String type, String colorString, Integer xPos, Integer yPos) {
 		x = xPos;
 		y = yPos;
-		type = entityData.get("name");
-		glyph = entityData.get("glyph").charAt(0);
-		color = Roguelike.stringToColor(entityData.get("color"));
+		this.type = type;
+		color = Roguelike.stringToColor(colorString);
 	}
 
 }

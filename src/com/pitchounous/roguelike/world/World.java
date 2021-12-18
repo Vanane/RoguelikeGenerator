@@ -1,7 +1,6 @@
 package com.pitchounous.roguelike.world;
 
 import java.awt.Color;
-import java.awt.Rectangle;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -75,35 +74,5 @@ public class World {
 		creatures.stream()
 				.filter(creature -> !creature.getType().equals("player"))
 				.forEach(creature -> creature.update(this));
-	}
-
-	public Set<String> getTileTypesInArea(Rectangle rectangle) {
-		Set<String> tileTypes = new HashSet<String>();
-		Tile tile;
-
-		for (int y = (int) rectangle.getY(); y < rectangle.getMaxY(); y += 1) {
-			for (int x = (int) rectangle.getX(); x < rectangle.getMaxX(); x += 1) {
-				tile = this.tiles[x][y];
-				if (tile != null) {
-					tileTypes.add(tile.getType());
-				}
-			}
-		}
-		return tileTypes;
-	}
-
-	public Set<String> getCreatureTypesInArea(Rectangle rectangle) {
-		Set<String> creatureTypes = new HashSet<>();
-
-		creatureTypes.add(player.getType());
-
-		for (Creature creature : this.creatures) {
-			if (creature.getX() > rectangle.getX() && creature.getX() < rectangle.getMaxX() &&
-					creature.getY() > rectangle.getY() && creature.getY() < rectangle.getMaxY()) {
-				creatureTypes.add(creature.getType());
-			}
-		}
-
-		return creatureTypes;
 	}
 }
