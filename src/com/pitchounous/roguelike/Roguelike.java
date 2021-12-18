@@ -1,10 +1,5 @@
 package com.pitchounous.roguelike;
 
-import com.pitchounous.roguelike.entities.Creature;
-import com.pitchounous.roguelike.ui.Interface;
-import com.pitchounous.roguelike.world.World;
-import com.pitchounous.roguelike.world.WorldBuilder;
-
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.event.InputEvent;
@@ -16,6 +11,11 @@ import java.lang.reflect.Field;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.pitchounous.roguelike.entities.Creature;
+import com.pitchounous.roguelike.ui.Interface;
+import com.pitchounous.roguelike.world.World;
+import com.pitchounous.roguelike.world.WorldBuilder;
 
 public class Roguelike {
 
@@ -81,7 +81,7 @@ public class Roguelike {
 	private void createWorld() {
 		player = new Creature(creatureData.get("player"), 10, 10);
 		world = new WorldBuilder(tileData, creatureData, mapWidth, mapHeight)
-				.fill("wall")
+				.fillWithWall()
 				.createRandomWalkCave(12232, 10, 10, 6000)
 				.populateWorld(10)
 				.build();

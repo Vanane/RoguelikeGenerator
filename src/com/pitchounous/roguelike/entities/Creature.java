@@ -1,9 +1,9 @@
 package com.pitchounous.roguelike.entities;
 
-import com.pitchounous.roguelike.world.World;
-
 import java.util.Map;
 import java.util.Random;
+
+import com.pitchounous.roguelike.world.World;
 
 public class Creature extends Entity {
 
@@ -12,7 +12,7 @@ public class Creature extends Entity {
 	}
 
 	public void move(World world, int dx, int dy) {
-		if (world.isBlocked(x + dx, y + dy) != true) {
+		if (world.isTileCrossable(x + dx, y + dy)) {
 			x += dx;
 			y += dy;
 		}

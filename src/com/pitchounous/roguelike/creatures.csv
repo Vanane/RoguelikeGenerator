@@ -1,4 +1,4 @@
-name, glyph, color
-player, @, white
-zombie, z, green
-sheep, s, yellow
+id, name, glyph, color
+0, player, @, white
+1, zombie, z, green
+2, sheep, s, yellow

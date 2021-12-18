@@ -1,12 +1,13 @@
 package com.pitchounous.roguelike.world;
 
-import com.pitchounous.roguelike.entities.Creature;
-import com.pitchounous.roguelike.entities.Entity;
-
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.pitchounous.roguelike.entities.Creature;
+import com.pitchounous.roguelike.entities.Entity;
+import com.pitchounous.roguelike.world.tiles.Tile;
 
 public class World {
 
@@ -16,14 +17,6 @@ public class World {
 	private Tile[][] tiles;
 	public Creature player;
 	public Set<Creature> creatures;
-
-	public int width() {
-		return width;
-	}
-
-	public int height() {
-		return height;
-	}
 
 	public World(Tile[][] tiles) {
 		this.tiles = tiles;
@@ -43,7 +36,7 @@ public class World {
 		this.creatures.add(creature);
 	}
 
-	public Tile tile(int x, int y) {
+	public Tile getTile(int x, int y) {
 		if (x < 0 || x >= width || y < 0 || y >= height)
 			return null;
 		else
@@ -51,15 +44,15 @@ public class World {
 	}
 
 	public char glyph(int x, int y) {
-		return tile(x, y).getGlyph();
+		return getTile(x, y).getGlyph();
 	}
 
 	public Color glyphColor(int x, int y) {
-		return tile(x, y).getColor();
+		return getTile(x, y).getColor();
 	}
 
 	public Color backgroundColor(int x, int y) {
-		return tile(x, y).getBackgroundColor();
+		return getTile(x, y).getBackgroundColor();
 	}
 
 	public Entity getEntityAt(int x, int y) {
@@ -69,13 +62,18 @@ public class World {
 				.orElse(null);
 	}
 
-	public boolean isBlocked(int x, int y) {
-		return (tiles[x][y].isBlocked() || getEntityAt(x, y) != null);
+	/*
+	* Test if a given tile as no creature on it and is a crossable tile
+	*/
+	public boolean isTileCrossable(int x, int y) {
+		if (getTile(x, y) == null)
+			return false;
+		return (getEntityAt(x, y) == null && tiles[x][y].isCrossable());
 	}
 
 	public void update() {
 		creatures.stream()
-				.filter(creature -> creature.getType() != "player")
+				.filter(creature -> !creature.getType().equals("player"))
 				.forEach(creature -> creature.update(this));
 	}
 

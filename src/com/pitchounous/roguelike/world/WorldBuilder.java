@@ -1,8 +1,16 @@
 package com.pitchounous.roguelike.world;
 
-import com.pitchounous.roguelike.entities.Creature;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
-import java.util.*;
+import com.pitchounous.roguelike.entities.Creature;
+import com.pitchounous.roguelike.world.tiles.Ground;
+import com.pitchounous.roguelike.world.tiles.Tile;
+import com.pitchounous.roguelike.world.tiles.Wall;
 
 public class WorldBuilder {
 	int width;
@@ -32,7 +40,13 @@ public class WorldBuilder {
 	}
 
 	public Tile createTile(String type, int x, int y) {
-		return new Tile(tileData.get(type), x, y);
+		Tile tile = null;
+		if (type.equals("ground")){
+			tile = new Ground(tileData.get(type), x, y);
+		}else if(type.equals("wall")){
+			tile = new Wall(tileData.get(type), x, y);
+		}
+		return tile;
 	}
 
 	public Creature createCreature(String type, int x, int y) {
@@ -43,10 +57,10 @@ public class WorldBuilder {
 		return new World(tiles, creatures);
 	}
 
-	public WorldBuilder fill(String tileType) {
+	public WorldBuilder fillWithWall() {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				tiles[x][y] = new Tile(tileData.get(tileType), x, y);
+				tiles[x][y] = new Wall(tileData.get("wall"), x, y);
 			}
 		}
 		return this;
@@ -79,19 +93,19 @@ public class WorldBuilder {
 		int rndX;
 		int rndY;
 
+		List<String> creatureTypes = new ArrayList<String>(creatureData.keySet());
+		creatureTypes.remove("player");
+
 		for (int i = 0; i < nrOfCreatures; i++) {
 
+			// Find an empty cell to add a creature
 			do {
 				rndX = rnd.nextInt(width);
 				rndY = rnd.nextInt(height);
-			} while (tiles[rndX][rndY].isBlocked());
+			} while (!(tiles[rndX][rndY] instanceof Ground));
 
-			List<String> creatureTypes = new ArrayList<String>(creatureData.keySet());
-			creatureTypes.remove("player");
 			String creatureType = creatureTypes.get(rnd.nextInt(creatureTypes.size()));
-
 			creatures.add(createCreature(creatureType, rndX, rndY));
-
 		}
 
 		return this;

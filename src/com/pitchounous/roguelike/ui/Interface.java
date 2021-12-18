@@ -1,15 +1,20 @@
 package com.pitchounous.roguelike.ui;
 
-import asciiPanel.AsciiPanel;
-
-import com.pitchounous.roguelike.world.World;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Rectangle;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+
+import javax.swing.JFrame;
+
+import com.pitchounous.roguelike.world.World;
+
+import asciiPanel.AsciiPanel;
 
 public class Interface extends JFrame implements KeyListener, MouseListener {
 
@@ -23,7 +28,7 @@ public class Interface extends JFrame implements KeyListener, MouseListener {
 	private int screenHeight;
 
 	public Interface(int screenWidth, int screenHeight, Rectangle mapDimensions) {
-		super("Roguelike");
+		super("Roguelike | Pitchounous");
 
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
@@ -102,7 +107,6 @@ public class Interface extends JFrame implements KeyListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		inputQueue.add(e);
 	}
 
 	@Override

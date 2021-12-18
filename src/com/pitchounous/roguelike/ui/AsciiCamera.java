@@ -1,11 +1,13 @@
 package com.pitchounous.roguelike.ui;
 
-import asciiPanel.AsciiPanel;
-import com.pitchounous.roguelike.entities.Creature;
-import com.pitchounous.roguelike.world.Tile;
-import com.pitchounous.roguelike.world.World;
+import java.awt.Point;
+import java.awt.Rectangle;
 
-import java.awt.*;
+import com.pitchounous.roguelike.entities.Creature;
+import com.pitchounous.roguelike.world.World;
+import com.pitchounous.roguelike.world.tiles.Tile;
+
+import asciiPanel.AsciiPanel;
 
 public class AsciiCamera {
 
@@ -58,7 +60,7 @@ public class AsciiCamera {
 
         for (int x = 0; x < screenWidth; x++) {
             for (int y = 0; y < screenHeight; y++) {
-                tile = world.tile(origin.x + x, origin.y + y);
+                tile = world.getTile(origin.x + x, origin.y + y);
                 terminal.write(tile.getGlyph(), x, y, tile.getColor(), tile.getBackgroundColor());
             }
         }
@@ -71,7 +73,7 @@ public class AsciiCamera {
 
             if ((spx >= 0 && spx < screenWidth) && (spy >= 0 && spy < screenHeight)) {
                 terminal.write(entity.getGlyph(), spx, spy, entity.getColor(),
-                        world.tile(entity.getX(), entity.getY()).getBackgroundColor());
+                        world.getTile(entity.getX(), entity.getY()).getBackgroundColor());
             }
         }
     }

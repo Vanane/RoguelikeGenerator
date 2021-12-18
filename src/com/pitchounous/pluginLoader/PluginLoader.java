@@ -2,13 +2,12 @@ package com.pitchounous.pluginLoader;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
 import com.google.gson.*;
 
 public class PluginLoader {
