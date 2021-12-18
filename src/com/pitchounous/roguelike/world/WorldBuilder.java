@@ -1,19 +1,22 @@
 package com.pitchounous.roguelike.world;
 
 import com.pitchounous.roguelike.entities.Creature;
-import com.pitchounous.roguelike.entities.Tile;
 
 import java.util.*;
 
 public class WorldBuilder {
-	private int width;
-	private int height;
-	private Tile[][] tiles;
-	private Map<String, Map<String, String>> tileData;
-	private Map<String, Map<String, String>> creatureData;
-	private Set<Creature> creatures;
+	int width;
+	int height;
 
-	public WorldBuilder(Map<String, Map<String, String>> tileData, Map<String, Map<String, String>> creatureData,
+	Tile[][] tiles;
+	Set<Creature> creatures;
+
+	Map<String, Map<String, String>> tileData;
+	Map<String, Map<String, String>> creatureData;
+
+	public WorldBuilder(
+			Map<String, Map<String, String>> tileData,
+			Map<String, Map<String, String>> creatureData,
 			int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -34,6 +37,10 @@ public class WorldBuilder {
 
 	public Creature createCreature(String type, int x, int y) {
 		return new Creature(creatureData.get(type), x, y);
+	}
+
+	public World build() {
+		return new World(tiles, creatures);
 	}
 
 	public WorldBuilder fill(String tileType) {
@@ -112,10 +119,6 @@ public class WorldBuilder {
 		}
 
 		return this;
-	}
-
-	public World build() {
-		return new World(tiles, creatures);
 	}
 
 }

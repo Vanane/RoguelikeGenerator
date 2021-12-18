@@ -1,20 +1,22 @@
 package com.pitchounous.pluginLoader;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
- * Object identifiant un plugin par son nom, une description, sa version, la langue dans laquelle il est écrit, et une liste de mots-clés permettant de filtrer.
+ * Object identifiant un plugin par son nom, une description, sa version, la
+ * langue dans laquelle il est écrit, et une liste de mots-clés permettant de
+ * filtrer.
  */
 public class PluginDescriptor {
     private String name;
     private String description;
-    private String className;    
+    private String className;
     private String version;
     private String language;
     private HashMap<String, String> attributes;
 
-    public PluginDescriptor(String name, String description, String className, String version, String language,  HashMap<String, String> attributes) {
+    public PluginDescriptor(String name, String description, String className, String version, String language,
+            HashMap<String, String> attributes) {
         this.name = name;
         this.description = description;
         this.className = className;

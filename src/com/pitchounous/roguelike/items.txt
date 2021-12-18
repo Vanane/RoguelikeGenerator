@@ -1,2 +1,0 @@
-id, name, glyph, color, effect
-0, meat, ~, red, health

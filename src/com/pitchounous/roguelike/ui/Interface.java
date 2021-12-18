@@ -1,7 +1,7 @@
 package com.pitchounous.roguelike.ui;
 
 import asciiPanel.AsciiPanel;
-import com.pitchounous.roguelike.graphics.AsciiCamera;
+
 import com.pitchounous.roguelike.world.World;
 
 import javax.swing.*;

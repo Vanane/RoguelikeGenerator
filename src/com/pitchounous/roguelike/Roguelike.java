@@ -5,10 +5,10 @@ import com.pitchounous.roguelike.ui.Interface;
 import com.pitchounous.roguelike.world.World;
 import com.pitchounous.roguelike.world.WorldBuilder;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -28,10 +28,6 @@ public class Roguelike {
 
 	private Map<String, Map<String, String>> creatureData;
 	private Map<String, Map<String, String>> tileData;
-	private Map<String, Map<String, String>> itemData;
-
-	private int screenWidth;
-	private int screenHeight;
 
 	private Rectangle gameViewArea;
 
@@ -41,16 +37,12 @@ public class Roguelike {
 	private Interface ui;
 
 	public Roguelike(int screenWidth, int screenHeight) {
-		this.screenWidth = screenWidth;
-		this.screenHeight = screenHeight;
-
 		gameViewArea = new Rectangle(screenWidth, screenHeight - 5);
 
 		ui = new Interface(screenWidth, screenHeight, new Rectangle(mapWidth, mapHeight));
 
-		creatureData = loadData(Paths.get("src", "com", "pitchounous", "roguelike", "creatures.txt").toString());
-		tileData = loadData(Paths.get("src", "com", "pitchounous", "roguelike", "tiles.txt").toString());
-		itemData = loadData(Paths.get("src", "com", "pitchounous", "roguelike", "items.txt").toString());
+		creatureData = loadData(Paths.get("src", "com", "pitchounous", "roguelike", "creatures.csv").toString());
+		tileData = loadData(Paths.get("src", "com", "pitchounous", "roguelike", "tiles.csv").toString());
 
 		createWorld();
 	}
@@ -115,8 +107,6 @@ public class Roguelike {
 					player.move(world, 0, 1);
 					break;
 			}
-		} else if (event instanceof MouseEvent) {
-			//
 		}
 	}
 
@@ -148,7 +138,6 @@ public class Roguelike {
 				try {
 					Thread.sleep(sleepTime / 1000000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -161,7 +150,7 @@ public class Roguelike {
 			Field field = Color.class.getField(colorString);
 			color = (Color) field.get(null);
 		} catch (Exception e) {
-			color = null; // Not defined
+			color = null;
 		}
 		return color;
 	}

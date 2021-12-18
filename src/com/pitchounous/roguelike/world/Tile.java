@@ -1,8 +1,9 @@
-package com.pitchounous.roguelike.entities;
+package com.pitchounous.roguelike.world;
 
 import com.pitchounous.roguelike.Roguelike;
+import com.pitchounous.roguelike.entities.Entity;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Map;
 
 public class Tile extends Entity {

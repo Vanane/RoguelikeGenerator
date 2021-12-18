@@ -2,7 +2,7 @@ package com.pitchounous.roguelike.entities;
 
 import com.pitchounous.roguelike.Roguelike;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Map;
 
 public class Entity {

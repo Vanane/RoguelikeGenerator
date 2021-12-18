@@ -1,0 +1,3 @@
+name, glyph, glyphColor, backgroundColor, blocked
+ground, ., white, black, false
+wall, #, white, red, true

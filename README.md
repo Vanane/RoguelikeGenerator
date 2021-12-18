@@ -22,7 +22,7 @@ Les prérequis pour pouvoir télécharger, compiler et exécuter ce logiciel son
 
 `java -cp "bin;lib/*;" Main`
 
-Il est possible de souhaiter compiler vers une autre destination. Dans ce cas, les fichiers de librairies externes devront être copiées manuellement dans le dossier de destination, et le dossier devra être référencé dans la commande d'exécution : 
+Il est possible de souhaiter compiler vers une autre destination. Dans ce cas, les fichiers de librairies externes devront être copiées manuellement dans le dossier de destination, et le dossier devra être référencé dans la commande d'exécution :
 
 `java -cp "bin;chemin/vers/les/librairies/*;" Main`
 

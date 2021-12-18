@@ -1,8 +1,8 @@
-package com.pitchounous.roguelike.graphics;
+package com.pitchounous.roguelike.ui;
 
 import asciiPanel.AsciiPanel;
 import com.pitchounous.roguelike.entities.Creature;
-import com.pitchounous.roguelike.entities.Tile;
+import com.pitchounous.roguelike.world.Tile;
 import com.pitchounous.roguelike.world.World;
 
 import java.awt.*;

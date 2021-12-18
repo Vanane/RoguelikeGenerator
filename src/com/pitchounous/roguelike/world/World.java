@@ -2,17 +2,18 @@ package com.pitchounous.roguelike.world;
 
 import com.pitchounous.roguelike.entities.Creature;
 import com.pitchounous.roguelike.entities.Entity;
-import com.pitchounous.roguelike.entities.Tile;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Rectangle;
 import java.util.HashSet;
 import java.util.Set;
 
 public class World {
 
-	private Tile[][] tiles;
 	private int width;
 	private int height;
+
+	private Tile[][] tiles;
 	public Creature player;
 	public Set<Creature> creatures;
 
