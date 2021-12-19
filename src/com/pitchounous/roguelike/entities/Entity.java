@@ -2,8 +2,6 @@ package com.pitchounous.roguelike.entities;
 
 import java.awt.Color;
 
-import com.pitchounous.roguelike.Roguelike;
-
 public class Entity {
 
 	protected int x;
@@ -37,12 +35,12 @@ public class Entity {
 		return backgroundColor;
 	}
 
-	public Entity(String type, String charColor, String backColor, int xPos, int yPos) {
+	public Entity(String type, Color charColor, Color backColor, int xPos, int yPos) {
 		x = xPos;
 		y = yPos;
 		this.type = type;
-		color = Roguelike.stringToColor(charColor);
-		backgroundColor = Roguelike.stringToColor(backColor);
+		color = charColor;
+		backgroundColor = backColor;
 	}
 
 }

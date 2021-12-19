@@ -10,12 +10,12 @@ import com.pitchounous.roguelike.world.tiles.Tile;
 
 public class World {
 
-	int width;
-	int height;
+	public int width;
+	public int height;
 
 	Tile[][] tiles;
 	Player player;
-	public List<Creature> creatures;
+	List<Creature> creatures;
 
 	public World(Tile[][] tiles, Set<Creature> creatures, Player player) {
 		this.creatures = new ArrayList<>(creatures);
@@ -32,6 +32,14 @@ public class World {
 			return null;
 		else
 			return tiles[x][y];
+	}
+
+	public List<Creature> getAliveCreatures(){
+		return creatures.stream().toList();
+	}
+
+	public Player getPlayer(){
+		return player;
 	}
 
 	public Creature getCreatureAt(int x, int y) {
@@ -53,9 +61,10 @@ public class World {
 			Creature creature = creatures.get(i);
 			if (creature.hp <= 0) {
 				creatures.remove(creature);
-				if (creature.equals(player))
-					System.out.println("Game is over, player died ...");
-				throw new Error("GAME OVER");
+				if (creature.equals(player)) {
+					System.err.println("Game is over, player died ...");
+					throw new Error("GAME OVER");
+				}
 			} else if (!creature.equals(player)) {
 				creature.update(this);
 			}

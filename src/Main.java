@@ -26,8 +26,6 @@ public class Main {
             pluginCreatures.add(pl.getPluginDescriptorClass(pd));
         }
 
-        // Start GUI thread
-        Roguelike game = new Roguelike(80, 60, pluginTiles, pluginCreatures);
-        game.run();
+        new Roguelike(80, 60, pluginTiles, pluginCreatures);
     }
 }

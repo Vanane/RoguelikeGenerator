@@ -1,5 +1,6 @@
 package com.pitchounous.roguelike.entities.creatures;
 
+import java.awt.Color;
 import java.util.Random;
 
 import com.pitchounous.roguelike.entities.Entity;
@@ -10,8 +11,8 @@ public class Creature extends Entity {
 	public int attack;
 	public int hp;
 
-	public Creature(String type, String colorString, int attack, int hp, int xPos, int yPos) {
-		super(type, colorString, "black", xPos, yPos);
+	public Creature(String type, Color color, int hp, int attack, int xPos, int yPos) {
+		super(type, color, Color.BLACK, xPos, yPos);
 		this.hp = hp;
 		this.attack = attack;
 	}

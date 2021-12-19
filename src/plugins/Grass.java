@@ -1,11 +1,13 @@
 package plugins;
 
+import java.awt.Color;
+
 import com.pitchounous.roguelike.entities.creatures.Creature;
 import com.pitchounous.roguelike.world.tiles.Tile;
 
 public class Grass extends Tile {
     public Grass(int xpos, int ypos) {
-        super("grass", "green", xpos, ypos, "black", true);
+        super("grass", new Color(83, 135, 12), xpos, ypos, Color.BLACK, true);
     }
 
     public char getGlyph() {

@@ -1,11 +1,13 @@
 package plugins;
 
+import java.awt.Color;
+
 import com.pitchounous.roguelike.entities.creatures.Creature;
 import com.pitchounous.roguelike.world.tiles.Tile;
 
 public class Fire extends Tile {
     public Fire(int xpos, int ypos) {
-        super("fire", "red", xpos, ypos, "black", true);
+        super("fire", Color.RED, xpos, ypos, Color.BLACK, true);
     }
 
     public char getGlyph() {

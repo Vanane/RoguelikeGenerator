@@ -1,5 +1,7 @@
 package com.pitchounous.roguelike.world.tiles;
 
+import java.awt.Color;
+
 import com.pitchounous.roguelike.entities.Entity;
 import com.pitchounous.roguelike.entities.creatures.Creature;
 
@@ -20,8 +22,8 @@ public abstract class Tile extends Entity {
 
     public abstract void onFootOn(Creature c);
 
-    public Tile(String type, String colorString, int xPos, int yPos, String color, boolean crossable) {
-        super(type, colorString, color, xPos, yPos);
+    public Tile(String type, Color stringColor, int xPos, int yPos, Color backColor, boolean crossable) {
+        super(type, stringColor, backColor, xPos, yPos);
         isCrossable = crossable;
     }
 }
