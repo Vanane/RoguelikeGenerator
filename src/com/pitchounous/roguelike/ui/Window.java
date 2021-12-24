@@ -3,6 +3,7 @@ package com.pitchounous.roguelike.ui;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferStrategy;
 
 import com.pitchounous.roguelike.world.World;
 
@@ -22,7 +23,7 @@ public class Window extends Frame {
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
-                //dispose();
+                // dispose();
                 System.exit(0);
             }
         });

@@ -17,6 +17,7 @@ public class Fire extends Tile {
     @Override
     public void onFootOn(Creature c) {
         // Burn, insect !
+        System.out.println(c.getType()+" lost 5hp by walking on fire tile !");
         c.hp -= 5;
     }
 }

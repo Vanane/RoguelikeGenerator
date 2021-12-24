@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Panel;
+import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import com.pitchounous.roguelike.entities.creatures.Creature;
@@ -14,13 +15,14 @@ public class GamePanel extends Panel implements Runnable {
 
     int width;
     int height;
+
     Graphics2D g2D;
 
     KeyListener kl;
     Thread thread;
     boolean running;
 
-    final int FRAMES_PER_SECOND = 60;
+    final int FRAMES_PER_SECOND = 5;
     final long TIME_PER_LOOP = 1000000000 / FRAMES_PER_SECOND;
     long startTime;
     long endTime;
@@ -29,9 +31,9 @@ public class GamePanel extends Panel implements Runnable {
     World world;
 
     public GamePanel(int width, int height, World world) {
-        this.world = world;
         this.width = width;
         this.height = height;
+        this.world = world;
         this.running = false;
 
         setPreferredSize(new Dimension(width, height));
@@ -51,6 +53,7 @@ public class GamePanel extends Panel implements Runnable {
 
     public void init() {
         running = true;
+
         kl = new KeyHandler();
         addKeyListener(kl);
     }
@@ -61,7 +64,7 @@ public class GamePanel extends Panel implements Runnable {
         while (running) {
 
             startTime = System.nanoTime();
-            input(kl);
+            processInput();
             update();
             render();
             endTime = System.nanoTime();
@@ -76,7 +79,24 @@ public class GamePanel extends Panel implements Runnable {
         }
     }
 
-    public void input(KeyListener kl2) {
+    public void processInput() {
+        for (KeyEvent ke : KeyHandler.keys) {
+            System.out.println(ke.getKeyCode());
+            switch (ke.getKeyCode()) {
+                case KeyEvent.VK_LEFT:
+                    world.getPlayer().move(world, -1, 0);
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    world.getPlayer().move(world, 1, 0);
+                    break;
+                case KeyEvent.VK_UP:
+                    world.getPlayer().move(world, 0, -1);
+                    break;
+                case KeyEvent.VK_DOWN:
+                    world.getPlayer().move(world, 0, 1);
+                    break;
+            }
+        }
     }
 
     public void update() {
@@ -86,8 +106,7 @@ public class GamePanel extends Panel implements Runnable {
     @Override
     public void paint(Graphics g) {
         g2D = (Graphics2D) g;
-        drawBackground(g);
-        drawCreatures(g);
+        render();
     }
 
     private void drawCreatures(Graphics g) {

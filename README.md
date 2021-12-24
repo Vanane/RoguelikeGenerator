@@ -40,3 +40,7 @@ Vous aurez besoin des extensions suivantes pour pouvoir build correctement (VS C
 
 ### Fichier JAR
 Il est possible de créer un JAR exécutable à l'aide de la commande JAR. Un fichier JAR est plus facile à partager, et permet également d'intégrer les librairies externes dans un seul fichier.
+
+## Ressources utiles
+
+https://github.com/ZeroDoctor/yt-java-game/blob/master/game-decay/src/main/java/com/zerulus/game/GameLauncher.java
