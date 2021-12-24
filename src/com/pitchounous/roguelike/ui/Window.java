@@ -3,7 +3,6 @@ package com.pitchounous.roguelike.ui;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferStrategy;
 
 import com.pitchounous.roguelike.world.World;
 
@@ -32,7 +31,7 @@ public class Window extends Frame {
     public void addNotify() {
         super.addNotify();
 
-        gp = new GamePanel(1280, 720, world);
+        gp = new GamePanel(720, 720, world);
         add(gp);
         // setContentPane(gp);
     }

@@ -8,11 +8,11 @@ import com.pitchounous.roguelike.world.World;
 import com.pitchounous.roguelike.world.WorldBuilder;
 
 public class Roguelike {
-	private World world;
-	private Player player;
+	World world;
+	Player player;
 
-	private static final int mapWidth = 100;
-	private static final int mapHeight = 100;
+	static final int mapWidth = 60;
+	static final int mapHeight = 60;
 
 	public Roguelike(int screenWidth, int screenHeight, Set<Class<?>> pluginTiles, Set<Class<?>> pluginCreatures) {
 		createWorld(pluginTiles, pluginCreatures);
