@@ -10,6 +10,7 @@ public class Grass extends Tile {
         super("grass", new Color(83, 135, 12), xpos, ypos, Color.BLACK, true);
     }
 
+    @Override
     public char getGlyph() {
         return '.';
     }

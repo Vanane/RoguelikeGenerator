@@ -9,10 +9,6 @@ public class Ground extends Tile {
         super("ground", new Color(196, 113, 45), xPos, yPos, Color.BLACK, true);
     }
 
-    public char getGlyph() {
-        return ' ';
-    }
-
     @Override
     public void onFootOn(Creature c) {
         // Simple dirt ground, nothing to see here

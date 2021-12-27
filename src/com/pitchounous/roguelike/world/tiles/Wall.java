@@ -10,6 +10,7 @@ public class Wall extends Tile {
         super("wall", Color.BLACK, xPos, yPos, Color.BLACK, false);
     }
 
+    @Override
     public char getGlyph() {
         return 'X';
     }

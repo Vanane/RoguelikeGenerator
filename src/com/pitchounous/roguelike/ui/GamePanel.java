@@ -22,12 +22,6 @@ public class GamePanel extends Panel implements Runnable {
     Thread thread;
     boolean running;
 
-    final double FRAMES_PER_SECOND = 0.5;
-    final long TIME_PER_LOOP = (long) (1000000000 / FRAMES_PER_SECOND);
-    long startTime;
-    long endTime;
-    long sleepTime;
-
     World world;
 
     public GamePanel(int width, int height, World world) {
@@ -53,6 +47,11 @@ public class GamePanel extends Panel implements Runnable {
 
     @Override
     public void run() {
+        final double FRAMES_PER_SECOND = 0.66;
+        final long TIME_PER_LOOP = (long) (1000000000 / FRAMES_PER_SECOND);
+        long startTime;
+        long endTime;
+        long sleepTime;
         kl = new KeyHandler();
         addKeyListener(kl);
 
@@ -65,15 +64,17 @@ public class GamePanel extends Panel implements Runnable {
             repaint(); // calling paint again
             endTime = System.nanoTime();
 
-            long sleepTime = TIME_PER_LOOP - (endTime - startTime);
+            sleepTime = TIME_PER_LOOP - (endTime - startTime);
             if (sleepTime > 0) {
                 try {
                     Thread.sleep(sleepTime / 1000000);
                 } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         }
         try {
+            // Waiting after showing the GAME OVER screen and before exiting
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -109,6 +110,7 @@ public class GamePanel extends Panel implements Runnable {
         try {
             world.update();
         } catch (Error e) {
+            // Game is over
             running = false;
         }
     }

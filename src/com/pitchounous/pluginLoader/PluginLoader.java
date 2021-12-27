@@ -9,20 +9,36 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.google.gson.GsonBuilder;
+import com.pitchounous.roguelike.entities.creatures.Creature;
+import com.pitchounous.roguelike.ui.BasicUI;
+import com.pitchounous.roguelike.world.tiles.Tile;
 
+// Useful import beside ↓ (if nothing's here you won't be able to add plugins)
 import plugins.Grass;
-import plugins.Fire;
 import plugins.Wolf;
+import plugins.Fire;
 
 public class PluginLoader {
 
 	private final static String CONFIG_FILENAME = "plugins.json";
 	private static PluginLoader _INSTANCE;
+	private Class<?>[] acceptedClassPlugins = {
+			Tile.class, Creature.class, BasicUI.class
+	};
 
-	// Map between class name and PluginDescriptor
-	private HashMap<String, PluginDescriptor> pluginDescriptors;
+	// Map between base class to inherit and PluginDescriptor for plugins which
+	// implement this class
+	private HashMap<Class<?>, List<PluginDescriptor>> pluginDescriptors;
+
 	// Map between plugin name and plugin object
 	private HashMap<String, Object> loadedPlugins;
+
+	public static PluginLoader getInstance() {
+		if (_INSTANCE == null) {
+			_INSTANCE = new PluginLoader();
+		}
+		return _INSTANCE;
+	}
 
 	/**
 	 * Singleton constructor
@@ -36,19 +52,23 @@ public class PluginLoader {
 			PluginDescriptor[] descriptors = new GsonBuilder().create().fromJson(
 					new FileReader(CONFIG_FILENAME),
 					PluginDescriptor[].class);
-			for (PluginDescriptor p : descriptors) {
+			for (PluginDescriptor pd : descriptors) {
+				String className = pd.getClassName();
 				try {
-					String className = p.getClassName();
-					// Tenter de récupérer la classe. exception si elle n'existe pas
+					// Try to load class to ensure everything is ok
 					Class<?> pluginClass = Class.forName(className);
+					for (Class<?> acceptedClass : acceptedClassPlugins) {
+						if (acceptedClass.isAssignableFrom(pluginClass)) {
+							if (!pluginDescriptors.containsKey(acceptedClass))
+								pluginDescriptors.put(acceptedClass, new ArrayList<>());
+							pluginDescriptors.get(acceptedClass).add(pd);
+						}
+					}
 
-					if (!pluginDescriptors.containsKey(className))
-						pluginDescriptors.put(className, p);
-					pluginDescriptors.get(className);
-					System.out.println("Plugin " + p.getName() + " loaded for class " + className);
+					System.out.println("Plugin " + pd.getName() + " loaded for class " + className);
 				} catch (ClassNotFoundException e) {
 					System.out.println(
-							"Class " + p.getClassName() + " not found for plugin " + p.getName() + ", skipping.");
+							"Class " + pd.getClassName() + " not found for plugin " + pd.getName() + ", skipping.");
 				}
 			}
 		} catch (IOException e) {
@@ -57,33 +77,11 @@ public class PluginLoader {
 	}
 
 	/**
-	 * Singleton de la classe.
-	 */
-	public static PluginLoader getInstance() {
-		if (_INSTANCE == null) {
-			_INSTANCE = new PluginLoader();
-		}
-		return _INSTANCE;
-	}
-
-	/**
-	 * Retourne les descriptions de tous les plugins implémentant ou héritant de
-	 * <b>intenf</b>.
+	 * Return all PluginDecriptor for a given super class
 	 */
 	public List<PluginDescriptor> getPluginDescriptors(Class<?> intenf) {
-		List<PluginDescriptor> inheritedPlugins = new ArrayList<>();
-		for (PluginDescriptor pd : pluginDescriptors.values()) {
-			Class<?> pluginClass = null;
-			try {
-				pluginClass = Class.forName(pd.getClassName());
-			} catch (ClassNotFoundException e) {
-			}
-
-			if (intenf.isAssignableFrom(pluginClass)) {
-				inheritedPlugins.add(pd);
-			}
-		}
-		return inheritedPlugins;
+		if(pluginDescriptors.get(intenf) != null) return pluginDescriptors.get(intenf);
+		return new ArrayList<>();
 	}
 
 	public Class<?> getPluginDescriptorClass(PluginDescriptor pd) {
@@ -96,11 +94,10 @@ public class PluginLoader {
 	}
 
 	/**
-	 * Retourne une instance du PluginDescriptor passé en paramètre.
+	 * Instanciate a plugin using according PluginDescriptor and passed arguments
 	 * 
 	 * @param pd
 	 * @param args
-	 * @return
 	 */
 	public Object instanciatePluginClass(PluginDescriptor pd, Object[] args) {
 		Object plugin = null;
@@ -123,6 +120,31 @@ public class PluginLoader {
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			System.out.println("Le plugin " + pd.getName() + "n'a pas pu être chargé :");
+			e.printStackTrace();
+		}
+		return plugin;
+	}
+
+	/**
+	 * Instanciate directly class with passed arguments
+	 * @param pd
+	 * @param args
+	 */
+	public Object instanciatePluginClass(Class<?> pluginClass, Object[] args) {
+		Object plugin = null;
+		try {
+			Class<?>[] constructorParameters = new Class[args.length];
+			for (int i = 0; i < args.length; i++) {
+				Class<?> type = args[i].getClass();
+				constructorParameters[i] = type;
+			}
+
+			System.out.println("Constructor available for :   " + pluginClass.getDeclaredConstructors()[0]);
+			Constructor<?> c = pluginClass.getDeclaredConstructor(constructorParameters);
+			plugin = c.newInstance(args);
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+			System.out.println("La classe " + pluginClass.getSimpleName() + "n'a pas pu être chargé :");
 			e.printStackTrace();
 		}
 		return plugin;

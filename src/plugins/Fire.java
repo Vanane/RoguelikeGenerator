@@ -10,6 +10,7 @@ public class Fire extends Tile {
         super("fire", Color.RED, xpos, ypos, Color.BLACK, true);
     }
 
+    @Override
     public char getGlyph() {
         return '8';
     }

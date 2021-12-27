@@ -6,11 +6,11 @@ import java.awt.event.WindowEvent;
 
 import com.pitchounous.roguelike.world.World;
 
-public class Window extends Frame {
+public class GameWindow extends Frame implements BasicUI{
     GamePanel gp;
     World world;
 
-    public Window(World world) {
+    public GameWindow(World world) {
         this.world = world;
 
         setTitle("Test");
@@ -34,6 +34,12 @@ public class Window extends Frame {
         gp = new GamePanel(720, 720, world);
         add(gp);
         // setContentPane(gp);
+    }
+
+    @Override
+    public void run() {
+        // Nothing done here are the window is alredy displayed
+        // int the addNotify hook
     }
 
 }
