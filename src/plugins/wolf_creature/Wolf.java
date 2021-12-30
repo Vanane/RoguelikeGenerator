@@ -1,4 +1,4 @@
-package plugins;
+package plugins.wolf_creature;
 
 import java.awt.Color;
 

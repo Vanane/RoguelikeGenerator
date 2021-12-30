@@ -3,6 +3,7 @@ package com.pitchounous.roguelike.world;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.awt.event.KeyEvent;
 
 import com.pitchounous.roguelike.entities.creatures.Creature;
 import com.pitchounous.roguelike.entities.creatures.Player;
@@ -34,11 +35,11 @@ public class World {
 			return tiles[x][y];
 	}
 
-	public List<Creature> getAliveCreatures(){
+	public List<Creature> getAliveCreatures() {
 		return creatures.stream().toList();
 	}
 
-	public Player getPlayer(){
+	public Player getPlayer() {
 		return player;
 	}
 
@@ -59,9 +60,9 @@ public class World {
 	public void update() {
 		for (int i = 0; i < creatures.size(); i++) {
 			Creature creature = creatures.get(i);
-			// System.out.println(creature.getType()+"  "+creature.hp);
+			// System.out.println(creature.getType()+" "+creature.hp);
 			if (creature.hp <= 0) {
-				System.out.println(creature.getType().toUpperCase()+" died");
+				System.out.println(creature.getType().toUpperCase() + " died");
 				creatures.remove(creature);
 				if (creature.equals(player)) {
 					System.err.println("Game is over, player died ...");
@@ -70,6 +71,28 @@ public class World {
 			} else if (!creature.equals(player)) {
 				creature.update(this);
 			}
+		}
+	}
+
+	public void processInput(KeyEvent ke) {
+		// Move the player according to the last input
+		if (ke == null)
+			return;
+
+		System.out.println("Touch pressed: " + ke.getKeyCode());
+		switch (ke.getKeyCode()) {
+			case KeyEvent.VK_LEFT:
+				player.move(this, -1, 0);
+				break;
+			case KeyEvent.VK_RIGHT:
+				player.move(this, 1, 0);
+				break;
+			case KeyEvent.VK_UP:
+				player.move(this, 0, -1);
+				break;
+			case KeyEvent.VK_DOWN:
+				player.move(this, 0, 1);
+				break;
 		}
 	}
 }

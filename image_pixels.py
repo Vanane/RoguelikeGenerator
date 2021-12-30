@@ -1,3 +1,7 @@
+# Author : Samuel Rigaud
+# Goal : Export Game Over sign as a pixel matrix in Java format for RogueLike game
+# See : game_over.png
+
 from PIL import Image
 
 im = Image.open("game_over.png")

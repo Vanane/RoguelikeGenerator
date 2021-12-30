@@ -5,8 +5,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Panel;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import com.pitchounous.roguelike.entities.creatures.Creature;
 import com.pitchounous.roguelike.world.World;
@@ -18,7 +16,7 @@ public class GamePanel extends Panel implements Runnable {
 
     Graphics2D g2D;
 
-    KeyListener kl;
+    KeyHandler kl;
     Thread thread;
     boolean running;
 
@@ -61,7 +59,8 @@ public class GamePanel extends Panel implements Runnable {
             startTime = System.nanoTime();
             processInput();
             update();
-            repaint(); // calling paint again
+            // calling paint again (TODO search for better UI update)
+            repaint();
             endTime = System.nanoTime();
 
             sleepTime = TIME_PER_LOOP - (endTime - startTime);
@@ -84,26 +83,7 @@ public class GamePanel extends Panel implements Runnable {
     }
 
     public void processInput() {
-        for (int i = 0; i < KeyHandler.keys.size(); i++) {
-            KeyEvent ke = KeyHandler.keys.get(i);
-            KeyHandler.keys.remove(ke);
-            System.out.println(ke.getKeyCode());
-
-            switch (ke.getKeyCode()) {
-                case KeyEvent.VK_LEFT:
-                    world.getPlayer().move(world, -1, 0);
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    world.getPlayer().move(world, 1, 0);
-                    break;
-                case KeyEvent.VK_UP:
-                    world.getPlayer().move(world, 0, -1);
-                    break;
-                case KeyEvent.VK_DOWN:
-                    world.getPlayer().move(world, 0, 1);
-                    break;
-            }
-        }
+        world.processInput(kl.getLastInput());
     }
 
     public void update() {

@@ -7,7 +7,16 @@ import java.util.List;
 
 public class KeyHandler implements KeyListener {
 
-    public static List<KeyEvent> keys = new ArrayList<>();
+    List<KeyEvent> keys = new ArrayList<>();
+
+    public KeyEvent getLastInput() {
+        if (keys.size() == 0)
+            return null;
+
+        KeyEvent ke = this.keys.get(0);
+        this.keys.remove(ke);
+        return ke;
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {

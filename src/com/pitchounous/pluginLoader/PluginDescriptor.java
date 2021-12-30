@@ -1,36 +1,38 @@
 package com.pitchounous.pluginLoader;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Object identifiant un plugin par son nom, une description, sa version, la
- * langue dans laquelle il est écrit, et une liste de mots-clés permettant de
- * filtrer.
+ * Object identifying a plugin by its name, a description, its version, the
+ * language it is written in, and a list of keywords to filter
  */
 public class PluginDescriptor {
-    private String name;
+    private String pluginName;
     private String description;
     private String className;
     private String version;
     private String language;
     private HashMap<String, String> attributes;
+    private ArrayList<String> jarDependencies;
 
-    public PluginDescriptor(String name, String description, String className, String version, String language,
-            HashMap<String, String> attributes) {
-        this.name = name;
+    public PluginDescriptor(String pluginName, String description, String className, String version, String language,
+            HashMap<String, String> attributes, ArrayList<String> jarDependencies) {
+        this.pluginName = pluginName;
         this.description = description;
         this.className = className;
         this.version = version;
         this.language = language;
         this.attributes = attributes;
+        this.jarDependencies = jarDependencies;
     }
 
-    public String getName() {
-        return name;
+    public String getPluginName() {
+        return pluginName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPluginName(String pluginName) {
+        this.pluginName = pluginName;
     }
 
     public String getDescription() {
@@ -71,5 +73,17 @@ public class PluginDescriptor {
 
     public void setAttributes(HashMap<String, String> attributes) {
         this.attributes = attributes;
+    }
+
+    public ArrayList<String> getJarDependencies() {
+        return jarDependencies;
+    }
+
+    public void setJarDependencies(ArrayList<String> jarDependencies) {
+        this.jarDependencies = jarDependencies;
+    }
+
+    public String getFullClassPath() {
+        return "plugins." + getPluginName() + "." + getClassName();
     }
 }

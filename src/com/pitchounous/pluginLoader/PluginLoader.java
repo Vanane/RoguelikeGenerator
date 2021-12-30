@@ -13,10 +13,10 @@ import com.pitchounous.roguelike.entities.creatures.Creature;
 import com.pitchounous.roguelike.ui.BasicUI;
 import com.pitchounous.roguelike.world.tiles.Tile;
 
-// Useful import beside ↓ (if nothing's here you won't be able to add plugins)
-import plugins.Grass;
-import plugins.Wolf;
-import plugins.Fire;
+import plugins.fire_tile.Fire;
+import plugins.grass_tile.Grass;
+import plugins.wolf_creature.Wolf;
+import plugins.ascii_ui.Interface;
 
 public class PluginLoader {
 
@@ -56,7 +56,7 @@ public class PluginLoader {
 				String className = pd.getClassName();
 				try {
 					// Try to load class to ensure everything is ok
-					Class<?> pluginClass = Class.forName(className);
+					Class<?> pluginClass = Class.forName(pd.getFullClassPath());
 					for (Class<?> acceptedClass : acceptedClassPlugins) {
 						if (acceptedClass.isAssignableFrom(pluginClass)) {
 							if (!pluginDescriptors.containsKey(acceptedClass))
@@ -64,11 +64,10 @@ public class PluginLoader {
 							pluginDescriptors.get(acceptedClass).add(pd);
 						}
 					}
-
-					System.out.println("Plugin " + pd.getName() + " loaded for class " + className);
+					System.out.println("Class " +className+ " loaded from plugin " + pd.getPluginName());
 				} catch (ClassNotFoundException e) {
 					System.out.println(
-							"Class " + pd.getClassName() + " not found for plugin " + pd.getName() + ", skipping.");
+							"Class " + pd.getClassName() + " not found for plugin " + pd.getFullClassPath() + ", skipping.");
 				}
 			}
 		} catch (IOException e) {
@@ -86,8 +85,9 @@ public class PluginLoader {
 
 	public Class<?> getPluginDescriptorClass(PluginDescriptor pd) {
 		try {
-			return Class.forName(pd.getClassName());
+			return Class.forName(pd.getFullClassPath());
 		} catch (ClassNotFoundException e) {
+			// Should never happened as it has already been tested
 			e.printStackTrace();
 		}
 		return null;
@@ -102,8 +102,8 @@ public class PluginLoader {
 	public Object instanciatePluginClass(PluginDescriptor pd, Object[] args) {
 		Object plugin = null;
 		try {
-			if (loadedPlugins.containsKey(pd.getName()))
-				plugin = loadedPlugins.get(pd.getName());
+			if (loadedPlugins.containsKey(pd.getPluginName()))
+				plugin = loadedPlugins.get(pd.getPluginName());
 			else {
 				Class<?> pluginClass = Class.forName(pd.getClassName());
 				Class<?>[] constructorParameters = new Class[args.length];
@@ -119,7 +119,7 @@ public class PluginLoader {
 			}
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-			System.out.println("Le plugin " + pd.getName() + "n'a pas pu être chargé :");
+			System.out.println("Le plugin " + pd.getPluginName() + "n'a pas pu être chargé :");
 			e.printStackTrace();
 		}
 		return plugin;
@@ -139,7 +139,7 @@ public class PluginLoader {
 				constructorParameters[i] = type;
 			}
 
-			System.out.println("Constructor available for :   " + pluginClass.getDeclaredConstructors()[0]);
+			// System.out.println("Constructor available for :   " + pluginClass.getDeclaredConstructors()[0]);
 			Constructor<?> c = pluginClass.getDeclaredConstructor(constructorParameters);
 			plugin = c.newInstance(args);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException

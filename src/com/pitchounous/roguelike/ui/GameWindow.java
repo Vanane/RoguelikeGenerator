@@ -13,8 +13,7 @@ public class GameWindow extends Frame implements BasicUI{
     public GameWindow(World world) {
         this.world = world;
 
-        setTitle("Test");
-        setIgnoreRepaint(true);
+        setTitle("Pitchounous RogueLike 2k22");
         pack();
         setLocationRelativeTo(null);
         setResizable(false);
@@ -37,9 +36,14 @@ public class GameWindow extends Frame implements BasicUI{
     }
 
     @Override
-    public void run() {
-        // Nothing done here are the window is alredy displayed
-        // int the addNotify hook
+    public void start() {
+        // Nothing done here as the window is alredy displayed
+        // in the addNotify hook
+    }
+
+    @Override
+    public void processInput() {
+        // GamePanel is processing input instead
     }
 
 }

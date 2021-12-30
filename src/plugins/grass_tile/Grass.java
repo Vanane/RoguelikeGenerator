@@ -1,4 +1,4 @@
-package plugins;
+package plugins.grass_tile;
 
 import java.awt.Color;
 

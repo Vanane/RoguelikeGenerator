@@ -19,7 +19,6 @@ public class Main {
     Set<Class<?>> pluginCreatures;
     Set<Class<?>> pluginTiles;
     List<Class<?>> pluginUIClass;
-    Class<?> uiClass;
     final Class<?> DEFAULT_UI_CLASS = GameWindow.class;
 
     final int mapWidth = 60;
@@ -37,15 +36,27 @@ public class Main {
 
         Player player = new Player(10, 10);
         World world = createWorld(player);
+        BasicUI ui = selectUI(world);
 
-        BasicUI ui;
+        ui.start();
+    }
+
+    private BasicUI selectUI(World world){
+        BasicUI ui = null;
+        Class<?> uiClass = null;
+
+        if (pluginUIClass.size() > 0) {
+            // Random choice / Update here to choose
+            uiClass = pluginUIClass.get(0);
+        }
         Object[] parameters = {world};
         if(uiClass != null){
             ui = (BasicUI) pl.instanciatePluginClass(uiClass, parameters);
         }else{
             ui = (BasicUI) pl.instanciatePluginClass(DEFAULT_UI_CLASS, parameters);
         }
-        ui.run();
+
+        return ui;
     }
 
     private World createWorld(Player player) {
@@ -77,12 +88,6 @@ public class Main {
         pluginUIClass = new ArrayList<>();
         for (PluginDescriptor pd : pluginUIs) {
             pluginUIClass.add(pl.getPluginDescriptorClass(pd));
-        }
-
-        uiClass = null;
-        if (pluginUIClass.size() > 0) {
-            // Random choice
-            uiClass = pluginUIClass.get(0);
         }
     }
 

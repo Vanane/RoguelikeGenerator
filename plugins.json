@@ -1,7 +1,7 @@
 /* This file lists all the plugins that the application will load on startup. */
 /* Template to add a new plugin descriptor :
     {
-        "name":"myPlugin",
+        "pluginName":"myPlugin",
         "description":"This is my plugin",
         "className":"IMyPlugin",
         "version":"1.0",
@@ -13,42 +13,40 @@
     }
 */
 [
-    {
-        "name": "Example",
-        "description": "Example",
-        "className": "Example",
-        "version": "0",
-        "language": "Example",
-        "attributes": {
-            "difficulty": "ez"
-        }
-    },
     /* Tiles */
     {
-        "name": "Grass.java",
+        "pluginName": "grass_tile",
         "description": "Add a grass tile",
-        "className": "plugins.Grass",
+        "className": "Grass",
         "version": "0.1",
         "language": "en",
         "attributes": {}
     },
     {
-        "name": "Fire.java",
+        "pluginName": "fire_tile",
         "description": "Add a fire tile that burns",
-        "className": "plugins.Fire",
+        "className": "Fire",
         "version": "0.1",
         "language": "en",
         "attributes": {}
     },
     /* Creatures */
     {
-        "name": "Wolf.java",
+        "pluginName": "wolf_creature",
         "description": "A big predator",
-        "className": "plugins.Wolf",
+        "className": "Wolf",
+        "version": "0.1",
+        "language": "en",
+        "attributes": {}
+    },
+    /* UI classes */
+    {
+        "pluginName": "ascii_ui",
+        "description": "Add a terminal like interface",
+        "className": "Interface",
         "version": "0.1",
         "language": "en",
         "attributes": {}
     }
-    /* UI classes */
     /* Player classes not implemented yet */
 ]
