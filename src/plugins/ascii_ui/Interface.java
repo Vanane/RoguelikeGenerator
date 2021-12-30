@@ -1,8 +1,9 @@
 package plugins.ascii_ui;
 
+import java.awt.Frame;
 import java.awt.Rectangle;
-
-import javax.swing.JFrame;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import com.pitchounous.roguelike.ui.BasicUI;
 import com.pitchounous.roguelike.ui.KeyHandler;
@@ -10,7 +11,7 @@ import com.pitchounous.roguelike.world.World;
 
 import asciiPanel.AsciiPanel;
 
-public class Interface extends JFrame implements BasicUI {
+public class Interface extends Frame implements BasicUI {
 
 	private static final long serialVersionUID = 6408617006915516474L;
 
@@ -41,7 +42,12 @@ public class Interface extends JFrame implements BasicUI {
 		addKeyListener(kl);
 		setSize(SCREEN_WIDTH * 9, SCREEN_HEIGHT * 16);
 		setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent we) {
+				// dispose();
+				System.exit(0);
+			}
+		});
 		repaint();
 	}
 
@@ -50,61 +56,60 @@ public class Interface extends JFrame implements BasicUI {
 	}
 
 	public void render() {
-		System.out.println("render called");
 		camera.lookAt(terminal, world, world.getPlayer().getX(), world.getPlayer().getY());
 		terminal.repaint();
 	}
 
-	public void renderGameOver(){
+	public void renderGameOver() {
 		System.out.println("GAME OVER - interface");
 	}
 
 	@Override
 	public void start() {
 		final double FRAMES_PER_SECOND = 60;
-        final long TIME_PER_LOOP = (long) (1000000000 / FRAMES_PER_SECOND);
-        long startTime;
-        long endTime;
-        long sleepTime;
+		final long TIME_PER_LOOP = (long) (1000000000 / FRAMES_PER_SECOND);
+		long startTime;
+		long endTime;
+		long sleepTime;
 
-        isRunning = true;
-        while (isRunning) {
+		isRunning = true;
+		while (isRunning) {
 
-            startTime = System.nanoTime();
-            processInput();
+			startTime = System.nanoTime();
+			processInput();
 			update();
-            render();
-            endTime = System.nanoTime();
+			render();
+			endTime = System.nanoTime();
 
-            sleepTime = TIME_PER_LOOP - (endTime - startTime);
-            if (sleepTime > 0) {
-                try {
-                    Thread.sleep(sleepTime / 1000000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        try {
-            // Waiting after showing the GAME OVER screen and before exiting
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.exit(0);
+			sleepTime = TIME_PER_LOOP - (endTime - startTime);
+			if (sleepTime > 0) {
+				try {
+					Thread.sleep(sleepTime / 1000000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		try {
+			// Waiting after showing the GAME OVER screen and before exiting
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.exit(0);
 	}
 
 	public void update() {
-        try {
-            world.update();
-        } catch (Error e) {
-            // Game is over
-            isRunning = false;
-        }
-    }
+		try {
+			world.update();
+		} catch (Error e) {
+			// Game is over
+			isRunning = false;
+		}
+	}
 
 	@Override
 	public void processInput() {
-        world.processInput(kl.getLastInput());
+		world.processInput(kl.getLastInput());
 	}
 }

@@ -33,7 +33,7 @@ public class Creature extends Entity {
 	public void update(World world) {
 		Random rnd = new Random();
 		int performAction = rnd.nextInt(100);
-		if (performAction > 50) {
+		if (performAction > 98) {
 
 			int rndNr = rnd.nextInt(3);
 			if (rndNr == 0) {

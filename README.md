@@ -1,7 +1,11 @@
 # RoguelikeGenerator
 Projet de M2 MIAGE Architecture logicielle
 
-https://drive.google.com/drive/folders/1hkODUgnqzpC85GrzEHrcv_HSGKixMdKc
+## TODO
+
+- Merge GameWindow and GamePanel
+
+- Create an abstract to merge common element between Gamepanel and Interface
 
 ## Prérequis
 Les prérequis pour pouvoir télécharger, compiler et exécuter ce logiciel sont :

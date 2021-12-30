@@ -49,7 +49,8 @@ public class AsciiCamera {
         for (int x = 0; x < screenWidth; x++) {
             for (int y = 0; y < screenHeight; y++) {
                 tile = world.getTile(origin.x + x, origin.y + y);
-                terminal.write(tile.getGlyph(), x, y, tile.getColor(), tile.getBackgroundColor());
+                if (tile != null)
+                    terminal.write(tile.getGlyph(), x, y, tile.getColor(), tile.getBackgroundColor());
             }
         }
 
