@@ -1,53 +1,30 @@
-package plugins.ascii_ui;
+package plugins.terminal_ui;
 
-import java.awt.Frame;
 import java.awt.Rectangle;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import com.pitchounous.roguelike.ui.BasicUI;
-import com.pitchounous.roguelike.ui.KeyHandler;
 import com.pitchounous.roguelike.world.World;
 
 import asciiPanel.AsciiPanel;
 
-public class Interface extends Frame implements BasicUI {
-
-	private static final long serialVersionUID = 6408617006915516474L;
+public class Interface extends BasicUI {
 
 	private AsciiPanel terminal;
 	private AsciiCamera camera;
-
-	private KeyHandler kl;
-	private boolean isRunning;
-
-	private World world;
 
 	private final int SCREEN_WIDTH = 80;
 	private final int SCREEN_HEIGHT = 60;
 
 	public Interface(World world) {
-		super("Roguelike | Pitchounous");
-		this.world = world;
+		super(world);
 
 		Rectangle mapDimensions = new Rectangle(world.width, world.height);
 		Rectangle gameViewArea = new Rectangle(SCREEN_WIDTH, SCREEN_HEIGHT - 5);
 		terminal = new AsciiPanel(SCREEN_WIDTH, SCREEN_HEIGHT);
 		camera = new AsciiCamera(mapDimensions, gameViewArea);
 
-		kl = new KeyHandler();
-		isRunning = false;
-
 		add(terminal);
-		addKeyListener(kl);
 		setSize(SCREEN_WIDTH * 9, SCREEN_HEIGHT * 16);
-		setVisible(true);
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent we) {
-				// dispose();
-				System.exit(0);
-			}
-		});
 		repaint();
 	}
 
@@ -109,7 +86,7 @@ public class Interface extends Frame implements BasicUI {
 	}
 
 	@Override
-	public void processInput() {
+	protected void processInput() {
 		world.processInput(kl.getLastInput());
-	}
+	};
 }

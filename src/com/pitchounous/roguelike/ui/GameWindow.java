@@ -1,36 +1,21 @@
 package com.pitchounous.roguelike.ui;
 
-import java.awt.Frame;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
 import com.pitchounous.roguelike.world.World;
 
-public class GameWindow extends Frame implements BasicUI{
+public class GameWindow extends BasicUI {
     GamePanel gp;
-    World world;
 
     public GameWindow(World world) {
-        this.world = world;
+        super(world);
 
-        setTitle("Pitchounous RogueLike 2k22");
         pack();
         setLocationRelativeTo(null);
-        setResizable(false);
-        setVisible(true);
-
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent we) {
-                // dispose();
-                System.exit(0);
-            }
-        });
     }
 
     public void addNotify() {
         super.addNotify();
 
-        gp = new GamePanel(720, 720, world);
+        gp = new GamePanel(720, 720, world, kl, isRunning);
         add(gp);
         // setContentPane(gp);
     }

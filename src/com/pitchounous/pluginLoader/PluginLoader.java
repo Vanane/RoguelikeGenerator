@@ -1,5 +1,6 @@
 package com.pitchounous.pluginLoader;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -15,8 +16,8 @@ import com.pitchounous.roguelike.world.tiles.Tile;
 
 import plugins.fire_tile.Fire;
 import plugins.grass_tile.Grass;
+import plugins.terminal_ui.Interface;
 import plugins.wolf_creature.Wolf;
-import plugins.ascii_ui.Interface;
 
 public class PluginLoader {
 
@@ -48,10 +49,12 @@ public class PluginLoader {
 		try {
 			pluginDescriptors = new HashMap<>();
 			loadedPlugins = new HashMap<>();
+			boolean missingJarFile;
 
 			PluginDescriptor[] descriptors = new GsonBuilder().create().fromJson(
 					new FileReader(CONFIG_FILENAME),
 					PluginDescriptor[].class);
+
 			for (PluginDescriptor pd : descriptors) {
 				String className = pd.getClassName();
 				try {
@@ -59,18 +62,34 @@ public class PluginLoader {
 					Class<?> pluginClass = Class.forName(pd.getFullClassPath());
 					for (Class<?> acceptedClass : acceptedClassPlugins) {
 						if (acceptedClass.isAssignableFrom(pluginClass)) {
-							if (!pluginDescriptors.containsKey(acceptedClass))
-								pluginDescriptors.put(acceptedClass, new ArrayList<>());
-							pluginDescriptors.get(acceptedClass).add(pd);
+							missingJarFile = false;
+							for (String jarFilename : pd.getJarDependencies()) {
+								if (!(new File("lib" + File.separator + jarFilename).exists())) {
+									missingJarFile = true;
+								}
+							}
+
+							if (!missingJarFile) {
+								if (!pluginDescriptors.containsKey(acceptedClass))
+									pluginDescriptors.put(acceptedClass, new ArrayList<>());
+								pluginDescriptors.get(acceptedClass).add(pd);
+							} else {
+								System.err.println(
+										"X - Plugin " + pd.getPluginName()
+												+ " could not be loaded as some jar files are missing");
+
+							}
 						}
 					}
-					System.out.println("Class " +className+ " loaded from plugin " + pd.getPluginName());
+					System.out.println("Class " + className + " loaded from plugin " + pd.getPluginName());
 				} catch (ClassNotFoundException e) {
-					System.out.println(
-							"Class " + pd.getClassName() + " not found for plugin " + pd.getFullClassPath() + ", skipping.");
+					System.err.println(
+							"X - Class " + pd.getClassName() + " not found for plugin " + pd.getFullClassPath());
 				}
 			}
-		} catch (IOException e) {
+		} catch (
+
+		IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -79,7 +98,8 @@ public class PluginLoader {
 	 * Return all PluginDecriptor for a given super class
 	 */
 	public List<PluginDescriptor> getPluginDescriptors(Class<?> intenf) {
-		if(pluginDescriptors.get(intenf) != null) return pluginDescriptors.get(intenf);
+		if (pluginDescriptors.get(intenf) != null)
+			return pluginDescriptors.get(intenf);
 		return new ArrayList<>();
 	}
 
@@ -127,6 +147,7 @@ public class PluginLoader {
 
 	/**
 	 * Instanciate directly class with passed arguments
+	 * 
 	 * @param pd
 	 * @param args
 	 */
@@ -139,7 +160,8 @@ public class PluginLoader {
 				constructorParameters[i] = type;
 			}
 
-			// System.out.println("Constructor available for :   " + pluginClass.getDeclaredConstructors()[0]);
+			// System.out.println("Constructor available for : " +
+			// pluginClass.getDeclaredConstructors()[0]);
 			Constructor<?> c = pluginClass.getDeclaredConstructor(constructorParameters);
 			plugin = c.newInstance(args);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException

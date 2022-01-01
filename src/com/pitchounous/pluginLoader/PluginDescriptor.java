@@ -14,6 +14,8 @@ public class PluginDescriptor {
     private String version;
     private String language;
     private HashMap<String, String> attributes;
+    // As jar file are hardly dynamicaly imported and loaded to project
+    // for security reasons, we are only here checking for file existance
     private ArrayList<String> jarDependencies;
 
     public PluginDescriptor(String pluginName, String description, String className, String version, String language,

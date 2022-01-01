@@ -22,11 +22,12 @@ public class GamePanel extends Panel implements Runnable {
 
     World world;
 
-    public GamePanel(int width, int height, World world) {
+    public GamePanel(int width, int height, World world, KeyHandler kl, boolean isRunning) {
         this.width = width;
         this.height = height;
         this.world = world;
-        this.running = false;
+        this.running = isRunning;
+        this.kl = kl;
 
         setPreferredSize(new Dimension(width, height));
         setBackground(Color.gray);
@@ -50,6 +51,8 @@ public class GamePanel extends Panel implements Runnable {
         long startTime;
         long endTime;
         long sleepTime;
+
+        // Re-instanciating kl
         kl = new KeyHandler();
         addKeyListener(kl);
 

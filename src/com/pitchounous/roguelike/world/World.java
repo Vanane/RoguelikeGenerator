@@ -31,8 +31,7 @@ public class World {
 	public Tile getTile(int x, int y) {
 		if (x < 0 || x >= width || y < 0 || y >= height)
 			return null;
-		else
-			return tiles[x][y];
+		return tiles[x][y];
 	}
 
 	public List<Creature> getAliveCreatures() {
@@ -51,7 +50,7 @@ public class World {
 	}
 
 	/*
-	 * Test if a given tile as no creature on it and is a crossable tile
+	 * Test if a given tile as no creature on it and is crossable
 	 */
 	public boolean isTileCrossable(int x, int y) {
 		return getTile(x, y) != null && getCreatureAt(x, y) == null && tiles[x][y].isCrossable();
@@ -68,6 +67,8 @@ public class World {
 					System.err.println("Game is over, player died ...");
 					throw new Error("GAME OVER");
 				}
+
+			// Making other creatures moving
 			} else if (!creature.equals(player)) {
 				creature.update(this);
 			}

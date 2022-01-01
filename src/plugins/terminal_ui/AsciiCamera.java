@@ -1,4 +1,4 @@
-package plugins.ascii_ui;
+package plugins.terminal_ui;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -13,9 +13,6 @@ public class AsciiCamera {
 
     int screenWidth;
     int screenHeight;
-
-    int direction = 0;
-
     int mapWidth;
     int mapHeight;
 
@@ -27,25 +24,16 @@ public class AsciiCamera {
         mapHeight = Bounds.height;
     }
 
-    public Point GetCameraOrigin(int xfocus, int yfocus) {
+    public Point getCameraOrigin(int xfocus, int yfocus) {
         int spx = Math.max(0, Math.min(xfocus - screenWidth / 2, mapWidth - screenWidth));
         int spy = Math.max(0, Math.min(yfocus - screenHeight / 2, mapHeight - screenHeight));
         return new Point(spx, spy);
     }
 
-    public void Rotate(int direction) {
-        this.direction = direction;
-    }
-
     public void lookAt(AsciiPanel terminal, World world, int xfocus, int yfocus) {
+        Point origin = getCameraOrigin(xfocus, yfocus);
+
         Tile tile;
-        Point origin;
-
-        // screenWidth = terminal.getWidthInCharacters();
-        // screenHeight = terminal.getHeightInCharacters();
-
-        origin = GetCameraOrigin(xfocus, yfocus);
-
         for (int x = 0; x < screenWidth; x++) {
             for (int y = 0; y < screenHeight; y++) {
                 tile = world.getTile(origin.x + x, origin.y + y);

@@ -12,7 +12,7 @@ public class Fire extends Tile {
 
     @Override
     public char getGlyph() {
-        return '8';
+        return 'X';
     }
 
     @Override

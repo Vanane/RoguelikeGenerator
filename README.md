@@ -5,7 +5,26 @@ Projet de M2 MIAGE Architecture logicielle
 
 - Merge GameWindow and GamePanel
 
-- Create an abstract to merge common element between Gamepanel and Interface
+- Add more common behaviour to BasicUI to factorize Gamepanel and Interface
+
+- Add probability for tile creation
+
+- Make extension jar dependant has a check andmove jar to plugin part
+
+- Make a UI to choose between plugins that need to be loaded
+
+- Make GamePanel UI refresh process better
+
+- Display player health on UI
+
+- Add comments
+
+- See for other plugins ideas
+
+- Add UI legend
+
+- Add Game Over layout for terminal version
+
 
 ## Prérequis
 Les prérequis pour pouvoir télécharger, compiler et exécuter ce logiciel sont :

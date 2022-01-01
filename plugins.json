@@ -6,6 +6,7 @@
         "className":"IMyPlugin",
         "version":"1.0",
         "language":"FR",
+        "jarDependencies": [],
         "attributes":
         {
             "difficulty":"ez"
@@ -20,6 +21,7 @@
         "className": "Grass",
         "version": "0.1",
         "language": "en",
+        "jarDependencies": [],
         "attributes": {}
     },
     {
@@ -28,6 +30,7 @@
         "className": "Fire",
         "version": "0.1",
         "language": "en",
+        "jarDependencies": [],
         "attributes": {}
     },
     /* Creatures */
@@ -37,15 +40,17 @@
         "className": "Wolf",
         "version": "0.1",
         "language": "en",
+        "jarDependencies": [],
         "attributes": {}
     },
     /* UI classes */
     {
-        "pluginName": "ascii_ui",
+        "pluginName": "terminal_ui",
         "description": "Add a terminal like interface",
         "className": "Interface",
         "version": "0.1",
         "language": "en",
+        "jarDependencies": ["ascii-panel-1.2.jar"],
         "attributes": {}
     }
     /* Player classes not implemented yet */

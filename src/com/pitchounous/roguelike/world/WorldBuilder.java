@@ -52,6 +52,7 @@ public class WorldBuilder {
 		Random rnd = new Random();
 
 		if (type.equals("ground")) {
+			// Could add some probability here
 			Class<?> tileType = availableTileTypes.get(rnd.nextInt(availableTileTypes.size()));
 			Class<?>[] parameters = { int.class, int.class };
 			try {

@@ -35,6 +35,8 @@ public class Creature extends Entity {
 		int performAction = rnd.nextInt(100);
 		if (performAction > 98) {
 
+			// Moving on a cell with another creature on it make
+			// this creature attacking the other
 			int rndNr = rnd.nextInt(3);
 			if (rndNr == 0) {
 				move(world, 1, 0);
