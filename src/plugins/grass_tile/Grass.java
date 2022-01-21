@@ -16,7 +16,7 @@ public class Grass extends Tile {
     }
 
     @Override
-    public void onFootOn(Creature c) {
+    protected void onFootOn(Creature c) {
         // Simple grass, nothing to see here
     }
 }

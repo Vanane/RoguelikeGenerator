@@ -60,7 +60,7 @@ public class World {
 		for (int i = 0; i < creatures.size(); i++) {
 			Creature creature = creatures.get(i);
 			// System.out.println(creature.getType()+" "+creature.hp);
-			if (creature.hp <= 0) {
+			if (creature.getHp() <= 0) {
 				System.out.println(creature.getType().toUpperCase() + " died");
 				creatures.remove(creature);
 				if (creature.equals(player)) {

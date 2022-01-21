@@ -33,6 +33,15 @@
         "jarDependencies": [],
         "attributes": {}
     },
+    {
+        "pluginName": "health_potion",
+        "description": "Add a tile containing a potion that restores hp",
+        "className": "HealthPotion",
+        "version": "0.1",
+        "language": "en",
+        "jarDependencies": [],
+        "attributes": {}
+    },
     /* Creatures */
     {
         "pluginName": "wolf_creature",

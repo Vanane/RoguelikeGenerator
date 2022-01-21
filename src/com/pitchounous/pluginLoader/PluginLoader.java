@@ -18,6 +18,7 @@ import plugins.fire_tile.Fire;
 import plugins.grass_tile.Grass;
 import plugins.terminal_ui.Interface;
 import plugins.wolf_creature.Wolf;
+import plugins.health_potion.HealthPotion;
 
 public class PluginLoader {
 

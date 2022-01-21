@@ -20,7 +20,7 @@ public abstract class Tile extends Entity {
         this.onFootOn(c);
     };
 
-    public abstract void onFootOn(Creature c);
+    protected abstract void onFootOn(Creature c);
 
     public Tile(String type, Color stringColor, int xPos, int yPos, Color backColor, boolean crossable) {
         super(type, stringColor, backColor, xPos, yPos);

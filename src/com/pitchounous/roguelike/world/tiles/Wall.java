@@ -16,7 +16,7 @@ public class Wall extends Tile {
     }
 
     @Override
-    public void onFootOn(Creature c) {
+    protected void onFootOn(Creature c) {
         // Not a crossable tile so this does nothing
     }
 }

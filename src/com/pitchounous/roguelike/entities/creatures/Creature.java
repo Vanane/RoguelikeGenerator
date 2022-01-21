@@ -8,8 +8,8 @@ import com.pitchounous.roguelike.world.World;
 
 public class Creature extends Entity {
 
-	public int attack;
-	public int hp;
+	int hp;
+	int attack;
 
 	public Creature(String type, Color color, int hp, int attack, int xPos, int yPos) {
 		super(type, color, Color.BLACK, xPos, yPos);
@@ -48,5 +48,13 @@ public class Creature extends Entity {
 				move(world, 0, -1);
 			}
 		}
+	}
+
+	public int getHp() {
+		return hp;
+	}
+
+	public void setHp(int hp) {
+		this.hp = hp;
 	}
 }
