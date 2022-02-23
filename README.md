@@ -3,13 +3,17 @@ Projet de M2 MIAGE Architecture logicielle
 
 ## TODO
 
+- Loader should call RogueLike that calls "main" from Roguelike and load dedicated plugins from it
+ --> Add autorun attributes for plugin descriptions and set it to True for RogueLike plugin
+ --> Add plugin dependencies to plugin and only load if required plugin is here
+
 - Merge GameWindow and GamePanel
 
 - Add more common behaviour to BasicUI to factorize Gamepanel and Interface
 
 - Add probability for tile creation
 
-- Make extension jar dependant has a check andmove jar to plugin part
+- Make extension jar dependant has a check and move jar to plugin part
 
 - Make a UI to choose between plugins that need to be loaded
 
@@ -25,6 +29,9 @@ Projet de M2 MIAGE Architecture logicielle
 
 - Add Game Over layout for terminal version
 
+
+--> Idée de plugins
+   -> TP, regénérer la map au runtime, UI changes (grey scale), speed up entity
 
 ## Prérequis
 Les prérequis pour pouvoir télécharger, compiler et exécuter ce logiciel sont :

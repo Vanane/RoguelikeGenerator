@@ -17,6 +17,7 @@ import com.pitchounous.roguelike.world.tiles.Tile;
 import plugins.fire_tile.Fire;
 import plugins.grass_tile.Grass;
 import plugins.terminal_ui.Interface;
+import plugins.awt_ui.GameWindow;
 import plugins.wolf_creature.Wolf;
 import plugins.health_potion.HealthPotion;
 

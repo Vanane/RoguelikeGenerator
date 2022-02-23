@@ -5,10 +5,10 @@ import java.util.Set;
 
 import com.pitchounous.pluginLoader.PluginDescriptor;
 import com.pitchounous.pluginLoader.PluginLoader;
+import com.pitchounous.pluginLoader.PluginSelectorUI;
 import com.pitchounous.roguelike.entities.creatures.Creature;
 import com.pitchounous.roguelike.entities.creatures.Player;
 import com.pitchounous.roguelike.ui.BasicUI;
-import com.pitchounous.roguelike.ui.GameWindow;
 import com.pitchounous.roguelike.world.World;
 import com.pitchounous.roguelike.world.WorldBuilder;
 import com.pitchounous.roguelike.world.tiles.Tile;
@@ -18,45 +18,66 @@ public class Main {
     PluginLoader pl;
     Set<Class<?>> pluginCreatures;
     Set<Class<?>> pluginTiles;
-    List<Class<?>> pluginUIClass;
-    final Class<?> DEFAULT_UI_CLASS = GameWindow.class;
+    Class<?> pluginUIClass;
 
     final int mapWidth = 60;
     final int mapHeight = 60;
 
     public static void main(String[] args) {
-        // Not really elegant but ui may be initilized differently
-        // so we add the more freedom available
         new Main(80, 60);
     }
 
     public Main(int screenWidth, int screenHeight) {
         // Load config variables from plugins.json
-        loadPlugins();
+        showPluginSelectorUI();
 
         Player player = new Player(10, 10);
         World world = createWorld(player);
-        BasicUI ui = selectUI(world);
+        BasicUI ui = buildUI(world);
 
         ui.start();
     }
 
-    private BasicUI selectUI(World world){
-        BasicUI ui = null;
-        Class<?> uiClass = null;
+    private void showPluginSelectorUI() {
+        // Load config variables from plugins.json
+        pl = PluginLoader.getInstance();
+        List<PluginDescriptor> tileDescriptors = pl.getPluginDescriptors(Tile.class);
+        List<PluginDescriptor> creatureDescriptors = pl.getPluginDescriptors(Creature.class);
+        List<PluginDescriptor> uiDescriptors = pl.getPluginDescriptors(BasicUI.class);
 
-        if (pluginUIClass.size() > 0) {
-            // Random choice / Update here to choose
-            uiClass = pluginUIClass.get(0);
+        // Open the windows and wait for the user to select is favorite plugins
+        PluginSelectorUI psui = new PluginSelectorUI(tileDescriptors, creatureDescriptors, uiDescriptors);
+        psui.showWindowDemo();
+
+        while (psui.isOpen) {
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+            }
         }
-        Object[] parameters = {world};
-        if(uiClass != null){
-            ui = (BasicUI) pl.instanciatePluginClass(uiClass, parameters);
-        }else{
-            ui = (BasicUI) pl.instanciatePluginClass(DEFAULT_UI_CLASS, parameters);
+        tileDescriptors = psui.getUserSelectedTiles();
+        creatureDescriptors = psui.getUserSelectedCreatures();
+        PluginDescriptor uiDescriptor = psui.getUserSelectedUI();
+
+        loadSelectedPlugins(tileDescriptors, creatureDescriptors, uiDescriptor);
+    }
+
+    private void loadSelectedPlugins(
+            List<PluginDescriptor> tileDescriptors,
+            List<PluginDescriptor> creatureDescriptors,
+            PluginDescriptor uiDescriptor) {
+        // can add some choice here to filter tiles / creatures / ui / ...
+        pluginTiles = new HashSet<>();
+        for (PluginDescriptor pd : tileDescriptors) {
+            pluginTiles.add(pl.getPluginDescriptorClass(pd));
         }
 
-        return ui;
+        pluginCreatures = new HashSet<>();
+        for (PluginDescriptor pd : creatureDescriptors) {
+            pluginCreatures.add(pl.getPluginDescriptorClass(pd));
+        }
+
+        pluginUIClass = pl.getPluginDescriptorClass(uiDescriptor);
     }
 
     private World createWorld(Player player) {
@@ -67,28 +88,8 @@ public class Main {
                 .build();
     }
 
-    private void loadPlugins() {
-        // Load config variables from plugins.json
-        pl = PluginLoader.getInstance();
-
-        // can add some choice here to filter tiles / creatures / ui / ...
-        List<PluginDescriptor> additionalTiles = pl.getPluginDescriptors(Tile.class);
-        pluginTiles = new HashSet<>();
-        for (PluginDescriptor pd : additionalTiles) {
-            pluginTiles.add(pl.getPluginDescriptorClass(pd));
-        }
-
-        List<PluginDescriptor> additionalCreatures = pl.getPluginDescriptors(Creature.class);
-        pluginCreatures = new HashSet<>();
-        for (PluginDescriptor pd : additionalCreatures) {
-            pluginCreatures.add(pl.getPluginDescriptorClass(pd));
-        }
-
-        List<PluginDescriptor> pluginUIs = pl.getPluginDescriptors(BasicUI.class);
-        pluginUIClass = new ArrayList<>();
-        for (PluginDescriptor pd : pluginUIs) {
-            pluginUIClass.add(pl.getPluginDescriptorClass(pd));
-        }
+    private BasicUI buildUI(World world) {
+        Object[] parameters = { world };
+        return (BasicUI) pl.instanciatePluginClass(pluginUIClass, parameters);
     }
-
 }
