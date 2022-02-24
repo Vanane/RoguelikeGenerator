@@ -1,5 +1,6 @@
-package com.pitchounous.roguelike.ui;
+package plugins.awt_ui;
 
+import com.pitchounous.roguelike.ui.BasicUI;
 import com.pitchounous.roguelike.world.World;
 
 public class GameWindow extends BasicUI {

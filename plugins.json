@@ -61,6 +61,15 @@
         "language": "en",
         "jarDependencies": ["ascii-panel-1.2.jar"],
         "attributes": {}
+    },
+    {
+        "pluginName": "awt_ui",
+        "description": "Add a pure AWT interface",
+        "className": "GameWindow",
+        "version": "0.1",
+        "language": "en",
+        "jarDependencies": [],
+        "attributes": {}
     }
     /* Player classes not implemented yet */
 ]

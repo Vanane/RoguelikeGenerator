@@ -1,4 +1,4 @@
-package com.pitchounous.roguelike.ui;
+package plugins.awt_ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Panel;
 
 import com.pitchounous.roguelike.entities.creatures.Creature;
+import com.pitchounous.roguelike.ui.KeyHandler;
 import com.pitchounous.roguelike.world.World;
 
 public class GamePanel extends Panel implements Runnable {
