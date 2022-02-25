@@ -47,6 +47,12 @@ Projet de M2 MIAGE Architecture logicielle
 --> Idée de plugins
    -> TP, regénérer la map au runtime, UI changes (grey scale), speed up entity
 
+### Comment implémenter un plugin
+- Décider du comportement à transformer en plugin (ex : le comportement d'un zombie)
+- Abstraire ce comportement, en définissant une interface (ex : ICreatureBehaviour)
+- Implémenter cette interface par une classe par défaut (ex : DefaultBehaviour)
+- Pour ajouter un plugin, implémenter cette interface et choisir de charger ce plugin plutôt que le défaut.
+
 ## Prérequis
 Les prérequis pour pouvoir télécharger, compiler et exécuter ce logiciel sont :
 - Un ordinateur
