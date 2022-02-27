@@ -3,9 +3,7 @@ Projet de M2 MIAGE Architecture logicielle
 
 ## TODO
 
-- Loader should call RogueLike that calls "main" from Roguelike and load dedicated plugins from it
- --> Add autorun attributes for plugin descriptions and set it to True for RogueLike plugin
- --> Add plugin dependencies to plugin and only load if required plugin is here
+ - Add plugin dependencies to plugin and only load if required plugin is here
 
 - Merge GameWindow and GamePanel
 
@@ -29,9 +27,29 @@ Projet de M2 MIAGE Architecture logicielle
 
 - Add Game Over layout for terminal version
 
+- Keep the plugin chooser windows open, and make it reload at runtime when pressing EXIT
+
+
+### Idées de plugins
+- Changement de l'IA du zombie
+    - Mode random, bouge au hasard, plugin par défaut
+    - Mode chasse, si le joueur est à moins de X cases, il se dirige vers lui. Ca implique que le zombie connait la position du joueur, ou qu'il soit au moins notifié de sa position.
+        - Pour que le zombie suive une cible générique, et pas juste le joueur : le zombie connait  la liste de toutes les créatures. A chaque tick : vérifie si une créature de la liste est proche et hostile, et la prend en chasse.
+- Ajouter des effets au joueur (pas un plugin)
+    - Poison : à chaque pas il perd 1pv
+
+- Plugins par rapport aux effets
+    - Dégats : par défaut, rien
+        - plugin pour afficher le bord en rouge (cela demande de notifier le moteur graphique via le world)
 
 --> Idée de plugins
    -> TP, regénérer la map au runtime, UI changes (grey scale), speed up entity
+
+### Comment implémenter un plugin
+- Décider du comportement à transformer en plugin (ex : le comportement d'un zombie)
+- Abstraire ce comportement, en définissant une interface (ex : ICreatureBehaviour)
+- Implémenter cette interface par une classe par défaut (ex : DefaultBehaviour)
+- Pour ajouter un plugin, implémenter cette interface et choisir de charger ce plugin plutôt que le défaut.
 
 ## Prérequis
 Les prérequis pour pouvoir télécharger, compiler et exécuter ce logiciel sont :

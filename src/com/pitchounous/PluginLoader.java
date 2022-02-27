@@ -30,9 +30,6 @@ public class PluginLoader {
 	// implement this class
 	private HashMap<Class<?>, List<PluginDescriptor>> pluginDescriptors;
 
-	// Map between plugin name and plugin object
-	private HashMap<String, Object> loadedPlugins;
-
 	/**
 	 * @param pluginInterfaces
 	 * @return singleton object created only if not already created previously
@@ -51,7 +48,6 @@ public class PluginLoader {
 	 */
 	private PluginLoader() {
 		this.pluginDescriptors = new HashMap<>();
-		this.loadedPlugins = new HashMap<>();
 	}
 
 	/**
@@ -69,29 +65,9 @@ public class PluginLoader {
 				if (pd.isAutorun()) {
 					List<Object> params = (ArrayList<Object>) pd.getAttributes().get("default_arguments");
 					Object[] constructorParams = params.toArray();
-
-					Class<?>[] parameters = new Class<?>[constructorParams.length];
-					for (int i = 0; i < parameters.length; i++) {
-						Class<?> type = constructorParams[i].getClass();
-						System.out.println(constructorParams[i]);
-
-						// Type misscalculation for int
-						if (type == Double.class && (Double) constructorParams[i] % 1 == 0) {
-							type = int.class;
-							constructorParams[i] = ((Double) constructorParams[i]).intValue();
-						}
-						parameters[i] = type;
-					}
-
 					Class<?> pdClass = pl.getPluginDescriptorClass(pd);
-					try {
-						Object instanciatedPlugin = pdClass.getDeclaredConstructor(parameters)
-								.newInstance(constructorParams);
-					} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-							| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-						System.err.println("Unable to run autorun plugin " + pd.getFullClassPath());
-						e.printStackTrace();
-					}
+
+					pl.instanciatePluginClass(pdClass, constructorParams);
 				}
 			}
 		}
@@ -175,38 +151,6 @@ public class PluginLoader {
 	}
 
 	/**
-	 * Instanciate a plugin using according PluginDescriptor and passed arguments
-	 * 
-	 * @param pd
-	 * @param args
-	 */
-	public Object instanciatePluginClass(PluginDescriptor pd, Object[] args) {
-		Object plugin = null;
-		try {
-			if (this.loadedPlugins.containsKey(pd.getPluginName()))
-				plugin = this.loadedPlugins.get(pd.getPluginName());
-			else {
-				Class<?> pluginClass = Class.forName(pd.getClassName());
-				Class<?>[] constructorParameters = new Class[args.length];
-
-				for (int i = 0; i < args.length; i++) {
-					Class<?> type = args[i].getClass();
-					constructorParameters[i] = type;
-				}
-
-				System.out.println("Constructor available for :   " + pluginClass.getDeclaredConstructors()[0]);
-				Constructor<?> c = pluginClass.getDeclaredConstructor(constructorParameters);
-				plugin = c.newInstance(args);
-			}
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-			System.out.println("Le plugin " + pd.getPluginName() + "n'a pas pu être chargé :");
-			e.printStackTrace();
-		}
-		return plugin;
-	}
-
-	/**
 	 * Instanciate directly class with passed arguments
 	 * 
 	 * @param pd
@@ -215,19 +159,23 @@ public class PluginLoader {
 	public Object instanciatePluginClass(Class<?> pluginClass, Object[] args) {
 		Object plugin = null;
 		try {
-			Class<?>[] constructorParameters = new Class[args.length];
+			Class<?>[] constructorTypes = new Class<?>[args.length];
 			for (int i = 0; i < args.length; i++) {
 				Class<?> type = args[i].getClass();
-				constructorParameters[i] = type;
+
+				// Type misscalculation for int
+				if (type == Double.class && (Double) args[i] % 1 == 0) {
+					type = int.class;
+					args[i] = ((Double) args[i]).intValue();
+				}
+				constructorTypes[i] = type;
 			}
 
-			// System.out.println("Constructor available for : " +
-			// pluginClass.getDeclaredConstructors()[0]);
-			Constructor<?> c = pluginClass.getDeclaredConstructor(constructorParameters);
+			Constructor<?> c = pluginClass.getDeclaredConstructor(constructorTypes);
 			plugin = c.newInstance(args);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-			System.out.println("La classe " + pluginClass.getSimpleName() + "n'a pas pu être chargé :");
+			System.err.println("La classe " + pluginClass.getSimpleName() + "n'a pas pu être chargée");
 			e.printStackTrace();
 		}
 		return plugin;
