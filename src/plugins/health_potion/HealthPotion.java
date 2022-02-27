@@ -2,12 +2,16 @@ package plugins.health_potion;
 
 import java.awt.Color;
 
-import com.pitchounous.roguelike.entities.creatures.Creature;
-import com.pitchounous.roguelike.entities.creatures.Player;
-import com.pitchounous.roguelike.world.tiles.ActivableTile;
+import plugins.roguelike.entities.creatures.Creature;
+import plugins.roguelike.entities.creatures.Player;
+import plugins.roguelike.world.tiles.ActivableTile;
 
 public class HealthPotion extends ActivableTile {
-
+    /**
+     * 
+     * @param xPos
+     * @param yPos
+     */
     public HealthPotion(int xPos, int yPos) {
         super("heal potion", Color.PINK, xPos, yPos, Color.BLACK, true);
     }

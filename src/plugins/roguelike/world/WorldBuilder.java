@@ -1,4 +1,4 @@
-package com.pitchounous.roguelike.world;
+package plugins.roguelike.world;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import com.pitchounous.roguelike.entities.creatures.Creature;
-import com.pitchounous.roguelike.entities.creatures.Player;
-import com.pitchounous.roguelike.entities.creatures.Sheep;
-import com.pitchounous.roguelike.entities.creatures.Zombie;
-import com.pitchounous.roguelike.world.tiles.Ground;
-import com.pitchounous.roguelike.world.tiles.Tile;
-import com.pitchounous.roguelike.world.tiles.Wall;
+import plugins.roguelike.entities.creatures.Creature;
+import plugins.roguelike.entities.creatures.Player;
+import plugins.roguelike.entities.creatures.Sheep;
+import plugins.roguelike.entities.creatures.Zombie;
+import plugins.roguelike.world.tiles.Ground;
+import plugins.roguelike.world.tiles.Tile;
+import plugins.roguelike.world.tiles.Wall;
 
 public class WorldBuilder {
 	int width;
@@ -27,6 +27,14 @@ public class WorldBuilder {
 
 	Player player;
 
+	/**
+	 * 
+	 * @param width
+	 * @param height
+	 * @param pluginTiles
+	 * @param pluginCreatures
+	 * @param player
+	 */
 	public WorldBuilder(int width, int height,
 			Set<Class<?>> pluginTiles, Set<Class<?>> pluginCreatures,
 			Player player) {
@@ -47,6 +55,13 @@ public class WorldBuilder {
 		this.player = player;
 	}
 
+	/**
+	 * 
+	 * @param type
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public Tile createTile(String type, int x, int y) {
 		Tile tile = null;
 		Random rnd = new Random();
@@ -66,6 +81,13 @@ public class WorldBuilder {
 		return tile;
 	}
 
+	/**
+	 * 
+	 * @param creatureType
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public Creature createCreature(Class<?> creatureType, int x, int y) {
 		Creature c = null;
 
@@ -78,10 +100,18 @@ public class WorldBuilder {
 		return c;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public World build() {
 		return new World(tiles, creatures, player);
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public WorldBuilder fillWithWall() {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
@@ -91,6 +121,10 @@ public class WorldBuilder {
 		return this;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public WorldBuilder addBorders() {
 		for (int x = 0; x < width; x++) {
 			tiles[x][0] = createTile("wall", x, 0);
@@ -104,6 +138,14 @@ public class WorldBuilder {
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param topX
+	 * @param topY
+	 * @param width
+	 * @param height
+	 * @return
+	 */
 	public WorldBuilder carveOutRoom(int topX, int topY, int width, int height) {
 		for (int x = topX; x < topX + width; x++) {
 			for (int y = topY; y < topY + height; y++) {
@@ -113,6 +155,11 @@ public class WorldBuilder {
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param nrOfCreatures
+	 * @return
+	 */
 	public WorldBuilder populateWorld(int nrOfCreatures) {
 		Random rnd = new Random();
 		int rndX;
@@ -133,6 +180,14 @@ public class WorldBuilder {
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param seed
+	 * @param startX
+	 * @param startY
+	 * @param length
+	 * @return
+	 */
 	public WorldBuilder createRandomWalkCave(int seed, int startX, int startY, int length) {
 		Random rnd = new Random(seed);
 		int direction;

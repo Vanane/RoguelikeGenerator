@@ -1,10 +1,10 @@
-package com.pitchounous.roguelike.ui;
+package plugins.roguelike.ui;
 
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import com.pitchounous.roguelike.world.World;
+import plugins.roguelike.world.World;
 
 public abstract class BasicUI extends Frame {
 
@@ -12,6 +12,10 @@ public abstract class BasicUI extends Frame {
     protected KeyHandler kl;
     protected boolean isRunning;
 
+    /**
+     * 
+     * @param world
+     */
     protected BasicUI(World world) {
         super("Roguelike | Pitchounous");
         this.world = world;

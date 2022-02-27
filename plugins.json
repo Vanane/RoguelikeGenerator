@@ -1,19 +1,17 @@
-/* This file lists all the plugins that the application will load on startup. */
-/* Template to add a new plugin descriptor :
-    {
-        "pluginName":"myPlugin",
-        "description":"This is my plugin",
-        "className":"IMyPlugin",
-        "version":"1.0",
-        "language":"FR",
-        "jarDependencies": [],
-        "attributes":
-        {
-            "difficulty":"ez"
-        }
-    }
-*/
 [
+    /* Roguelike game main logic */
+    {
+        "pluginName": "roguelike",
+        "description": "Roguelike game",
+        "className": "Roguelike",
+        "version": "0.1",
+        "language": "en",
+        "jarDependencies": [],
+        "autorun": true,
+        "attributes": {
+            "default_arguments": [80, 60]
+        }
+    },
     /* Tiles */
     {
         "pluginName": "grass_tile",
@@ -22,6 +20,7 @@
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
+        "autorun": false,
         "attributes": {}
     },
     {
@@ -31,6 +30,7 @@
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
+        "autorun": false,
         "attributes": {}
     },
     {
@@ -40,6 +40,7 @@
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
+        "autorun": false,
         "attributes": {}
     },
     /* Creatures */
@@ -50,6 +51,7 @@
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
+        "autorun": false,
         "attributes": {}
     },
     /* UI classes */
@@ -59,7 +61,10 @@
         "className": "Interface",
         "version": "0.1",
         "language": "en",
-        "jarDependencies": ["ascii-panel-1.2.jar"],
+        "jarDependencies": [
+            "ascii-panel-1.2.jar"
+        ],
+        "autorun": false,
         "attributes": {}
     },
     {
@@ -69,6 +74,7 @@
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
+        "autorun": false,
         "attributes": {}
     }
     /* Player classes not implemented yet */

@@ -2,10 +2,15 @@ package plugins.grass_tile;
 
 import java.awt.Color;
 
-import com.pitchounous.roguelike.entities.creatures.Creature;
-import com.pitchounous.roguelike.world.tiles.Tile;
+import plugins.roguelike.entities.creatures.Creature;
+import plugins.roguelike.world.tiles.Tile;
 
 public class Grass extends Tile {
+    /**
+     * 
+     * @param xpos
+     * @param ypos
+     */
     public Grass(int xpos, int ypos) {
         super("grass", new Color(83, 135, 12), xpos, ypos, Color.BLACK, true);
     }

@@ -1,11 +1,15 @@
-package com.pitchounous.roguelike.world.tiles;
+package plugins.roguelike.world.tiles;
 
 import java.awt.Color;
 
-import com.pitchounous.roguelike.entities.creatures.Creature;
+import plugins.roguelike.entities.creatures.Creature;
 
 public class Wall extends Tile {
-
+    /**
+     * 
+     * @param xPos
+     * @param yPos
+     */
     public Wall(int xPos, int yPos) {
         super("wall", Color.BLACK, xPos, yPos, Color.BLACK, false);
     }

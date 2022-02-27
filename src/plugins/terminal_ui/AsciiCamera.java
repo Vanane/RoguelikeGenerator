@@ -3,11 +3,10 @@ package plugins.terminal_ui;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import com.pitchounous.roguelike.entities.creatures.Creature;
-import com.pitchounous.roguelike.world.World;
-import com.pitchounous.roguelike.world.tiles.Tile;
-
 import asciiPanel.AsciiPanel;
+import plugins.roguelike.entities.creatures.Creature;
+import plugins.roguelike.world.World;
+import plugins.roguelike.world.tiles.Tile;
 
 public class AsciiCamera {
 

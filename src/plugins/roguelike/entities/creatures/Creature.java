@@ -1,22 +1,37 @@
-package com.pitchounous.roguelike.entities.creatures;
+package plugins.roguelike.entities.creatures;
 
 import java.awt.Color;
 import java.util.Random;
 
-import com.pitchounous.roguelike.entities.Entity;
-import com.pitchounous.roguelike.world.World;
+import plugins.roguelike.entities.Entity;
+import plugins.roguelike.world.World;
 
 public class Creature extends Entity {
 
 	int hp;
 	int attack;
 
+	/**
+	 * 
+	 * @param type
+	 * @param color
+	 * @param hp
+	 * @param attack
+	 * @param xPos
+	 * @param yPos
+	 */
 	public Creature(String type, Color color, int hp, int attack, int xPos, int yPos) {
 		super(type, color, Color.BLACK, xPos, yPos);
 		this.hp = hp;
 		this.attack = attack;
 	}
 
+	/**
+	 * 
+	 * @param world
+	 * @param dx
+	 * @param dy
+	 */
 	public void move(World world, int dx, int dy) {
 		if (world.isTileCrossable(x + dx, y + dy)) {
 			x += dx;
@@ -30,6 +45,10 @@ public class Creature extends Entity {
 		}
 	}
 
+	/**
+	 * 
+	 * @param world
+	 */
 	public void update(World world) {
 		Random rnd = new Random();
 		int performAction = rnd.nextInt(100);
@@ -50,10 +69,18 @@ public class Creature extends Entity {
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public int getHp() {
 		return hp;
 	}
 
+	/**
+	 * 
+	 * @param hp
+	 */
 	public void setHp(int hp) {
 		this.hp = hp;
 	}

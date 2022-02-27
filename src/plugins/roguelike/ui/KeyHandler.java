@@ -1,4 +1,4 @@
-package com.pitchounous.roguelike.ui;
+package plugins.roguelike.ui;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -9,6 +9,10 @@ public class KeyHandler implements KeyListener {
 
     List<KeyEvent> keys = new ArrayList<>();
 
+    /**
+     * 
+     * @return
+     */
     public KeyEvent getLastInput() {
         if (keys.size() == 0)
             return null;

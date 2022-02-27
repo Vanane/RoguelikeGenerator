@@ -2,10 +2,9 @@ package plugins.terminal_ui;
 
 import java.awt.Rectangle;
 
-import com.pitchounous.roguelike.ui.BasicUI;
-import com.pitchounous.roguelike.world.World;
-
 import asciiPanel.AsciiPanel;
+import plugins.roguelike.ui.BasicUI;
+import plugins.roguelike.world.World;
 
 public class Interface extends BasicUI {
 

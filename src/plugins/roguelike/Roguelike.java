@@ -1,19 +1,21 @@
-import java.util.ArrayList;
+package plugins.roguelike;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.pitchounous.pluginLoader.PluginDescriptor;
-import com.pitchounous.pluginLoader.PluginLoader;
-import com.pitchounous.pluginLoader.PluginSelectorUI;
-import com.pitchounous.roguelike.entities.creatures.Creature;
-import com.pitchounous.roguelike.entities.creatures.Player;
-import com.pitchounous.roguelike.ui.BasicUI;
-import com.pitchounous.roguelike.world.World;
-import com.pitchounous.roguelike.world.WorldBuilder;
-import com.pitchounous.roguelike.world.tiles.Tile;
+import com.pitchounous.PluginDescriptor;
+import com.pitchounous.PluginLoader;
+import com.pitchounous.PluginSelectorUI;
 
-public class Main {
+import plugins.roguelike.entities.creatures.Creature;
+import plugins.roguelike.entities.creatures.Player;
+import plugins.roguelike.ui.BasicUI;
+import plugins.roguelike.world.World;
+import plugins.roguelike.world.WorldBuilder;
+import plugins.roguelike.world.tiles.Tile;
+
+public class Roguelike {
 
     PluginLoader pl;
     Set<Class<?>> pluginCreatures;
@@ -23,11 +25,13 @@ public class Main {
     final int mapWidth = 60;
     final int mapHeight = 60;
 
-    public static void main(String[] args) {
-        new Main(80, 60);
-    }
-
-    public Main(int screenWidth, int screenHeight) {
+    /**
+     * 
+     * @param screenWidth
+     * @param screenHeight
+     */
+    public Roguelike(int screenWidth, int screenHeight) {
+        System.out.println("Running default call");
         // Load config variables from plugins.json
         showPluginSelectorUI();
 
@@ -80,6 +84,11 @@ public class Main {
         pluginUIClass = pl.getPluginDescriptorClass(uiDescriptor);
     }
 
+    /**
+     * 
+     * @param player
+     * @return
+     */
     private World createWorld(Player player) {
         return new WorldBuilder(mapWidth, mapHeight, pluginTiles, pluginCreatures, player)
                 .fillWithWall()
@@ -88,6 +97,11 @@ public class Main {
                 .build();
     }
 
+    /**
+     * 
+     * @param world
+     * @return
+     */
     private BasicUI buildUI(World world) {
         Object[] parameters = { world };
         return (BasicUI) pl.instanciatePluginClass(pluginUIClass, parameters);

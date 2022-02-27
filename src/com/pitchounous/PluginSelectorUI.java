@@ -1,4 +1,4 @@
-package com.pitchounous.pluginLoader;
+package com.pitchounous;
 
 import java.awt.Button;
 import java.awt.Checkbox;
@@ -52,8 +52,8 @@ public class PluginSelectorUI {
             mainFrame.add(this.createCB(tilePD, false, null, selectedTiles));
         }
 
-        for (PluginDescriptor ceraturePD : creatureDescriptors) {
-            mainFrame.add(this.createCB(ceraturePD, false, null, selectedCreatures));
+        for (PluginDescriptor creaturePD : creatureDescriptors) {
+            mainFrame.add(this.createCB(creaturePD, false, null, selectedCreatures));
         }
 
         Button exit = new Button("EXIT");
@@ -67,6 +67,14 @@ public class PluginSelectorUI {
         mainFrame.setVisible(true);
     }
 
+    /**
+     * 
+     * @param pd
+     * @param isActive
+     * @param checkboxGroup
+     * @param activeListToUpdate
+     * @return
+     */
     private Checkbox createCB(
             PluginDescriptor pd, Boolean isActive,
             CheckboxGroup checkboxGroup, List<PluginDescriptor> activeListToUpdate) {
@@ -89,15 +97,27 @@ public class PluginSelectorUI {
         mainFrame.setVisible(false);
     }
 
+    /**
+     * 
+     * @return
+     */
     public List<PluginDescriptor> getUserSelectedTiles() {
         return this.selectedTiles;
     }
 
+    /**
+     * 
+     * @return
+     */
     public PluginDescriptor getUserSelectedUI() {
         // Return last selected UI
-        return this.selectedUIs.get(this.selectedUIs.size()-1);
+        return this.selectedUIs.get(this.selectedUIs.size() - 1);
     }
 
+    /**
+     * 
+     * @return
+     */
     public List<PluginDescriptor> getUserSelectedCreatures() {
         return this.selectedCreatures;
     }

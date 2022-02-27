@@ -1,13 +1,14 @@
-package com.pitchounous.roguelike.world;
+package plugins.roguelike.world;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.awt.event.KeyEvent;
 
-import com.pitchounous.roguelike.entities.creatures.Creature;
-import com.pitchounous.roguelike.entities.creatures.Player;
-import com.pitchounous.roguelike.world.tiles.Tile;
+import plugins.roguelike.entities.creatures.Creature;
+import plugins.roguelike.entities.creatures.Player;
+import plugins.roguelike.world.tiles.Tile;
+
+import java.awt.event.KeyEvent;
 
 public class World {
 
@@ -18,6 +19,12 @@ public class World {
 	Player player;
 	List<Creature> creatures;
 
+	/**
+	 * 
+	 * @param tiles
+	 * @param creatures
+	 * @param player
+	 */
 	public World(Tile[][] tiles, Set<Creature> creatures, Player player) {
 		this.creatures = new ArrayList<>(creatures);
 		this.creatures.add(player);
@@ -28,20 +35,40 @@ public class World {
 		this.player = player;
 	}
 
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public Tile getTile(int x, int y) {
 		if (x < 0 || x >= width || y < 0 || y >= height)
 			return null;
 		return tiles[x][y];
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public List<Creature> getAliveCreatures() {
 		return creatures.stream().toList();
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Player getPlayer() {
 		return player;
 	}
 
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public Creature getCreatureAt(int x, int y) {
 		return creatures.stream()
 				.filter(entity -> entity.getX() == x && entity.getY() == y)
@@ -49,8 +76,12 @@ public class World {
 				.orElse(null);
 	}
 
-	/*
+	/**
 	 * Test if a given tile as no creature on it and is crossable
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
 	 */
 	public boolean isTileCrossable(int x, int y) {
 		return getTile(x, y) != null && getCreatureAt(x, y) == null && tiles[x][y].isCrossable();
@@ -68,13 +99,17 @@ public class World {
 					throw new Error("GAME OVER");
 				}
 
-			// Making other creatures moving
+				// Making other creatures moving
 			} else if (!creature.equals(player)) {
 				creature.update(this);
 			}
 		}
 	}
 
+	/**
+	 * 
+	 * @param ke
+	 */
 	public void processInput(KeyEvent ke) {
 		// Move the player according to the last input
 		if (ke == null)

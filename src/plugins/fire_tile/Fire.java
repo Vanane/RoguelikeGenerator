@@ -2,10 +2,15 @@ package plugins.fire_tile;
 
 import java.awt.Color;
 
-import com.pitchounous.roguelike.entities.creatures.Creature;
-import com.pitchounous.roguelike.world.tiles.Tile;
+import plugins.roguelike.entities.creatures.Creature;
+import plugins.roguelike.world.tiles.Tile;
 
 public class Fire extends Tile {
+    /**
+     * 
+     * @param xpos
+     * @param ypos
+     */
     public Fire(int xpos, int ypos) {
         super("fire", Color.RED, xpos, ypos, Color.BLACK, true);
     }

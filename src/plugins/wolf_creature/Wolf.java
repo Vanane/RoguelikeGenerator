@@ -2,7 +2,7 @@ package plugins.wolf_creature;
 
 import java.awt.Color;
 
-import com.pitchounous.roguelike.entities.creatures.Creature;
+import plugins.roguelike.entities.creatures.Creature;
 
 public class Wolf extends Creature {
 
