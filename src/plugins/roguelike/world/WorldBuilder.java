@@ -43,12 +43,12 @@ public class WorldBuilder {
 		tiles = new Tile[width][height];
 		creatures = new HashSet<Creature>();
 
-		// Set ensure only one occurence of the class
+		// Set ensure only one occurrence of the class
 		pluginCreatures.add(Zombie.class);
 		pluginCreatures.add(Sheep.class);
 		availableCreatureTypes = new ArrayList<Class<?>>(pluginCreatures);
 
-		// Set ensure only one occurence of the class
+		// Set ensure only one occurrence of the class
 		pluginTiles.add(Ground.class);
 		availableTileTypes = new ArrayList<Class<?>>(pluginTiles);
 

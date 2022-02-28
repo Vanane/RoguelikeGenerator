@@ -67,7 +67,7 @@ public class PluginLoader {
 					Object[] constructorParams = params.toArray();
 					Class<?> pdClass = pl.getPluginDescriptorClass(pd);
 
-					pl.instanciatePluginClass(pdClass, constructorParams);
+					pl.instantiatePluginClass(pdClass, constructorParams);
 				}
 			}
 		}
@@ -128,7 +128,7 @@ public class PluginLoader {
 	/**
 	 * @param intenf
 	 * @return
-	 *         Return all PluginDecriptor for a given super class
+	 *         Return all PluginDescriptor for a given super class
 	 */
 	public List<PluginDescriptor> getPluginDescriptors(Class<?> intenf) {
 		if (this.pluginDescriptors.get(intenf) != null)
@@ -151,19 +151,19 @@ public class PluginLoader {
 	}
 
 	/**
-	 * Instanciate directly class with passed arguments
+	 * Instantiate directly class with passed arguments
 	 * 
 	 * @param pd
 	 * @param args
 	 */
-	public Object instanciatePluginClass(Class<?> pluginClass, Object[] args) {
+	public Object instantiatePluginClass(Class<?> pluginClass, Object[] args) {
 		Object plugin = null;
 		try {
 			Class<?>[] constructorTypes = new Class<?>[args.length];
 			for (int i = 0; i < args.length; i++) {
 				Class<?> type = args[i].getClass();
 
-				// Type misscalculation for int
+				// Type miss calculation for int
 				if (type == Double.class && (Double) args[i] % 1 == 0) {
 					type = int.class;
 					args[i] = ((Double) args[i]).intValue();

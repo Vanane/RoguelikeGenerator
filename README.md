@@ -7,7 +7,7 @@ Projet de M2 MIAGE Architecture logicielle
 
 - Merge GameWindow and GamePanel
 
-- Add more common behaviour to BasicUI to factorize Gamepanel and Interface
+- Add more common behavior to BasicUI to factorize GamePanel and Interface
 
 - Add probability for tile creation
 

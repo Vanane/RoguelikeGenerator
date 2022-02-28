@@ -59,10 +59,10 @@
         <mxCell id="Q3dJM-tpdFy6hXJKalcR-1" value="+ getPluginDescriptorClass" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="iiDKv3-RJ3m2XZ2lpXmX-7">
           <mxGeometry y="86" width="160" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="Q3dJM-tpdFy6hXJKalcR-2" value="+ instanciatePluginClass" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="iiDKv3-RJ3m2XZ2lpXmX-7">
+        <mxCell id="Q3dJM-tpdFy6hXJKalcR-2" value="+ instantiatePluginClass" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="iiDKv3-RJ3m2XZ2lpXmX-7">
           <mxGeometry y="112" width="160" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="Q3dJM-tpdFy6hXJKalcR-3" value="+ instanciatePluginClass" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="iiDKv3-RJ3m2XZ2lpXmX-7">
+        <mxCell id="Q3dJM-tpdFy6hXJKalcR-3" value="+ instantiatePluginClass" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="iiDKv3-RJ3m2XZ2lpXmX-7">
           <mxGeometry y="138" width="160" height="26" as="geometry" />
         </mxCell>
         <mxCell id="iiDKv3-RJ3m2XZ2lpXmX-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="iiDKv3-RJ3m2XZ2lpXmX-1" target="iiDKv3-RJ3m2XZ2lpXmX-7" edge="1">

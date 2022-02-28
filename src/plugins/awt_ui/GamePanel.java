@@ -61,7 +61,7 @@ public class GamePanel extends Panel implements Runnable {
                 long endTime;
                 long sleepTime;
 
-                // Re-instanciating kl
+                // Re-instantiating kl
                 kl = new KeyHandler();
                 addKeyListener(kl);
 

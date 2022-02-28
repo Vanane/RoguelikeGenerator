@@ -104,6 +104,6 @@ public class Roguelike {
      */
     private BasicUI buildUI(World world) {
         Object[] parameters = { world };
-        return (BasicUI) pl.instanciatePluginClass(pluginUIClass, parameters);
+        return (BasicUI) pl.instantiatePluginClass(pluginUIClass, parameters);
     }
 }

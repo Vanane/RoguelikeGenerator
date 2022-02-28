@@ -23,7 +23,7 @@ public class GameWindow extends BasicUI {
 
     @Override
     public void start() {
-        // Nothing done here as the window is alredy displayed
+        // Nothing done here as the window is already displayed
         // in the addNotify hook
     }
 

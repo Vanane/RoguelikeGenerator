@@ -37,7 +37,7 @@ public abstract class Tile extends Entity {
      */
     public void onStep(Creature c) {
         if (!this.isCrossable) {
-            System.err.println("You tried to walk on " + this.getClass().getName() + " wich is not crossable !");
+            System.err.println("You tried to walk on " + this.getClass().getName() + " which is not crossable !");
         }
         this.onFootOn(c);
     };
