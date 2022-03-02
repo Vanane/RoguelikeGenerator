@@ -24,6 +24,7 @@ public class GamePanel extends Panel implements Runnable {
         World world;
 
         /**
+         * Fully working AWT ui
          * 
          * @param width
          * @param height
@@ -44,6 +45,9 @@ public class GamePanel extends Panel implements Runnable {
                 requestFocus();
         }
 
+        /**
+         * Multi threading the input and display processes
+         */
         public void addNotify() {
                 super.addNotify();
 
@@ -53,6 +57,10 @@ public class GamePanel extends Panel implements Runnable {
                 }
         }
 
+        /**
+         * Displaying and processing keyboard inputs here
+         * Also updating the world state
+         */
         @Override
         public void run() {
                 final double FRAMES_PER_SECOND = 0.66;
@@ -98,6 +106,9 @@ public class GamePanel extends Panel implements Runnable {
                 world.processInput(kl.getLastInput());
         }
 
+        /**
+         * Handling game update
+         */
         public void update() {
                 try {
                         world.update();
@@ -107,6 +118,9 @@ public class GamePanel extends Panel implements Runnable {
                 }
         }
 
+        /**
+         * Repainting the whole window
+         */
         @Override
         public void paint(Graphics g) {
                 g2D = (Graphics2D) g;
@@ -120,22 +134,28 @@ public class GamePanel extends Panel implements Runnable {
                 }
         }
 
+        /**
+         * Draw every creature on the window
+         */
         private void drawCreatures() {
                 int creatureWidth = 5;
                 int squareWidth = (int) (this.width / world.width);
                 int squareHeight = (int) (this.height / 80);
-                int xgap = (int) (squareWidth - creatureWidth) / 2;
-                int ygap = (int) (squareHeight - creatureWidth) / 2;
+                int xGap = (int) (squareWidth - creatureWidth) / 2;
+                int yGap = (int) (squareHeight - creatureWidth) / 2;
                 for (Creature c : world.getAliveCreatures()) {
                         g2D.setColor(c.getColor());
                         g2D.fillRect(
-                                        squareWidth * c.getX() + xgap,
-                                        squareHeight * c.getY() + ygap,
+                                        squareWidth * c.getX() + xGap,
+                                        squareHeight * c.getY() + yGap,
                                         creatureWidth,
                                         creatureWidth);
                 }
         }
 
+        /**
+         * Draw tiles in the background
+         */
         private void drawBackground() {
                 int squareWidth = (int) (width / world.width);
                 int squareHeight = (int) (height / 80);
@@ -149,6 +169,9 @@ public class GamePanel extends Panel implements Runnable {
                 }
         }
 
+        /**
+         * 
+         */
         private void drawLegend() {
                 int squareWidth = (int) (width / world.width);
                 int squareHeight = (int) (height / 80);
@@ -160,6 +183,9 @@ public class GamePanel extends Panel implements Runnable {
                 }
         }
 
+        /**
+         * Shows old school game over message on the UI
+         */
         private void showGameOver() {
                 int squareWidth = (int) (width / world.width);
                 int squareHeight = (int) (height / 80);

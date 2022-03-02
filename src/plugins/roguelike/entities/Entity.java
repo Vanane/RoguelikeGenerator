@@ -12,6 +12,7 @@ public class Entity {
 	protected Color backgroundColor;
 
 	/**
+	 * Base class to create an entity on the board like create or tiles
 	 * 
 	 * @param type
 	 * @param charColor

@@ -28,6 +28,7 @@ public class WorldBuilder {
 	Player player;
 
 	/**
+	 * Simple world builder to create a nice world composed of tiles and creatures
 	 * 
 	 * @param width
 	 * @param height
@@ -56,6 +57,7 @@ public class WorldBuilder {
 	}
 
 	/**
+	 * Create a new tile
 	 * 
 	 * @param type
 	 * @param x
@@ -82,6 +84,7 @@ public class WorldBuilder {
 	}
 
 	/**
+	 * Create a new creature
 	 * 
 	 * @param creatureType
 	 * @param x
@@ -101,6 +104,7 @@ public class WorldBuilder {
 	}
 
 	/**
+	 * Finally instantiate the world with selected parameters
 	 * 
 	 * @return
 	 */
@@ -109,6 +113,7 @@ public class WorldBuilder {
 	}
 
 	/**
+	 * Fill the world with walls
 	 * 
 	 * @return
 	 */
@@ -122,6 +127,7 @@ public class WorldBuilder {
 	}
 
 	/**
+	 * Create a room surrounded by walls
 	 * 
 	 * @return
 	 */
@@ -139,6 +145,7 @@ public class WorldBuilder {
 	}
 
 	/**
+	 * Carve walls to make some space to move for creature
 	 * 
 	 * @param topX
 	 * @param topY
@@ -156,6 +163,7 @@ public class WorldBuilder {
 	}
 
 	/**
+	 * Populate world with different creatures
 	 * 
 	 * @param nrOfCreatures
 	 * @return
@@ -181,6 +189,7 @@ public class WorldBuilder {
 	}
 
 	/**
+	 * Carve walls based on a specific random seed
 	 * 
 	 * @param seed
 	 * @param startX

@@ -1,9 +1,11 @@
 package plugins.roguelike;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.pitchounous.DescriptorCategory;
 import com.pitchounous.PluginDescriptor;
 import com.pitchounous.PluginLoader;
 import com.pitchounous.PluginSelectorUI;
@@ -15,6 +17,9 @@ import plugins.roguelike.world.World;
 import plugins.roguelike.world.WorldBuilder;
 import plugins.roguelike.world.tiles.Tile;
 
+/**
+ * Main plugin
+ */
 public class Roguelike {
 
     PluginLoader pl;
@@ -26,14 +31,17 @@ public class Roguelike {
     final int mapHeight = 60;
 
     /**
-     * 
+     * This main plugin starts the entire game
+     * !! A UI plugin must be selected
+     *
      * @param screenWidth
      * @param screenHeight
      */
     public Roguelike(int screenWidth, int screenHeight) {
-        System.out.println("Running default call");
         // Load config variables from plugins.json
-        showPluginSelectorUI();
+        this.pl = PluginLoader.getInstance();
+
+        this.showPluginSelectorUI();
 
         Player player = new Player(10, 10);
         World world = createWorld(player);
@@ -42,49 +50,62 @@ public class Roguelike {
         ui.start();
     }
 
+    /**
+     * Create a new window where the user can select between several plugins to load
+     */
     private void showPluginSelectorUI() {
         // Load config variables from plugins.json
-        pl = PluginLoader.getInstance();
-        List<PluginDescriptor> tileDescriptors = pl.getPluginDescriptors(Tile.class);
-        List<PluginDescriptor> creatureDescriptors = pl.getPluginDescriptors(Creature.class);
-        List<PluginDescriptor> uiDescriptors = pl.getPluginDescriptors(BasicUI.class);
+        List<DescriptorCategory> sortedDescriptors = new ArrayList<>();
+        sortedDescriptors.add(
+                new DescriptorCategory(Tile.class, this.pl.getPluginDescriptors(Tile.class), false));
+        sortedDescriptors.add(
+                new DescriptorCategory(Creature.class, this.pl.getPluginDescriptors(Creature.class), false));
+        sortedDescriptors.add(
+                new DescriptorCategory(BasicUI.class, this.pl.getPluginDescriptors(BasicUI.class), true));
 
         // Open the windows and wait for the user to select is favorite plugins
-        PluginSelectorUI psui = new PluginSelectorUI(tileDescriptors, creatureDescriptors, uiDescriptors);
-        psui.showWindowDemo();
-
-        while (psui.isOpen) {
+        PluginSelectorUI ui = new PluginSelectorUI(sortedDescriptors);
+        ui.showWindowDemo();
+        while (ui.isOpen) {
             try {
                 Thread.sleep(1500);
             } catch (InterruptedException e) {
             }
         }
-        tileDescriptors = psui.getUserSelectedTiles();
-        creatureDescriptors = psui.getUserSelectedCreatures();
-        PluginDescriptor uiDescriptor = psui.getUserSelectedUI();
 
-        loadSelectedPlugins(tileDescriptors, creatureDescriptors, uiDescriptor);
+        List<PluginDescriptor> tileDescriptors = ui.getSelectedPluginForBaseClass(Tile.class);
+        List<PluginDescriptor> creatureDescriptors = ui.getSelectedPluginForBaseClass(Creature.class);
+        List<PluginDescriptor> uiDescriptors = ui.getSelectedPluginForBaseClass(BasicUI.class);
+        this.loadSelectedPlugins(tileDescriptors, creatureDescriptors, uiDescriptors.get(0));
     }
 
+    /**
+     * Load three different types of required plugins
+     * 
+     * @param tileDescriptors
+     * @param creatureDescriptors
+     * @param uiDescriptor
+     */
     private void loadSelectedPlugins(
             List<PluginDescriptor> tileDescriptors,
             List<PluginDescriptor> creatureDescriptors,
             PluginDescriptor uiDescriptor) {
         // can add some choice here to filter tiles / creatures / ui / ...
-        pluginTiles = new HashSet<>();
+        this.pluginTiles = new HashSet<>();
         for (PluginDescriptor pd : tileDescriptors) {
-            pluginTiles.add(pl.getPluginDescriptorClass(pd));
+            this.pluginTiles.add(pl.getPluginDescriptorClass(pd));
         }
 
-        pluginCreatures = new HashSet<>();
+        this.pluginCreatures = new HashSet<>();
         for (PluginDescriptor pd : creatureDescriptors) {
-            pluginCreatures.add(pl.getPluginDescriptorClass(pd));
+            this.pluginCreatures.add(pl.getPluginDescriptorClass(pd));
         }
 
-        pluginUIClass = pl.getPluginDescriptorClass(uiDescriptor);
+        pluginUIClass = this.pl.getPluginDescriptorClass(uiDescriptor);
     }
 
     /**
+     * Instantiate the game world
      * 
      * @param player
      * @return
@@ -98,6 +119,7 @@ public class Roguelike {
     }
 
     /**
+     * Create the UI
      * 
      * @param world
      * @return

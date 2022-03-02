@@ -20,6 +20,7 @@ public class World {
 	List<Creature> creatures;
 
 	/**
+	 * World that stores game state, creatures and tiles
 	 * 
 	 * @param tiles
 	 * @param creatures
@@ -36,6 +37,7 @@ public class World {
 	}
 
 	/**
+	 * Return the tile at a specific location
 	 * 
 	 * @param x
 	 * @param y
@@ -48,6 +50,7 @@ public class World {
 	}
 
 	/**
+	 * Get Alive Creatures
 	 * 
 	 * @return
 	 */
@@ -56,6 +59,7 @@ public class World {
 	}
 
 	/**
+	 * Return the player
 	 * 
 	 * @return
 	 */
@@ -64,6 +68,7 @@ public class World {
 	}
 
 	/**
+	 * Retrieve a creature from a given position if there is one
 	 * 
 	 * @param x
 	 * @param y
@@ -87,6 +92,9 @@ public class World {
 		return getTile(x, y) != null && getCreatureAt(x, y) == null && tiles[x][y].isCrossable();
 	}
 
+	/**
+	 * Make alive creatures moves or attack adjacent ones
+	 */
 	public void update() {
 		for (int i = 0; i < creatures.size(); i++) {
 			Creature creature = creatures.get(i);
@@ -107,6 +115,7 @@ public class World {
 	}
 
 	/**
+	 * Process keyboard arrow inputs
 	 * 
 	 * @param ke
 	 */

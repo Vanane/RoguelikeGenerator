@@ -7,6 +7,7 @@
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
+        "pluginDependencies": [],
         "autorun": true,
         "attributes": {
             "default_arguments": [80, 60]
@@ -20,6 +21,7 @@
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
+        "pluginDependencies": ["roguelike"],
         "autorun": false,
         "attributes": {}
     },
@@ -30,6 +32,7 @@
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
+        "pluginDependencies": ["roguelike"],
         "autorun": false,
         "attributes": {}
     },
@@ -40,6 +43,7 @@
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
+        "pluginDependencies": ["roguelike"],
         "autorun": false,
         "attributes": {}
     },
@@ -51,6 +55,7 @@
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
+        "pluginDependencies": ["roguelike"],
         "autorun": false,
         "attributes": {}
     },
@@ -64,6 +69,7 @@
         "jarDependencies": [
             "ascii-panel-1.2.jar"
         ],
+        "pluginDependencies": ["roguelike"],
         "autorun": false,
         "attributes": {}
     },
@@ -74,6 +80,7 @@
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
+        "pluginDependencies": ["roguelike"],
         "autorun": false,
         "attributes": {}
     }

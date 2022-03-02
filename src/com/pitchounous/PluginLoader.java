@@ -59,7 +59,7 @@ public class PluginLoader {
 		PluginLoader pl = PluginLoader.getInstance();
 		pl.createPluginDescriptors();
 
-		// We check for plugin that need direct instanciation
+		// We check for plugin that need direct instantiation
 		for (List<PluginDescriptor> o : pl.pluginDescriptors.values()) {
 			for (PluginDescriptor pd : o) {
 				if (pd.isAutorun()) {
@@ -120,15 +120,11 @@ public class PluginLoader {
 						"X - Class " + pd.getClassName() + " not found for plugin " + pd.getFullClassPath());
 			}
 		}
-		for (Class<?> c : this.pluginDescriptors.keySet()) {
-			System.out.println(c + " - " + this.pluginDescriptors.get(c));
-		}
 	}
 
 	/**
 	 * @param intenf
-	 * @return
-	 *         Return all PluginDescriptor for a given super class
+	 * @return all PluginDescriptor for a given super class
 	 */
 	public List<PluginDescriptor> getPluginDescriptors(Class<?> intenf) {
 		if (this.pluginDescriptors.get(intenf) != null)

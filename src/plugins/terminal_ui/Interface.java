@@ -6,6 +6,9 @@ import asciiPanel.AsciiPanel;
 import plugins.roguelike.ui.BasicUI;
 import plugins.roguelike.world.World;
 
+/**
+ * Terminal like interface using Ascii-panel library
+ */
 public class Interface extends BasicUI {
 
 	private AsciiPanel terminal;
@@ -14,6 +17,11 @@ public class Interface extends BasicUI {
 	private final int SCREEN_WIDTH = 80;
 	private final int SCREEN_HEIGHT = 60;
 
+	/**
+	 * Terminal UI plugin
+	 * 
+	 * @param world
+	 */
 	public Interface(World world) {
 		super(world);
 
@@ -27,19 +35,33 @@ public class Interface extends BasicUI {
 		repaint();
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public AsciiPanel getTerminal() {
 		return terminal;
 	}
 
+	/**
+	 * Display the board composed of tiles
+	 */
 	public void render() {
 		camera.lookAt(terminal, world, world.getPlayer().getX(), world.getPlayer().getY());
 		terminal.repaint();
 	}
 
+	/**
+	 * Print GAME OVER message
+	 */
 	public void renderGameOver() {
 		System.out.println("GAME OVER - interface");
 	}
 
+	/**
+	 * Main thread to handle game FPS and ticks
+	 * We are processing keyboard inputs and displaying the board
+	 */
 	@Override
 	public void start() {
 		final double FRAMES_PER_SECOND = 60;
@@ -75,6 +97,9 @@ public class Interface extends BasicUI {
 		System.exit(0);
 	}
 
+	/**
+	 * Make the world update by a move
+	 */
 	public void update() {
 		try {
 			world.update();
@@ -84,6 +109,9 @@ public class Interface extends BasicUI {
 		}
 	}
 
+	/**
+	 * Process keyboard input
+	 */
 	@Override
 	protected void processInput() {
 		world.processInput(kl.getLastInput());

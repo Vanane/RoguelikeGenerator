@@ -13,78 +13,77 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.*;
 
 public class PluginSelectorUI {
 
     Frame mainFrame;
 
-    List<PluginDescriptor> selectedTiles;
-    List<PluginDescriptor> selectedCreatures;
-    List<PluginDescriptor> selectedUIs;
+    List<DescriptorCategory> categories;
 
     public boolean isOpen;
 
-    public PluginSelectorUI(
-            List<PluginDescriptor> tileDescriptors,
-            List<PluginDescriptor> creatureDescriptors,
-            List<PluginDescriptor> uiDescriptors) {
-
-        selectedTiles = new ArrayList<>();
-        selectedUIs = new ArrayList<>();
-        selectedCreatures = new ArrayList<>();
+    /**
+     * Simple ui to make the user select his favorite plugins to load
+     * 
+     * @param categories
+     */
+    public PluginSelectorUI(List<DescriptorCategory> categories) {
+        this.categories = categories;
 
         mainFrame = new Frame("Plugin Loader Window");
-        mainFrame.setSize(400, 400);
-        mainFrame.setLayout(new GridLayout(3, 1));
+        mainFrame.setSize(600, 600);
+        mainFrame.setLayout(new GridLayout(10, 5));
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
                 hide();
             }
         });
 
-        // Limiting to only one choice for UI
-        CheckboxGroup uiChoices = new CheckboxGroup();
-        for (PluginDescriptor uiType : uiDescriptors) {
-            mainFrame.add(this.createCB(uiType, false, uiChoices, selectedUIs));
-        }
+        this.addCheckBoxForCategories();
 
-        for (PluginDescriptor tilePD : tileDescriptors) {
-            mainFrame.add(this.createCB(tilePD, false, null, selectedTiles));
-        }
-
-        for (PluginDescriptor creaturePD : creatureDescriptors) {
-            mainFrame.add(this.createCB(creaturePD, false, null, selectedCreatures));
-        }
-
-        Button exit = new Button("EXIT");
+        Button exit = new Button("Start the game");
         exit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 hide();
             }
         });
         mainFrame.add(exit);
-
         mainFrame.setVisible(true);
     }
 
     /**
-     * 
-     * @param pd
-     * @param isActive
-     * @param checkboxGroup
-     * @param activeListToUpdate
-     * @return
+     * For each plugin categories we create dedicated checkboxes
      */
-    private Checkbox createCB(
-            PluginDescriptor pd, Boolean isActive,
-            CheckboxGroup checkboxGroup, List<PluginDescriptor> activeListToUpdate) {
-        Checkbox tilCB = new Checkbox(pd.getPluginName(), isActive, checkboxGroup);
-        tilCB.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                activeListToUpdate.add(pd);
+    private void addCheckBoxForCategories() {
+        CheckboxGroup checkboxGroup;
+        boolean selectedByDefault;
+        for (DescriptorCategory dc : this.categories) {
+            mainFrame.add(new Label(dc.baseClass.getSimpleName() + " plugins"));
+
+            checkboxGroup = (dc.atLeastOneRequired) ? new CheckboxGroup() : null;
+            for (int i = 0; i < dc.descriptors.size(); i++) {
+                PluginDescriptor pd = dc.descriptors.get(i);
+
+                // Ensure first element is selected if at least one is required
+                selectedByDefault = (dc.atLeastOneRequired && i == 0);
+                Checkbox tilCB = new Checkbox(pd.getPluginName(), selectedByDefault, checkboxGroup);
+                if (selectedByDefault) {
+                    dc.selectPluginDescriptor(pd);
+                }
+
+                tilCB.addItemListener(new ItemListener() {
+                    public void itemStateChanged(ItemEvent e) {
+                        if (e.getStateChange() == ItemEvent.SELECTED) {
+                            dc.selectPluginDescriptor(pd);
+                        } else {
+                            dc.unselectPluginDescriptor(pd);
+                        }
+                    }
+                });
+                mainFrame.add(tilCB);
             }
-        });
-        return tilCB;
+        }
     }
 
     public void showWindowDemo() {
@@ -98,27 +97,24 @@ public class PluginSelectorUI {
     }
 
     /**
+     * We return selected plugins
      * 
+     * @param baseClass
      * @return
      */
-    public List<PluginDescriptor> getUserSelectedTiles() {
-        return this.selectedTiles;
-    }
+    public List<PluginDescriptor> getSelectedPluginForBaseClass(Class<?> baseClass) {
+        DescriptorCategory dc = null;
+        for (DescriptorCategory cat : this.categories) {
+            if (cat.baseClass == baseClass) {
+                dc = cat;
+                break;
+            }
+        }
 
-    /**
-     * 
-     * @return
-     */
-    public PluginDescriptor getUserSelectedUI() {
-        // Return last selected UI
-        return this.selectedUIs.get(this.selectedUIs.size() - 1);
-    }
-
-    /**
-     * 
-     * @return
-     */
-    public List<PluginDescriptor> getUserSelectedCreatures() {
-        return this.selectedCreatures;
+        List<PluginDescriptor> selectedDescriptors = new ArrayList<>();
+        if (dc != null) {
+            selectedDescriptors.addAll(dc.getSelectedDescriptors());
+        }
+        return selectedDescriptors;
     }
 }

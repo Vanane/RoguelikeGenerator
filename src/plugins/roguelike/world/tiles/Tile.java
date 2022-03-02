@@ -10,6 +10,7 @@ public abstract class Tile extends Entity {
     private boolean isCrossable;
 
     /**
+     * Base abstract class to create world tiles
      * 
      * @param type
      * @param stringColor
@@ -25,13 +26,14 @@ public abstract class Tile extends Entity {
 
     /**
      * 
-     * @return
+     * @return boolean
      */
     public boolean isCrossable() {
         return isCrossable;
     }
 
     /**
+     * Transfer some behavior to the derived tile classes
      * 
      * @param c
      */

@@ -6,7 +6,9 @@ import plugins.roguelike.entities.creatures.Creature;
 import plugins.roguelike.world.tiles.Tile;
 
 public class Fire extends Tile {
+
     /**
+     * Fire tile that hurts every creature trying to stand on it
      * 
      * @param xpos
      * @param ypos

@@ -5,7 +5,9 @@ import java.awt.Color;
 import plugins.roguelike.entities.creatures.Creature;
 
 public class Wall extends Tile {
+
     /**
+     * A really simple wall in brick
      * 
      * @param xPos
      * @param yPos

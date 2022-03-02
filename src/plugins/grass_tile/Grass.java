@@ -6,7 +6,10 @@ import plugins.roguelike.entities.creatures.Creature;
 import plugins.roguelike.world.tiles.Tile;
 
 public class Grass extends Tile {
+
     /**
+     * Simple patch of grass. Judging by its length,
+     * no lawnmower have been here for a long time ...
      * 
      * @param xpos
      * @param ypos

@@ -6,12 +6,13 @@ import java.util.Random;
 import plugins.roguelike.entities.Entity;
 import plugins.roguelike.world.World;
 
-public class Creature extends Entity {
+public abstract class Creature extends Entity {
 
 	int hp;
 	int attack;
 
 	/**
+	 * Base abstract class to create new creature like zombie or sheep
 	 * 
 	 * @param type
 	 * @param color
@@ -27,6 +28,7 @@ public class Creature extends Entity {
 	}
 
 	/**
+	 * Move the creature to another cell of the board
 	 * 
 	 * @param world
 	 * @param dx
@@ -46,6 +48,8 @@ public class Creature extends Entity {
 	}
 
 	/**
+	 * Update the game state by a 'tick', in this case we move the creatures and
+	 * make them attack if necessary
 	 * 
 	 * @param world
 	 */

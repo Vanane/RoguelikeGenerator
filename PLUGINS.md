@@ -10,6 +10,7 @@ Template to add a new plugin to the file:
     "version":"1.0",
     "language":"FR",
     "jarDependencies": [],
+    "pluginDependencies": ["basePluginName"],
     "autorun": false,
     "attributes":
     {

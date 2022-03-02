@@ -6,6 +6,11 @@ import plugins.roguelike.world.World;
 public class GameWindow extends BasicUI {
     GamePanel gp;
 
+    /**
+     * Full AWT ui
+     * 
+     * @param world
+     */
     public GameWindow(World world) {
         super(world);
 
@@ -13,6 +18,9 @@ public class GameWindow extends BasicUI {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Dedicated responsibility to awt GamePanel
+     */
     public void addNotify() {
         super.addNotify();
 

@@ -10,6 +10,7 @@ public class KeyHandler implements KeyListener {
     List<KeyEvent> keys = new ArrayList<>();
 
     /**
+     * Generic keyboard input handler
      * 
      * @return
      */

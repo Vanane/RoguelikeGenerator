@@ -13,6 +13,7 @@ public abstract class BasicUI extends Frame {
     protected boolean isRunning;
 
     /**
+     * Abstract class for UI
      * 
      * @param world
      */
@@ -35,7 +36,9 @@ public abstract class BasicUI extends Frame {
         });
     }
 
-    // main function responsible to start the interface
+    /**
+     * Main function responsible to start the interface
+     */
     public abstract void start();
 
     protected abstract void processInput();
