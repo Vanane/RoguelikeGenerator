@@ -6,7 +6,7 @@
         "className": "Roguelike",
         "version": "0.1",
         "language": "en",
-        "jarDependencies": [],
+        "jarDependencies": ["terminal_ui"],
         "pluginDependencies": [],
         "autorun": true,
         "attributes": {
