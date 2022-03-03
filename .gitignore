@@ -1,5 +1,7 @@
 # Dossier de build
 bin
+sources.txt
+
 # Compiled class file
 *.class
 

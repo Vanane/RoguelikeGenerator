@@ -64,11 +64,7 @@ Les prérequis pour pouvoir télécharger, compiler et exécuter ce logiciel son
 ### Windows (par ligne de commande)
 2. Depuis la racine du projet dans un invite de commande, compilez le programme :
 
-`javac -cp "src;lib/*;" .\src\com\pitchounous\PluginLoader.java -d bin`
-
-3. Toujours depuis l'invite de commande, exécutez le programme ainsi :
-
-`java -cp "bin;plugins;lib/*;" com.pitchounous.PluginLoader`
+`javac -cp "src;lib/*;src/plugins/*" -d bin .\src\com\pitchounous\PluginLoader.java @sources.txt`
 
 Il est possible de souhaiter compiler vers une autre destination. Dans ce cas, les fichiers de librairies externes devront être copiées manuellement dans le dossier de destination, et le dossier devra être référencé dans la commande d'exécution :
 
@@ -76,6 +72,9 @@ Il est possible de souhaiter compiler vers une autre destination. Dans ce cas, l
 
 ### Linux (par ligne de commande)
 2. Suivez la procédure pour Windows, mais remplacez les ; par des :
+
+### Windows (par exécutable)
+1. Lancez le programme build.bat
 
 ### Windows/Linux (par VS Code)
 Vous aurez besoin des extensions suivantes pour pouvoir build correctement (VS Code les propose lors de l'ouverture du projet) :
@@ -92,3 +91,6 @@ Il est possible de créer un JAR exécutable à l'aide de la commande JAR. Un fi
 ## Ressources utiles
 
 https://github.com/ZeroDoctor/yt-java-game/blob/master/game-decay/src/main/java/com/zerulus/game/GameLauncher.java
+
+
+
