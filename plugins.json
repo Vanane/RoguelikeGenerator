@@ -10,7 +10,7 @@
         "pluginDependencies": ["terminal_ui"],
         "autorun": true,
         "attributes": {
-            "default_arguments": [80, 60]
+            "default_arguments": []
         }
     },
     /* Tiles */

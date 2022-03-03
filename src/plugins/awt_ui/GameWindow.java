@@ -14,8 +14,8 @@ public class GameWindow extends BasicUI {
     public GameWindow(World world) {
         super(world);
 
-        pack();
-        setLocationRelativeTo(null);
+        this.pack();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -25,7 +25,7 @@ public class GameWindow extends BasicUI {
         super.addNotify();
 
         gp = new GamePanel(720, 720, world, kl, isRunning);
-        add(gp);
+        this.add(gp);
         // setContentPane(gp);
     }
 

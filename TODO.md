@@ -1,5 +1,8 @@
 # TODO
 
+## TODO
+- [ ] Orienter le TODOvers des fonctionnalités testables
+
 ## Chargement des plugins
 
 - [x] Charger les plugins depuis le Json
@@ -22,7 +25,7 @@
 - [x] Permettre de rajouter des plugins d'objets activables
 - [ ] Changer le comportement du jeu pendant la partie
 - [ ] Ajouter des probabilité pour la présencede chaque tuile
-
+- [ ] Faire en sorte que l'on puisse jouer sans fin même après le Game Over
 
 ## Création des plugins
 

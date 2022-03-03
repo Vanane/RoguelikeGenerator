@@ -30,9 +30,10 @@ public class Interface extends BasicUI {
 		terminal = new AsciiPanel(SCREEN_WIDTH, SCREEN_HEIGHT);
 		camera = new AsciiCamera(mapDimensions, gameViewArea);
 
-		add(terminal);
-		setSize(SCREEN_WIDTH * 9, SCREEN_HEIGHT * 16);
-		repaint();
+		this.add(terminal);
+		this.setSize(SCREEN_WIDTH * 9, SCREEN_HEIGHT * 16);
+		this.setLocationRelativeTo(null);
+		this.repaint();
 	}
 
 	/**
