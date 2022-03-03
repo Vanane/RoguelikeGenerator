@@ -93,7 +93,7 @@ public class PluginSelectorUI {
 
     public void hide() {
         isOpen = false;
-        mainFrame.setVisible(false);
+        //mainFrame.setVisible(false);
     }
 
     /**
