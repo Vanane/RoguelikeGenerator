@@ -10,8 +10,8 @@ import com.pitchounous.PluginDescriptor;
 import com.pitchounous.PluginLoader;
 import com.pitchounous.PluginSelectorUI;
 
+import plugins.roguelike.entities.behaviours.Behaviour;
 import plugins.roguelike.entities.creatures.Creature;
-import plugins.roguelike.entities.creatures.Player;
 import plugins.roguelike.ui.BasicUI;
 import plugins.roguelike.world.World;
 import plugins.roguelike.world.WorldBuilder;
@@ -25,6 +25,7 @@ public class Roguelike {
     PluginLoader pl;
     Set<Class<?>> pluginCreatures;
     Set<Class<?>> pluginTiles;
+    Class<?> pluginBehaviour;
     Class<?> pluginUIClass;
 
     final int mapWidth = 60;
@@ -43,8 +44,7 @@ public class Roguelike {
 
         this.showPluginSelectorUI();
 
-        Player player = new Player(10, 10);
-        World world = createWorld(player);
+        World world = createWorld();
         BasicUI ui = buildUI(world);
 
         ui.start();
@@ -62,6 +62,9 @@ public class Roguelike {
                 new DescriptorCategory(Creature.class, this.pl.getPluginDescriptors(Creature.class), false));
         sortedDescriptors.add(
                 new DescriptorCategory(BasicUI.class, this.pl.getPluginDescriptors(BasicUI.class), true));
+        sortedDescriptors.add(
+            new DescriptorCategory(Behaviour.class, this.pl.getPluginDescriptors(Behaviour.class), true)
+        );
 
         // Open the windows and wait for the user to select is favorite plugins
         PluginSelectorUI ui = new PluginSelectorUI(sortedDescriptors);
@@ -76,7 +79,9 @@ public class Roguelike {
         List<PluginDescriptor> tileDescriptors = ui.getSelectedPluginForBaseClass(Tile.class);
         List<PluginDescriptor> creatureDescriptors = ui.getSelectedPluginForBaseClass(Creature.class);
         List<PluginDescriptor> uiDescriptors = ui.getSelectedPluginForBaseClass(BasicUI.class);
-        this.loadSelectedPlugins(tileDescriptors, creatureDescriptors, uiDescriptors.get(0));
+        List<PluginDescriptor> behaviourDescriptor = ui.getSelectedPluginForBaseClass(Behaviour.class);
+
+        this.loadSelectedPlugins(tileDescriptors, creatureDescriptors, uiDescriptors.get(0), behaviourDescriptor.get(0));
     }
 
     /**
@@ -89,7 +94,8 @@ public class Roguelike {
     private void loadSelectedPlugins(
             List<PluginDescriptor> tileDescriptors,
             List<PluginDescriptor> creatureDescriptors,
-            PluginDescriptor uiDescriptor) {
+            PluginDescriptor uiDescriptor,
+            PluginDescriptor behaviourDescriptor) {
         // can add some choice here to filter tiles / creatures / ui / ...
         this.pluginTiles = new HashSet<>();
         for (PluginDescriptor pd : tileDescriptors) {
@@ -102,6 +108,7 @@ public class Roguelike {
         }
 
         pluginUIClass = this.pl.getPluginDescriptorClass(uiDescriptor);
+        pluginBehaviour = this.pl.getPluginDescriptorClass(behaviourDescriptor);
     }
 
     /**
@@ -110,10 +117,11 @@ public class Roguelike {
      * @param player
      * @return
      */
-    private World createWorld(Player player) {
-        return new WorldBuilder(mapWidth, mapHeight, pluginTiles, pluginCreatures, player)
+    private World createWorld() {
+        return new WorldBuilder(mapWidth, mapHeight, pluginTiles, pluginCreatures, pluginBehaviour)
                 .fillWithWall()
                 .createRandomWalkCave(12232, 10, 10, 6000)
+                .addPlayer(10, 10)
                 .populateWorld(10)
                 .build();
     }

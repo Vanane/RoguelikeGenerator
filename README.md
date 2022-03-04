@@ -64,7 +64,10 @@ Les prérequis pour pouvoir télécharger, compiler et exécuter ce logiciel son
 ### Windows (par ligne de commande)
 2. Depuis la racine du projet dans un invite de commande, compilez le programme :
 
-`javac -cp "src;lib/*;src/plugins/*" -d bin .\src\com\pitchounous\PluginLoader.java @sources.txt`
+`javac -cp "src;lib/*;" -d bin .\src\com\pitchounous\PluginLoader.java @sources.txt`
+
+3. Pour exécuter, toujours depuis la racine, lancer la commande : 
+`java -cp "bin;lib/*" com.pitchounous.PluginLoader`
 
 Il est possible de souhaiter compiler vers une autre destination. Dans ce cas, les fichiers de librairies externes devront être copiées manuellement dans le dossier de destination, et le dossier devra être référencé dans la commande d'exécution :
 

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import plugins.roguelike.entities.behaviours.Behaviour;
 import plugins.roguelike.entities.creatures.Creature;
 import plugins.roguelike.entities.creatures.Player;
 import plugins.roguelike.entities.creatures.Sheep;
@@ -22,6 +23,7 @@ public class WorldBuilder {
 	Tile[][] tiles;
 	List<Class<?>> availableTileTypes;
 	List<Class<?>> availableCreatureTypes;
+    Class<?> creatureBehaviour;
 
 	Set<Creature> creatures;
 
@@ -37,8 +39,7 @@ public class WorldBuilder {
 	 * @param player
 	 */
 	public WorldBuilder(int width, int height,
-			Set<Class<?>> pluginTiles, Set<Class<?>> pluginCreatures,
-			Player player) {
+			Set<Class<?>> pluginTiles, Set<Class<?>> pluginCreatures, Class<?> pluginBehaviour) {
 		this.width = width;
 		this.height = height;
 		tiles = new Tile[width][height];
@@ -53,7 +54,7 @@ public class WorldBuilder {
 		pluginTiles.add(Ground.class);
 		availableTileTypes = new ArrayList<Class<?>>(pluginTiles);
 
-		this.player = player;
+        this.creatureBehaviour = pluginBehaviour;
 	}
 
 	/**
@@ -94,11 +95,13 @@ public class WorldBuilder {
 	public Creature createCreature(Class<?> creatureType, int x, int y) {
 		Creature c = null;
 
-		Class<?>[] parameters = { int.class, int.class };
+		Class<?>[] creatureParams = { int.class, int.class };
 		try {
-			c = (Creature) creatureType.getDeclaredConstructor(parameters).newInstance(x, y);
+			c = (Creature) creatureType.getDeclaredConstructor(creatureParams).newInstance(x, y);
+            c.setBehaviour(this.creatureBehaviour);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+                    System.err.println("WorldBuilder.java:createCreature::107 - " + e.getMessage());
 		}
 		return c;
 	}
@@ -109,7 +112,8 @@ public class WorldBuilder {
 	 * @return
 	 */
 	public World build() {
-		return new World(tiles, creatures, player);
+		World world = new World(tiles, creatures, player);
+        return world;
 	}
 
 	/**
@@ -161,6 +165,13 @@ public class WorldBuilder {
 		}
 		return this;
 	}
+
+
+    public WorldBuilder addPlayer(int x, int y)
+    {
+        this.player = new Player(x, y);
+        return this;
+    }
 
 	/**
 	 * Populate world with different creatures

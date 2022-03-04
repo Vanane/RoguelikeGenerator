@@ -123,6 +123,6 @@ public class PluginDescriptor {
      * @return
      */
     public String getFullClassPath() {
-        return "plugins." + getPluginName() + "." + getClassName();
+        return "plugins." + getClassName();
     }
 }

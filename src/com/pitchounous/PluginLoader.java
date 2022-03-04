@@ -12,15 +12,6 @@ import java.util.List;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
-// Required as .class files are not generated when javac is called
-import plugins.fire_tile.Fire;
-import plugins.grass_tile.Grass;
-import plugins.terminal_ui.Interface;
-import plugins.awt_ui.GameWindow;
-import plugins.wolf_creature.Wolf;
-import plugins.health_potion.HealthPotion;
-import plugins.roguelike.Roguelike;
-
 public class PluginLoader {
 
 	private final static String CONFIG_FILENAME = "plugins.json";
@@ -95,7 +86,7 @@ public class PluginLoader {
 			String className = pd.getClassName();
 			try {
 				// Try to load class to ensure everything is ok
-				Class<?> pluginClass = Class.forName(pd.getFullClassPath());
+				 Class<?> pluginClass = Class.forName(pd.getFullClassPath());
 				missingJarFile = new ArrayList<>();
 				for (String jarFilename : pd.getJarDependencies()) {
 					if (!(new File("lib" + File.separator + jarFilename).exists())) {

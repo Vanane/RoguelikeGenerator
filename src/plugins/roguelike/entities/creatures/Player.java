@@ -2,6 +2,8 @@ package plugins.roguelike.entities.creatures;
 
 import java.awt.Color;
 
+import plugins.roguelike.entities.behaviours.EmptyBehaviour;
+
 public class Player extends Creature {
 
     /**
@@ -12,5 +14,6 @@ public class Player extends Creature {
      */
     public Player(int xPos, int yPos) {
         super("player", Color.YELLOW, 10, 10, xPos, yPos);
+        this.behaviour = new EmptyBehaviour(this);
     }
 }

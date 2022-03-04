@@ -3,7 +3,7 @@
     {
         "pluginName": "roguelike",
         "description": "Roguelike game",
-        "className": "Roguelike",
+        "className": "roguelike.Roguelike",
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
@@ -17,7 +17,7 @@
     {
         "pluginName": "grass_tile",
         "description": "Add a grass tile",
-        "className": "Grass",
+        "className": "grass_tile.Grass",
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
@@ -28,7 +28,7 @@
     {
         "pluginName": "fire_tile",
         "description": "Add a fire tile that burns",
-        "className": "Fire",
+        "className": "fire_tile.Fire",
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
@@ -39,7 +39,7 @@
     {
         "pluginName": "health_potion",
         "description": "Add a tile containing a potion that restores hp",
-        "className": "HealthPotion",
+        "className": "health_potion.HealthPotion",
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
@@ -51,7 +51,7 @@
     {
         "pluginName": "wolf_creature",
         "description": "A big predator",
-        "className": "Wolf",
+        "className": "wolf_creature.Wolf",
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
@@ -59,11 +59,40 @@
         "autorun": false,
         "attributes": {}
     },
+    /* Behaviours */
+    {
+        "pluginName": "DefaultBehaviour",
+        "description": "DefaultBehaviour",
+        "className": "roguelike.entities.behaviours.DefaultBehaviour",
+        "version": "0.1",
+        "language": "en",
+        "jarDependencies": [],
+        "pluginDependencies": ["roguelike"],
+        "autorun": true,
+        "attributes": {
+            "creatureCompatible": [],
+            "default_arguments": []
+        }
+    },
+    /* Behaviours */
+    {
+        "pluginName": "CircleBehaviour",
+        "description": "Creatures will run in circle",
+        "className": "roguelike.entities.behaviours.CircleBehaviour",
+        "version": "0.1",
+        "language": "en",
+        "jarDependencies": [],
+        "pluginDependencies": ["roguelike"],
+        "autorun": false,
+        "attributes": {
+            "creatureCompatible": ["sheep"]
+        }
+    },
     /* UI classes */
     {
         "pluginName": "terminal_ui",
         "description": "Add a terminal like interface",
-        "className": "Interface",
+        "className": "terminal_ui.Interface",
         "version": "0.1",
         "language": "en",
         "jarDependencies": [
@@ -76,7 +105,7 @@
     {
         "pluginName": "awt_ui",
         "description": "Add a pure AWT interface",
-        "className": "GameWindow",
+        "className": "awt_ui.GameWindow",
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
@@ -84,5 +113,6 @@
         "autorun": false,
         "attributes": {}
     }
+    
     /* Player classes not implemented yet */
 ]

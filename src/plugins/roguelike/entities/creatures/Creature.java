@@ -1,13 +1,15 @@
 package plugins.roguelike.entities.creatures;
 
 import java.awt.Color;
-import java.util.Random;
+import java.lang.reflect.InvocationTargetException;
 
 import plugins.roguelike.entities.Entity;
+import plugins.roguelike.entities.behaviours.Behaviour;
 import plugins.roguelike.world.World;
 
 public abstract class Creature extends Entity {
-
+    protected World world;
+    protected Behaviour behaviour;
 	int hp;
 	int attack;
 
@@ -30,11 +32,10 @@ public abstract class Creature extends Entity {
 	/**
 	 * Move the creature to another cell of the board
 	 * 
-	 * @param world
 	 * @param dx
 	 * @param dy
 	 */
-	public void move(World world, int dx, int dy) {
+	public void move(int dx, int dy) {
 		if (world.isTileCrossable(x + dx, y + dy)) {
 			x += dx;
 			y += dy;
@@ -50,28 +51,10 @@ public abstract class Creature extends Entity {
 	/**
 	 * Update the game state by a 'tick', in this case we move the creatures and
 	 * make them attack if necessary
-	 * 
-	 * @param world
 	 */
-	public void update(World world) {
-		Random rnd = new Random();
-		int performAction = rnd.nextInt(100);
-		if (performAction > 98) {
-
-			// Moving on a cell with another creature on it make
-			// this creature attacking the other
-			int rndNr = rnd.nextInt(3);
-			if (rndNr == 0) {
-				move(world, 1, 0);
-			} else if (rndNr == 1) {
-				move(world, -1, 0);
-			} else if (rndNr == 2) {
-				move(world, 0, 1);
-			} else if (rndNr == 3) {
-				move(world, 0, -1);
-			}
-		}
-	}
+	public void update() {
+        behaviour.update();
+    }
 
 	/**
 	 * 
@@ -88,4 +71,16 @@ public abstract class Creature extends Entity {
 	public void setHp(int hp) {
 		this.hp = hp;
 	}
+
+
+    public void attachToWorld(World world) throws Exception
+    {
+        if(this.world != null) throw new Exception("Creature already bound to a world");
+        this.world = world;
+    }
+
+    public void setBehaviour(Class<?> b) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException
+    {
+        this.behaviour = (Behaviour) b.getDeclaredConstructor(new Class<?>[] { Creature.class }).newInstance(this);
+    }
 }

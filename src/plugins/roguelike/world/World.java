@@ -28,6 +28,21 @@ public class World {
 	 */
 	public World(Tile[][] tiles, Set<Creature> creatures, Player player) {
 		this.creatures = new ArrayList<>(creatures);
+        try {
+            player.attachToWorld(this);
+        } catch(Exception e)
+        {
+            System.out.println("Player already attached to a world, can't continue");
+            System.exit(1);
+        }
+        for (Creature creature : creatures) {
+            try {
+                creature.attachToWorld(this);    
+            } catch(Exception e) {
+                System.out.println("Creature already attached to a world, skipping");
+            }
+        }
+
 		this.creatures.add(player);
 
 		this.tiles = tiles;
@@ -109,7 +124,7 @@ public class World {
 
 				// Making other creatures moving
 			} else if (!creature.equals(player)) {
-				creature.update(this);
+				creature.update();
 			}
 		}
 	}
@@ -127,16 +142,16 @@ public class World {
 		System.out.println("Touch pressed: " + ke.getKeyCode());
 		switch (ke.getKeyCode()) {
 			case KeyEvent.VK_LEFT:
-				player.move(this, -1, 0);
+				player.move(-1, 0);
 				break;
 			case KeyEvent.VK_RIGHT:
-				player.move(this, 1, 0);
+				player.move(1, 0);
 				break;
 			case KeyEvent.VK_UP:
-				player.move(this, 0, -1);
+				player.move(0, -1);
 				break;
 			case KeyEvent.VK_DOWN:
-				player.move(this, 0, 1);
+				player.move(0, 1);
 				break;
 		}
 	}
