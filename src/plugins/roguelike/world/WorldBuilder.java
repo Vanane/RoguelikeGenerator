@@ -2,12 +2,14 @@ package plugins.roguelike.world;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
 import plugins.roguelike.entities.behaviours.Behaviour;
+import plugins.roguelike.entities.behaviours.DefaultBehaviour;
 import plugins.roguelike.entities.creatures.Creature;
 import plugins.roguelike.entities.creatures.Player;
 import plugins.roguelike.entities.creatures.Sheep;
@@ -23,7 +25,7 @@ public class WorldBuilder {
 	Tile[][] tiles;
 	List<Class<?>> availableTileTypes;
 	List<Class<?>> availableCreatureTypes;
-    Class<?> creatureBehaviour;
+    HashMap<Class<?>, Class<?>> creatureBehaviours;
 
 	Set<Creature> creatures;
 
@@ -39,22 +41,25 @@ public class WorldBuilder {
 	 * @param player
 	 */
 	public WorldBuilder(int width, int height,
-			Set<Class<?>> pluginTiles, Set<Class<?>> pluginCreatures, Class<?> pluginBehaviour) {
+			Set<Class<?>> pluginTiles, Set<Class<?>> pluginCreatures, HashMap<Class<?>, Class<?>> pluginBehaviours) {
 		this.width = width;
 		this.height = height;
 		tiles = new Tile[width][height];
 		creatures = new HashSet<Creature>();
+        creatureBehaviours = new HashMap<>();
 
-		// Set ensure only one occurrence of the class
+		// Ajouter les créatures par défaut
 		pluginCreatures.add(Zombie.class);
 		pluginCreatures.add(Sheep.class);
 		availableCreatureTypes = new ArrayList<Class<?>>(pluginCreatures);
 
-		// Set ensure only one occurrence of the class
+		// Ajouter les tiles par défaut
 		pluginTiles.add(Ground.class);
 		availableTileTypes = new ArrayList<Class<?>>(pluginTiles);
-
-        this.creatureBehaviour = pluginBehaviour;
+        
+        creatureBehaviours.put(Zombie.class, DefaultBehaviour.class);
+        creatureBehaviours.put(Sheep.class, DefaultBehaviour.class);
+        creatureBehaviours.putAll(pluginBehaviours);
 	}
 
 	/**
@@ -96,9 +101,12 @@ public class WorldBuilder {
 		Creature c = null;
 
 		Class<?>[] creatureParams = { int.class, int.class };
-		try {
+        Class<?> creatureBehaviour = this.creatureBehaviours.get(creatureType);
+        System.out.println("Giving creature " +creatureType.getSimpleName() + " the behaviour " + creatureBehaviour);
+
+        try {            
 			c = (Creature) creatureType.getDeclaredConstructor(creatureParams).newInstance(x, y);
-            c.setBehaviour(this.creatureBehaviour);
+            c.setBehaviour(creatureBehaviour);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
                     System.err.println("WorldBuilder.java:createCreature::107 - " + e.getMessage());

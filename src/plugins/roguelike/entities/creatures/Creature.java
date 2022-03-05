@@ -81,6 +81,7 @@ public abstract class Creature extends Entity {
 
     public void setBehaviour(Class<?> b) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException
     {
+        if(b == null) throw new InvocationTargetException(null, "Given Behaviour for "+ this.getClass().getSimpleName() + " was null");
         this.behaviour = (Behaviour) b.getDeclaredConstructor(new Class<?>[] { Creature.class }).newInstance(this);
     }
 }

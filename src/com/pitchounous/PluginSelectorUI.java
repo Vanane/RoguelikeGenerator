@@ -12,6 +12,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import java.awt.*;
@@ -20,17 +21,19 @@ public class PluginSelectorUI {
 
     Frame mainFrame;
 
-    List<DescriptorCategory> categories;
+    List<DescriptorCategory> checkboxCategories;
+    HashMap<PluginDescriptor, DescriptorCategory> choiceCategories;
 
     public boolean isOpen;
 
     /**
      * Simple ui to make the user select his favorite plugins to load
      * 
-     * @param categories
+     * @param chkCat
      */
-    public PluginSelectorUI(List<DescriptorCategory> categories) {
-        this.categories = categories;
+    public PluginSelectorUI(List<DescriptorCategory> chkCat, HashMap<PluginDescriptor, DescriptorCategory> choiceCat) {
+        this.checkboxCategories = chkCat;
+        this.choiceCategories = choiceCat;
 
         mainFrame = new Frame("Plugin Loader Window");
         mainFrame.setSize(600, 600);
@@ -42,6 +45,7 @@ public class PluginSelectorUI {
         });
 
         this.addCheckBoxForCategories();
+        this.addComboBoxForBehaviours();
 
         Button exit = new Button("Start the game");
         exit.addActionListener(new ActionListener() {
@@ -59,7 +63,7 @@ public class PluginSelectorUI {
     private void addCheckBoxForCategories() {
         CheckboxGroup checkboxGroup;
         boolean selectedByDefault;
-        for (DescriptorCategory dc : this.categories) {
+        for (DescriptorCategory dc : this.checkboxCategories) {
             mainFrame.add(new Label(dc.baseClass.getSimpleName() + " plugins"));
 
             checkboxGroup = (dc.atLeastOneRequired) ? new CheckboxGroup() : null;
@@ -87,6 +91,48 @@ public class PluginSelectorUI {
         }
     }
 
+
+    private void addComboBoxForBehaviours()
+    {
+        /*TODO :
+        Pour chaque créature :
+            Créer une catégorie
+            Créer un Combobox avec en choix les PluginDescriptor
+            Il faut proposer que les pluginDescriptors compatibles avec la créature
+        */
+        for(PluginDescriptor key : this.choiceCategories.keySet())
+        {
+            System.out.println("Drawing behaviour for " + key.getPluginName());
+            mainFrame.add(new Label("Behaviour for " + key.getPluginName() + " :"));
+            
+            DescriptorCategory dc = this.choiceCategories.get(key);
+
+            // Créer la combobox qui va bien
+            Choice comboBox = new Choice();            
+            comboBox.addItemListener(new ItemListener() {
+                int lastIndex = -1;
+                @Override
+                public void itemStateChanged(ItemEvent e) {                    
+                    if (e.getStateChange() == ItemEvent.SELECTED) {
+                        if(lastIndex > -1) {
+                            dc.unselectPluginDescriptor(dc.descriptors.get(lastIndex));                            
+                        }                        
+                        dc.selectPluginDescriptor(dc.descriptors.get(comboBox.getSelectedIndex()));
+                        lastIndex = comboBox.getSelectedIndex();
+                    }
+                }
+            });
+
+            // Pour chaque Behaviour de la créature, on l'ajoute à la combobox
+            for(PluginDescriptor pd : dc.descriptors)
+            {
+            System.out.println("    - For creature " + key.getPluginName() + ", plugin " + pd.getClassName());
+                comboBox.add(pd.getPluginName());
+            }
+            mainFrame.add((comboBox));
+        }
+    }
+
     public void showWindowDemo() {
         isOpen = true;
         mainFrame.setVisible(true);
@@ -105,7 +151,7 @@ public class PluginSelectorUI {
      */
     public List<PluginDescriptor> getSelectedPluginForBaseClass(Class<?> baseClass) {
         DescriptorCategory dc = null;
-        for (DescriptorCategory cat : this.categories) {
+        for (DescriptorCategory cat : this.checkboxCategories) {
             if (cat.baseClass == baseClass) {
                 dc = cat;
                 break;
@@ -117,5 +163,25 @@ public class PluginSelectorUI {
             selectedDescriptors.addAll(dc.getSelectedDescriptors());
         }
         return selectedDescriptors;
+    }
+
+
+    /**
+     * Retourne le Behaviour sélectionné pour chaque créature
+     * @return
+     */
+    public HashMap<PluginDescriptor, PluginDescriptor> getSelectedPluginsForBehaviours() {
+        HashMap<PluginDescriptor, PluginDescriptor> plugins = new HashMap<>();
+
+        for(PluginDescriptor pd : this.choiceCategories.keySet())
+        {
+            List<PluginDescriptor> descriptors = new ArrayList<>();
+            descriptors.addAll(this.choiceCategories.get(pd).getSelectedDescriptors());
+            PluginDescriptor selectedBehaviour = descriptors.get(0);
+
+            plugins.put(pd, selectedBehaviour);
+        }
+
+        return plugins;
     }
 }

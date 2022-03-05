@@ -68,13 +68,11 @@
         "language": "en",
         "jarDependencies": [],
         "pluginDependencies": ["roguelike"],
-        "autorun": true,
+        "autorun": false,
         "attributes": {
-            "creatureCompatible": [],
-            "default_arguments": []
+            "canUseThisBehaviour": []
         }
     },
-    /* Behaviours */
     {
         "pluginName": "CircleBehaviour",
         "description": "Creatures will run in circle",
@@ -85,7 +83,20 @@
         "pluginDependencies": ["roguelike"],
         "autorun": false,
         "attributes": {
-            "creatureCompatible": ["sheep"]
+            "canUseThisBehaviour": []
+        }
+    },
+    {
+        "pluginName": "Target Behaviour",
+        "description": "Will track player if near enough",
+        "className": "roguelike.entities.behaviours.TargetBehaviour",
+        "version": "0.1",
+        "language": "en",
+        "jarDependencies": [],
+        "pluginDependencies": ["roguelike"],
+        "autorun": false,
+        "attributes": {
+            "canUseThisBehaviour": ["zombie"]
         }
     },
     /* UI classes */
