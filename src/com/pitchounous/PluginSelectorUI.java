@@ -16,6 +16,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class PluginSelectorUI {
 
@@ -127,6 +128,9 @@ public class PluginSelectorUI {
                 System.out.println("    - For creature " + key.getPluginName() + ", plugin " + pd.getClassName());
                 comboBox.add(pd.getPluginName());
             }
+
+            // Select first element by default
+            dc.selectPluginDescriptor(dc.descriptors.get(0));
             mainFrame.add((comboBox));
         }
     }
@@ -172,10 +176,8 @@ public class PluginSelectorUI {
         HashMap<PluginDescriptor, PluginDescriptor> plugins = new HashMap<>();
 
         for (PluginDescriptor pd : this.choiceCategories.keySet()) {
-            List<PluginDescriptor> descriptors = new ArrayList<>();
-            descriptors.addAll(this.choiceCategories.get(pd).getSelectedDescriptors());
-            PluginDescriptor selectedBehaviour = descriptors.get(0);
-
+        	Set<PluginDescriptor> descriptors = this.choiceCategories.get(pd).getSelectedDescriptors();
+            PluginDescriptor selectedBehaviour = descriptors.iterator().next();
             plugins.put(pd, selectedBehaviour);
         }
 

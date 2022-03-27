@@ -86,19 +86,6 @@
             "canUseThisBehaviour": []
         }
     },
-    {
-        "pluginName": "Target Behaviour",
-        "description": "Will track player if near enough",
-        "className": "roguelike.entities.behaviours.TargetBehaviour",
-        "version": "0.1",
-        "language": "en",
-        "jarDependencies": [],
-        "pluginDependencies": ["roguelike"],
-        "autorun": false,
-        "attributes": {
-            "canUseThisBehaviour": ["zombie"]
-        }
-    },
     /* UI classes */
     {
         "pluginName": "terminal_ui",
@@ -124,6 +111,6 @@
         "autorun": false,
         "attributes": {}
     }
-    
+
     /* Player classes not implemented yet */
 ]

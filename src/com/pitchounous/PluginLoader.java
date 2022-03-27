@@ -161,7 +161,7 @@ public class PluginLoader {
 			plugin = c.newInstance(args);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-			System.err.println("La classe " + pluginClass.getSimpleName() + "n'a pas pu �tre charg�e");
+			System.err.println("La classe " + pluginClass.getSimpleName() + " n'a pas pu être chargée");
 			e.printStackTrace();
 		}
 		return plugin;

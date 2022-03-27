@@ -49,7 +49,6 @@ public class Roguelike {
         this.pl = PluginLoader.getInstance();
 
         this.showPluginSelectorUI();
-
         World world = createWorld();
         BasicUI ui = buildUI(world);
 
@@ -69,27 +68,28 @@ public class Roguelike {
         sortedDescriptors.add(
                 new DescriptorCategory(BasicUI.class, this.pl.getPluginDescriptors(BasicUI.class), true));
 
-        // Pour chaque cr�ature charg�e, on liste les Behaviours compatibles,
-        // Et on les ajoute � une liste pour l'�cran de s�lection des plugins.
+        // Pour chaque créature chargée, on liste les Behaviours compatibles,
+        // Et on les ajoute à une liste pour l'écran de sélection des plugins.
         HashMap<PluginDescriptor, DescriptorCategory> choiceDescriptors = new HashMap<>();
 
+        List<PluginDescriptor> behaviours = this.pl.getPluginDescriptors(Behaviour.class);
         for (PluginDescriptor creaturePd : this.pl.getPluginDescriptors(Creature.class)) {
-            List<PluginDescriptor> behaviourDescriptors = new ArrayList<>(); // Liste des behaviours compatibles avec la
-                                                                             // cr�ature courante
-            for (PluginDescriptor behaviour : this.pl.getPluginDescriptors(Behaviour.class)) {
-                ArrayList<String> behaviourAttributes = (ArrayList<String>) behaviour.getAttributes()
+            List<PluginDescriptor> compatibleBehaviours = new ArrayList<>();
+            for (PluginDescriptor behaviour : behaviours) {
+                ArrayList<String> behaviourCreatures = (ArrayList<String>) behaviour.getAttributes()
                         .get("canUseThisBehaviour");
 
-                if (behaviourAttributes.size() > 0 && !behaviourAttributes.contains(creaturePd.getPluginName()))
+                if (behaviourCreatures.size() > 0 && !behaviourCreatures.contains(creaturePd.getPluginName())) {
                     continue;
-                else
-                    behaviourDescriptors.add(behaviour);
+                } else {
+                    compatibleBehaviours.add(behaviour);
+                }
             }
             choiceDescriptors.put(
-                    creaturePd, new DescriptorCategory(Behaviour.class, behaviourDescriptors, true));
+                    creaturePd, new DescriptorCategory(Behaviour.class, compatibleBehaviours, true));
         }
 
-        // Open the windows and wait for the user to select is favorite plugins
+        // Open the windows and wait for the user to select his favorite plugins
         PluginSelectorUI ui = new PluginSelectorUI(sortedDescriptors, choiceDescriptors);
         ui.showWindowDemo();
         while (ui.isOpen) {
