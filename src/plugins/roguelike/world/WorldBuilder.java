@@ -48,12 +48,12 @@ public class WorldBuilder {
 		creatures = new HashSet<Creature>();
         creatureBehaviours = new HashMap<>();
 
-		// Ajouter les crÃ©atures par dÃ©faut
+		// Ajouter les créatures par défaut
 		pluginCreatures.add(Zombie.class);
 		pluginCreatures.add(Sheep.class);
 		availableCreatureTypes = new ArrayList<Class<?>>(pluginCreatures);
 
-		// Ajouter les tiles par dÃ©faut
+		// Ajouter les tiles par défaut
 		pluginTiles.add(Ground.class);
 		availableTileTypes = new ArrayList<Class<?>>(pluginTiles);
         

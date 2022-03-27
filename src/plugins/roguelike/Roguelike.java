@@ -28,7 +28,7 @@ public class Roguelike {
     Set<Class<?>> pluginCreatures;
     Set<Class<?>> pluginTiles;
 
-    /** Plugin Behaviour dÃ©fini pour chaque crÃ©ature
+    /** Plugin Behaviour défini pour chaque créature
      * @T1 Type Creature
      * @T2 Type Behaviour */
     HashMap<Class<?>, Class<?>> pluginBehaviours;
@@ -68,13 +68,13 @@ public class Roguelike {
             new DescriptorCategory(BasicUI.class, this.pl.getPluginDescriptors(BasicUI.class), true));
             
          
-        // Pour chaque crÃ©ature chargÃ©e, on liste les Behaviours compatibles, 
-        // Et on les ajoute Ã  une liste pour l'Ã©cran de sÃ©lection des plugins.
+        // Pour chaque créature chargée, on liste les Behaviours compatibles, 
+        // Et on les ajoute à une liste pour l'écran de sélection des plugins.
         HashMap<PluginDescriptor, DescriptorCategory> choiceDescriptors = new HashMap<>();
 
         for(PluginDescriptor creaturePd : this.pl.getPluginDescriptors(Creature.class))
         {
-            List<PluginDescriptor> behaviourDescriptors = new ArrayList<>(); // Liste des behaviours compatibles avec la crÃ©ature courante
+            List<PluginDescriptor> behaviourDescriptors = new ArrayList<>(); // Liste des behaviours compatibles avec la créature courante
             for(PluginDescriptor behaviour : this.pl.getPluginDescriptors(Behaviour.class))
             {
                 ArrayList<String> behaviourAttributes = (ArrayList<String>) behaviour.getAttributes().get("canUseThisBehaviour");

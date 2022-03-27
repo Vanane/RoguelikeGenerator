@@ -6,7 +6,7 @@ import java.util.Random;
 import plugins.roguelike.entities.creatures.Creature;
 
 public class CircleBehaviour extends Behaviour {
-    /** Contient le timestamp du dernier mouvement fait par la crÃ©ature */
+    /** Contient le timestamp du dernier mouvement fait par la créature */
     private long lastMoveTime;
     private int nextX, nextY;
 

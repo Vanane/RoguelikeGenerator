@@ -95,10 +95,10 @@ public class PluginSelectorUI {
     private void addComboBoxForBehaviours()
     {
         /*TODO :
-        Pour chaque crÃ©ature :
-            CrÃ©er une catÃ©gorie
-            CrÃ©er un Combobox avec en choix les PluginDescriptor
-            Il faut proposer que les pluginDescriptors compatibles avec la crÃ©ature
+        Pour chaque créature :
+            Créer une catégorie
+            Créer un Combobox avec en choix les PluginDescriptor
+            Il faut proposer que les pluginDescriptors compatibles avec la créature
         */
         for(PluginDescriptor key : this.choiceCategories.keySet())
         {
@@ -107,7 +107,7 @@ public class PluginSelectorUI {
             
             DescriptorCategory dc = this.choiceCategories.get(key);
 
-            // CrÃ©er la combobox qui va bien
+            // Créer la combobox qui va bien
             Choice comboBox = new Choice();            
             comboBox.addItemListener(new ItemListener() {
                 int lastIndex = -1;
@@ -123,7 +123,7 @@ public class PluginSelectorUI {
                 }
             });
 
-            // Pour chaque Behaviour de la crÃ©ature, on l'ajoute Ã  la combobox
+            // Pour chaque Behaviour de la créature, on l'ajoute à la combobox
             for(PluginDescriptor pd : dc.descriptors)
             {
             System.out.println("    - For creature " + key.getPluginName() + ", plugin " + pd.getClassName());
@@ -167,7 +167,7 @@ public class PluginSelectorUI {
 
 
     /**
-     * Retourne le Behaviour sÃ©lectionnÃ© pour chaque crÃ©ature
+     * Retourne le Behaviour sélectionné pour chaque créature
      * @return
      */
     public HashMap<PluginDescriptor, PluginDescriptor> getSelectedPluginsForBehaviours() {
