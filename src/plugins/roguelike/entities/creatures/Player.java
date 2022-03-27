@@ -8,7 +8,7 @@ public class Player extends Creature {
 
     /**
      * Player object, little 'P' on the map
-     * 
+     *
      * @param xPos
      * @param yPos
      */

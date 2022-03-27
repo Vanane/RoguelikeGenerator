@@ -11,7 +11,7 @@ public class KeyHandler implements KeyListener {
 
     /**
      * Generic keyboard input handler
-     * 
+     *
      * @return
      */
     public KeyEvent getLastInput() {

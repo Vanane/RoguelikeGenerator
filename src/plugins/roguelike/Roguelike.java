@@ -1,7 +1,6 @@
 package plugins.roguelike;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,9 +27,12 @@ public class Roguelike {
     Set<Class<?>> pluginCreatures;
     Set<Class<?>> pluginTiles;
 
-    /** Plugin Behaviour défini pour chaque créature
+    /**
+     * Plugin Behaviour dï¿½fini pour chaque crï¿½ature
+     *
      * @T1 Type Creature
-     * @T2 Type Behaviour */
+     * @T2 Type Behaviour
+     */
     HashMap<Class<?>, Class<?>> pluginBehaviours;
 
     Class<?> pluginUIClass;
@@ -61,31 +63,30 @@ public class Roguelike {
         // Load config variables from plugins.json
         List<DescriptorCategory> sortedDescriptors = new ArrayList<>();
         sortedDescriptors.add(
-            new DescriptorCategory(Tile.class, this.pl.getPluginDescriptors(Tile.class), false));
+                new DescriptorCategory(Tile.class, this.pl.getPluginDescriptors(Tile.class), false));
         sortedDescriptors.add(
-            new DescriptorCategory(Creature.class, this.pl.getPluginDescriptors(Creature.class), false));
+                new DescriptorCategory(Creature.class, this.pl.getPluginDescriptors(Creature.class), false));
         sortedDescriptors.add(
-            new DescriptorCategory(BasicUI.class, this.pl.getPluginDescriptors(BasicUI.class), true));
-            
-         
-        // Pour chaque créature chargée, on liste les Behaviours compatibles, 
-        // Et on les ajoute à une liste pour l'écran de sélection des plugins.
+                new DescriptorCategory(BasicUI.class, this.pl.getPluginDescriptors(BasicUI.class), true));
+
+        // Pour chaque crï¿½ature chargï¿½e, on liste les Behaviours compatibles,
+        // Et on les ajoute ï¿½ une liste pour l'ï¿½cran de sï¿½lection des plugins.
         HashMap<PluginDescriptor, DescriptorCategory> choiceDescriptors = new HashMap<>();
 
-        for(PluginDescriptor creaturePd : this.pl.getPluginDescriptors(Creature.class))
-        {
-            List<PluginDescriptor> behaviourDescriptors = new ArrayList<>(); // Liste des behaviours compatibles avec la créature courante
-            for(PluginDescriptor behaviour : this.pl.getPluginDescriptors(Behaviour.class))
-            {
-                ArrayList<String> behaviourAttributes = (ArrayList<String>) behaviour.getAttributes().get("canUseThisBehaviour");
+        for (PluginDescriptor creaturePd : this.pl.getPluginDescriptors(Creature.class)) {
+            List<PluginDescriptor> behaviourDescriptors = new ArrayList<>(); // Liste des behaviours compatibles avec la
+                                                                             // crï¿½ature courante
+            for (PluginDescriptor behaviour : this.pl.getPluginDescriptors(Behaviour.class)) {
+                ArrayList<String> behaviourAttributes = (ArrayList<String>) behaviour.getAttributes()
+                        .get("canUseThisBehaviour");
 
-                if(behaviourAttributes.size() > 0 && !behaviourAttributes.contains(creaturePd.getPluginName()))
+                if (behaviourAttributes.size() > 0 && !behaviourAttributes.contains(creaturePd.getPluginName()))
                     continue;
                 else
                     behaviourDescriptors.add(behaviour);
             }
             choiceDescriptors.put(
-                creaturePd, new DescriptorCategory(Behaviour.class, behaviourDescriptors, true));
+                    creaturePd, new DescriptorCategory(Behaviour.class, behaviourDescriptors, true));
         }
 
         // Open the windows and wait for the user to select is favorite plugins
@@ -108,7 +109,7 @@ public class Roguelike {
 
     /**
      * Load three different types of required plugins
-     * 
+     *
      * @param tileDescriptors
      * @param creatureDescriptors
      * @param uiDescriptor
@@ -128,19 +129,20 @@ public class Roguelike {
         for (PluginDescriptor pd : creatureDescriptors) {
             this.pluginCreatures.add(pl.getPluginDescriptorClass(pd));
         }
-        
+
         pluginUIClass = this.pl.getPluginDescriptorClass(uiDescriptor);
 
         this.pluginBehaviours = new HashMap<>();
-        for(PluginDescriptor creature : behaviourDescriptors.keySet()) {
-            this.pluginBehaviours.put(pl.getPluginDescriptorClass(creature), pl.getPluginDescriptorClass(behaviourDescriptors.get(creature)));
+        for (PluginDescriptor creature : behaviourDescriptors.keySet()) {
+            this.pluginBehaviours.put(pl.getPluginDescriptorClass(creature),
+                    pl.getPluginDescriptorClass(behaviourDescriptors.get(creature)));
         }
 
     }
 
     /**
      * Instantiate the game world
-     * 
+     *
      * @param player
      * @return
      */
@@ -155,7 +157,7 @@ public class Roguelike {
 
     /**
      * Create the UI
-     * 
+     *
      * @param world
      * @return
      */

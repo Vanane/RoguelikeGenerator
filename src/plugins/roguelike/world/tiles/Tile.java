@@ -11,7 +11,7 @@ public abstract class Tile extends Entity {
 
     /**
      * Base abstract class to create world tiles
-     * 
+     *
      * @param type
      * @param stringColor
      * @param xPos
@@ -25,7 +25,7 @@ public abstract class Tile extends Entity {
     }
 
     /**
-     * 
+     *
      * @return boolean
      */
     public boolean isCrossable() {
@@ -34,7 +34,7 @@ public abstract class Tile extends Entity {
 
     /**
      * Transfer some behavior to the derived tile classes
-     * 
+     *
      * @param c
      */
     public void onStep(Creature c) {

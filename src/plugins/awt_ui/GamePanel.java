@@ -25,7 +25,7 @@ public class GamePanel extends Panel implements Runnable {
 
         /**
          * Fully working AWT ui
-         * 
+         *
          * @param width
          * @param height
          * @param world
@@ -170,7 +170,7 @@ public class GamePanel extends Panel implements Runnable {
         }
 
         /**
-         * 
+         *
          */
         private void drawLegend() {
                 int squareWidth = (int) (width / world.width);

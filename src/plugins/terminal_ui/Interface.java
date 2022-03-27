@@ -19,7 +19,7 @@ public class Interface extends BasicUI {
 
 	/**
 	 * Terminal UI plugin
-	 * 
+	 *
 	 * @param world
 	 */
 	public Interface(World world) {
@@ -37,7 +37,7 @@ public class Interface extends BasicUI {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public AsciiPanel getTerminal() {

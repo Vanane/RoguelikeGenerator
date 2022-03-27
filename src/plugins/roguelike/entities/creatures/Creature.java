@@ -8,14 +8,14 @@ import plugins.roguelike.entities.behaviours.Behaviour;
 import plugins.roguelike.world.World;
 
 public abstract class Creature extends Entity {
-    protected World world;
-    protected Behaviour behaviour;
+	protected World world;
+	protected Behaviour behaviour;
 	int hp;
 	int attack;
 
 	/**
 	 * Base abstract class to create new creature like zombie or sheep
-	 * 
+	 *
 	 * @param type
 	 * @param color
 	 * @param hp
@@ -31,7 +31,7 @@ public abstract class Creature extends Entity {
 
 	/**
 	 * Move the creature to another cell of the board
-	 * 
+	 *
 	 * @param dx
 	 * @param dy
 	 */
@@ -53,11 +53,11 @@ public abstract class Creature extends Entity {
 	 * make them attack if necessary
 	 */
 	public void update() {
-        behaviour.update();
-    }
+		behaviour.update();
+	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public int getHp() {
@@ -65,23 +65,24 @@ public abstract class Creature extends Entity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param hp
 	 */
 	public void setHp(int hp) {
 		this.hp = hp;
 	}
 
+	public void attachToWorld(World world) throws Exception {
+		if (this.world != null)
+			throw new Exception("Creature already bound to a world");
+		this.world = world;
+	}
 
-    public void attachToWorld(World world) throws Exception
-    {
-        if(this.world != null) throw new Exception("Creature already bound to a world");
-        this.world = world;
-    }
-
-    public void setBehaviour(Class<?> b) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException
-    {
-        if(b == null) throw new InvocationTargetException(null, "Given Behaviour for "+ this.getClass().getSimpleName() + " was null");
-        this.behaviour = (Behaviour) b.getDeclaredConstructor(new Class<?>[] { Creature.class }).newInstance(this);
-    }
+	public void setBehaviour(Class<?> b) throws InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		if (b == null)
+			throw new InvocationTargetException(null,
+					"Given Behaviour for " + this.getClass().getSimpleName() + " was null");
+		this.behaviour = (Behaviour) b.getDeclaredConstructor(new Class<?>[] { Creature.class }).newInstance(this);
+	}
 }

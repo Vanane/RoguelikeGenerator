@@ -9,7 +9,7 @@ public class Fire extends Tile {
 
     /**
      * Fire tile that hurts every creature trying to stand on it
-     * 
+     *
      * @param xpos
      * @param ypos
      */

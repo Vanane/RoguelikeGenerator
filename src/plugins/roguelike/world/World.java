@@ -1,5 +1,6 @@
 package plugins.roguelike.world;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -7,8 +8,6 @@ import java.util.Set;
 import plugins.roguelike.entities.creatures.Creature;
 import plugins.roguelike.entities.creatures.Player;
 import plugins.roguelike.world.tiles.Tile;
-
-import java.awt.event.KeyEvent;
 
 public class World {
 
@@ -21,27 +20,26 @@ public class World {
 
 	/**
 	 * World that stores game state, creatures and tiles
-	 * 
+	 *
 	 * @param tiles
 	 * @param creatures
 	 * @param player
 	 */
 	public World(Tile[][] tiles, Set<Creature> creatures, Player player) {
 		this.creatures = new ArrayList<>(creatures);
-        try {
-            player.attachToWorld(this);
-        } catch(Exception e)
-        {
-            System.out.println("Player already attached to a world, can't continue");
-            System.exit(1);
-        }
-        for (Creature creature : creatures) {
-            try {
-                creature.attachToWorld(this);    
-            } catch(Exception e) {
-                System.out.println("Creature already attached to a world, skipping");
-            }
-        }
+		try {
+			player.attachToWorld(this);
+		} catch (Exception e) {
+			System.out.println("Player already attached to a world, can't continue");
+			System.exit(1);
+		}
+		for (Creature creature : creatures) {
+			try {
+				creature.attachToWorld(this);
+			} catch (Exception e) {
+				System.out.println("Creature already attached to a world, skipping");
+			}
+		}
 
 		this.creatures.add(player);
 
@@ -53,7 +51,7 @@ public class World {
 
 	/**
 	 * Return the tile at a specific location
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 * @return
@@ -66,7 +64,7 @@ public class World {
 
 	/**
 	 * Get Alive Creatures
-	 * 
+	 *
 	 * @return
 	 */
 	public List<Creature> getAliveCreatures() {
@@ -75,7 +73,7 @@ public class World {
 
 	/**
 	 * Return the player
-	 * 
+	 *
 	 * @return
 	 */
 	public Player getPlayer() {
@@ -84,7 +82,7 @@ public class World {
 
 	/**
 	 * Retrieve a creature from a given position if there is one
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 * @return
@@ -98,7 +96,7 @@ public class World {
 
 	/**
 	 * Test if a given tile as no creature on it and is crossable
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 * @return
@@ -131,7 +129,7 @@ public class World {
 
 	/**
 	 * Process keyboard arrow inputs
-	 * 
+	 *
 	 * @param ke
 	 */
 	public void processInput(KeyEvent ke) {

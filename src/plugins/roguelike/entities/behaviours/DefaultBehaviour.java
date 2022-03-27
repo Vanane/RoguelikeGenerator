@@ -5,15 +5,13 @@ import java.util.Random;
 import plugins.roguelike.entities.creatures.Creature;
 
 public class DefaultBehaviour extends Behaviour {
-    public DefaultBehaviour(Creature c)
-    {
-        super(c);
-    }
+	public DefaultBehaviour(Creature c) {
+		super(c);
+	}
 
-
-    @Override
-    public void update() {
-        Random rnd = new Random();
+	@Override
+	public void update() {
+		Random rnd = new Random();
 		int performAction = rnd.nextInt(100);
 		if (performAction > 98) {
 
@@ -31,7 +29,6 @@ public class DefaultBehaviour extends Behaviour {
 			}
 		}
 
-        
-    }
-    
+	}
+
 }

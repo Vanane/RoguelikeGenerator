@@ -11,7 +11,7 @@ public class HealthPotion extends ActivableTile {
     /**
      * Simple Health potion lying on the dirty floor
      * The ancestor of the blue potion of Fortnite
-     * 
+     *
      * @param xPos
      * @param yPos
      */

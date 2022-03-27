@@ -13,7 +13,7 @@ public class Entity {
 
 	/**
 	 * Base class to create an entity on the board like create or tiles
-	 * 
+	 *
 	 * @param type
 	 * @param charColor
 	 * @param backColor
@@ -29,7 +29,7 @@ public class Entity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public int getX() {
@@ -37,7 +37,7 @@ public class Entity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public int getY() {
@@ -45,7 +45,7 @@ public class Entity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public char getGlyph() {
@@ -53,7 +53,7 @@ public class Entity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public String getType() {
@@ -61,7 +61,7 @@ public class Entity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public Color getColor() {
@@ -69,7 +69,7 @@ public class Entity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public Color getBackgroundColor() {

@@ -10,7 +10,7 @@ public abstract class ActivableTile extends Tile {
 
     /**
      * Abstract tile for single time action
-     * 
+     *
      * @param type
      * @param stringColor
      * @param xPos

@@ -19,7 +19,7 @@ public class AsciiCamera {
     int mapHeight;
 
     /**
-     * 
+     *
      * @param Bounds
      * @param viewArea
      */
@@ -32,7 +32,7 @@ public class AsciiCamera {
     }
 
     /**
-     * 
+     *
      * @param xfocus
      * @param yfocus
      * @return
@@ -45,7 +45,7 @@ public class AsciiCamera {
 
     /**
      * Update camera position to follow the player
-     * 
+     *
      * @param terminal
      * @param world
      * @param xfocus

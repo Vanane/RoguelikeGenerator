@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import plugins.roguelike.entities.behaviours.Behaviour;
 import plugins.roguelike.entities.behaviours.DefaultBehaviour;
 import plugins.roguelike.entities.creatures.Creature;
 import plugins.roguelike.entities.creatures.Player;
@@ -25,7 +24,7 @@ public class WorldBuilder {
 	Tile[][] tiles;
 	List<Class<?>> availableTileTypes;
 	List<Class<?>> availableCreatureTypes;
-    HashMap<Class<?>, Class<?>> creatureBehaviours;
+	HashMap<Class<?>, Class<?>> creatureBehaviours;
 
 	Set<Creature> creatures;
 
@@ -33,7 +32,7 @@ public class WorldBuilder {
 
 	/**
 	 * Simple world builder to create a nice world composed of tiles and creatures
-	 * 
+	 *
 	 * @param width
 	 * @param height
 	 * @param pluginTiles
@@ -46,25 +45,25 @@ public class WorldBuilder {
 		this.height = height;
 		tiles = new Tile[width][height];
 		creatures = new HashSet<Creature>();
-        creatureBehaviours = new HashMap<>();
+		creatureBehaviours = new HashMap<>();
 
-		// Ajouter les créatures par défaut
+		// Ajouter les crï¿½atures par dï¿½faut
 		pluginCreatures.add(Zombie.class);
 		pluginCreatures.add(Sheep.class);
 		availableCreatureTypes = new ArrayList<Class<?>>(pluginCreatures);
 
-		// Ajouter les tiles par défaut
+		// Ajouter les tiles par dï¿½faut
 		pluginTiles.add(Ground.class);
 		availableTileTypes = new ArrayList<Class<?>>(pluginTiles);
-        
-        creatureBehaviours.put(Zombie.class, DefaultBehaviour.class);
-        creatureBehaviours.put(Sheep.class, DefaultBehaviour.class);
-        creatureBehaviours.putAll(pluginBehaviours);
+
+		creatureBehaviours.put(Zombie.class, DefaultBehaviour.class);
+		creatureBehaviours.put(Sheep.class, DefaultBehaviour.class);
+		creatureBehaviours.putAll(pluginBehaviours);
 	}
 
 	/**
 	 * Create a new tile
-	 * 
+	 *
 	 * @param type
 	 * @param x
 	 * @param y
@@ -91,7 +90,7 @@ public class WorldBuilder {
 
 	/**
 	 * Create a new creature
-	 * 
+	 *
 	 * @param creatureType
 	 * @param x
 	 * @param y
@@ -101,32 +100,32 @@ public class WorldBuilder {
 		Creature c = null;
 
 		Class<?>[] creatureParams = { int.class, int.class };
-        Class<?> creatureBehaviour = this.creatureBehaviours.get(creatureType);
-        System.out.println("Giving creature " +creatureType.getSimpleName() + " the behaviour " + creatureBehaviour);
+		Class<?> creatureBehaviour = this.creatureBehaviours.get(creatureType);
+		System.out.println("Giving creature " + creatureType.getSimpleName() + " the behaviour " + creatureBehaviour);
 
-        try {            
+		try {
 			c = (Creature) creatureType.getDeclaredConstructor(creatureParams).newInstance(x, y);
-            c.setBehaviour(creatureBehaviour);
+			c.setBehaviour(creatureBehaviour);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-                    System.err.println("WorldBuilder.java:createCreature::107 - " + e.getMessage());
+			System.err.println("WorldBuilder.java:createCreature::107 - " + e.getMessage());
 		}
 		return c;
 	}
 
 	/**
 	 * Finally instantiate the world with selected parameters
-	 * 
+	 *
 	 * @return
 	 */
 	public World build() {
 		World world = new World(tiles, creatures, player);
-        return world;
+		return world;
 	}
 
 	/**
 	 * Fill the world with walls
-	 * 
+	 *
 	 * @return
 	 */
 	public WorldBuilder fillWithWall() {
@@ -140,7 +139,7 @@ public class WorldBuilder {
 
 	/**
 	 * Create a room surrounded by walls
-	 * 
+	 *
 	 * @return
 	 */
 	public WorldBuilder addBorders() {
@@ -158,7 +157,7 @@ public class WorldBuilder {
 
 	/**
 	 * Carve walls to make some space to move for creature
-	 * 
+	 *
 	 * @param topX
 	 * @param topY
 	 * @param width
@@ -174,16 +173,14 @@ public class WorldBuilder {
 		return this;
 	}
 
-
-    public WorldBuilder addPlayer(int x, int y)
-    {
-        this.player = new Player(x, y);
-        return this;
-    }
+	public WorldBuilder addPlayer(int x, int y) {
+		this.player = new Player(x, y);
+		return this;
+	}
 
 	/**
 	 * Populate world with different creatures
-	 * 
+	 *
 	 * @param nrOfCreatures
 	 * @return
 	 */
@@ -209,7 +206,7 @@ public class WorldBuilder {
 
 	/**
 	 * Carve walls based on a specific random seed
-	 * 
+	 *
 	 * @param seed
 	 * @param startX
 	 * @param startY

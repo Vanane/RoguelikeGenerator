@@ -21,7 +21,7 @@ public class PluginDescriptor {
     private boolean autorun;
 
     /**
-     * 
+     *
      * @param pluginName
      * @param description
      * @param className
@@ -119,7 +119,7 @@ public class PluginDescriptor {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public String getFullClassPath() {

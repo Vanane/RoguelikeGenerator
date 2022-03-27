@@ -8,7 +8,7 @@ public class Ground extends Tile {
 
     /**
      * Basic ground to populate world with
-     * 
+     *
      * @param xPos
      * @param yPos
      */

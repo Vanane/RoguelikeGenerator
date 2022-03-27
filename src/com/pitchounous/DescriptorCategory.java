@@ -12,7 +12,7 @@ public class DescriptorCategory {
 
     /**
      * Simple Category to regroup all plugin from the same base class
-     * 
+     *
      * @param descriptors
      * @param atLeastOneRequired
      */
@@ -25,7 +25,7 @@ public class DescriptorCategory {
 
     /**
      * Allow selection of some plugins
-     * 
+     *
      * @param pd
      */
     public void selectPluginDescriptor(PluginDescriptor pd) {
@@ -38,7 +38,7 @@ public class DescriptorCategory {
 
     /**
      * Allow to unselect some plugins
-     * 
+     *
      * @param pd
      */
     public void unselectPluginDescriptor(PluginDescriptor pd) {
@@ -50,7 +50,7 @@ public class DescriptorCategory {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public Set<PluginDescriptor> getSelectedDescriptors() {

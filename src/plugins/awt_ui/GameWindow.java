@@ -8,7 +8,7 @@ public class GameWindow extends BasicUI {
 
     /**
      * Full AWT ui
-     * 
+     *
      * @param world
      */
     public GameWindow(World world) {

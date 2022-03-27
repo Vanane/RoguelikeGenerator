@@ -6,7 +6,7 @@ public class Zombie extends Creature {
 
     /**
      * Basic zombie, attack sometimes, sleep sometimes ...
-     * 
+     *
      * @param xPos
      * @param yPos
      */

@@ -34,7 +34,7 @@ public class PluginLoader {
 
 	/**
 	 * Singleton constructor
-	 * 
+	 *
 	 * @param pluginInterfaces
 	 */
 	private PluginLoader() {
@@ -43,7 +43,7 @@ public class PluginLoader {
 
 	/**
 	 * Main entry point for the program
-	 * 
+	 *
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -86,7 +86,7 @@ public class PluginLoader {
 			String className = pd.getClassName();
 			try {
 				// Try to load class to ensure everything is ok
-				 Class<?> pluginClass = Class.forName(pd.getFullClassPath());
+				Class<?> pluginClass = Class.forName(pd.getFullClassPath());
 				missingJarFile = new ArrayList<>();
 				for (String jarFilename : pd.getJarDependencies()) {
 					if (!(new File("lib" + File.separator + jarFilename).exists())) {
@@ -138,7 +138,7 @@ public class PluginLoader {
 
 	/**
 	 * Instantiate directly class with passed arguments
-	 * 
+	 *
 	 * @param pd
 	 * @param args
 	 */
@@ -161,7 +161,7 @@ public class PluginLoader {
 			plugin = c.newInstance(args);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-			System.err.println("La classe " + pluginClass.getSimpleName() + "n'a pas pu être chargée");
+			System.err.println("La classe " + pluginClass.getSimpleName() + "n'a pas pu ï¿½tre chargï¿½e");
 			e.printStackTrace();
 		}
 		return plugin;

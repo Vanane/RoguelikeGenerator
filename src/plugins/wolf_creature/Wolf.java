@@ -8,7 +8,7 @@ public class Wolf extends Creature {
 
     /**
      * Simple Wolf creature
-     * 
+     *
      * @param xPos
      * @param yPos
      */

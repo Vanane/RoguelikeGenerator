@@ -14,7 +14,7 @@ public abstract class BasicUI extends Frame {
 
     /**
      * Abstract class for UI
-     * 
+     *
      * @param world
      */
     protected BasicUI(World world) {
