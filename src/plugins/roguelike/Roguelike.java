@@ -41,11 +41,8 @@ public class Roguelike {
     /**
      * This main plugin starts the entire game
      * !! A UI plugin must be selected
-     *
-     * @param screenWidth
-     * @param screenHeight
      */
-    public Roguelike(int screenWidth, int screenHeight) {
+    public Roguelike() {
         // Load config variables from plugins.json
         this.pl = PluginLoader.getInstance();
 

@@ -11,11 +11,11 @@ public class Grass extends Tile {
      * Simple patch of grass. Judging by its length,
      * no lawnmower have been here for a long time ...
      * 
-     * @param xpos
-     * @param ypos
+     * @param x
+     * @param y
      */
-    public Grass(int xpos, int ypos) {
-        super("grass", new Color(83, 135, 12), xpos, ypos, Color.BLACK, true);
+    public Grass(int x, int y) {
+        super("grass", new Color(83, 135, 12), x, y, Color.BLACK, true);
     }
 
     @Override

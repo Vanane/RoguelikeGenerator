@@ -23,7 +23,7 @@ public class PluginLoader {
 
 	/**
 	 * @param pluginInterfaces
-	 * @return singleton object created only if not already created previously
+	 * @return Singleton object created only if not already created previously
 	 */
 	public static PluginLoader getInstance() {
 		if (_INSTANCE == null) {
@@ -114,13 +114,12 @@ public class PluginLoader {
 	}
 
 	/**
-	 * @param intenf
+	 * @param baseClass
 	 * @return all PluginDescriptor for a given super class
 	 */
-	public List<PluginDescriptor> getPluginDescriptors(Class<?> intenf) {
-		if (this.pluginDescriptors.get(intenf) != null)
-			return this.pluginDescriptors.get(intenf);
-		return new ArrayList<>();
+	public List<PluginDescriptor> getPluginDescriptors(Class<?> baseClass) {
+		List<PluginDescriptor> descriptors = this.pluginDescriptors.get(baseClass);
+		return (descriptors == null) ? new ArrayList<>() : descriptors;
 	}
 
 	/**

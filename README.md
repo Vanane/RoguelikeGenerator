@@ -3,20 +3,6 @@ Projet de M2 MIAGE Architecture logicielle
 
 ## TODO
 
- - Add plugin dependencies to plugin and only load if required plugin is here
-
-- Merge GameWindow and GamePanel
-
-- Add more common behavior to BasicUI to factorize GamePanel and Interface
-
-- Add probability for tile creation
-
-- Make extension jar dependant has a check and move jar to plugin part
-
-- Make a UI to choose between plugins that need to be loaded
-
-- Make GamePanel UI refresh process better
-
 - Display player health on UI
 
 - Add comments

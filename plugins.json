@@ -7,10 +7,10 @@
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
-        "pluginDependencies": [],
+        "pluginDependencies": ["terminal_ui"],
         "autorun": true,
         "attributes": {
-            "default_arguments": [80, 60]
+            "default_arguments": []
         }
     },
     /* Tiles */
