@@ -212,25 +212,20 @@ public class Roguelike implements Observer {
     public void onFieldChanged(Observable source, FieldChangedEventArgs args) {
         System.out.println("Received message : " + args);
         try
-        {        	
-	    	if (source == pluginSelector) {    		
+        {
+	    	if (source == pluginSelector) {
 	        	switch(args.command) {
 	        		case "Behaviour" : // Redefine the behaviour of a creature
-	        			List<Creature> creatures = world.getAliveCreatures();
-	        			for(Creature c : creatures)
-	        			{
-	        				String creatureClass = c.getClass().getTypeName();
-	        				String givenClass = args.args.get("type");
-	        				String givenBehaviour = args.args.get("newPlugin");
-	        				if(givenClass == creatureClass)
-	        				{
-	        					Behaviour b = (Behaviour) pl.instantiatePluginClass(Class.forName(givenBehaviour),
-        							new Object[] { c },
-        							new Class[] { Creature.class});
-	        					c.setBehaviour(b);
-	        				}
-	        			}
+	        			loadBehaviourForCreature(args.args.get("type"), args.args.get("newPlugin"));
 	    			break;
+	        		case "Tile" :
+	        		case "Creature" : // Checkbox, radiobutton, rarely possible to change it on the fly
+	        			if(world != null)
+	        				resetWorld();
+        			break;
+        			default:
+        				System.out.println("Message ignored. Command : " + args.command);
+    				break;
 	        	}
 	    	}
         } catch(Exception e) {
@@ -245,8 +240,25 @@ public class Roguelike implements Observer {
      * @param behaviour
      * @param creature
      */
-    private void loadBehaviourForCreature(Behaviour behaviour, Creature creature)
+    private void loadBehaviourForCreature(String creatureClass, String behaviourClass)
     {
-    	
+		List<Creature> creatures = world.getAliveCreatures();
+		for(Creature c : creatures)
+		{
+			String currentCreature = c.getClass().getTypeName();
+			if(currentCreature == creatureClass)
+			{
+				Behaviour b;
+				try {
+					b = (Behaviour) pl.instantiatePluginClass(Class.forName(behaviourClass),
+						new Object[] { c },
+						new Class[] { Creature.class});
+					c.setBehaviour(b);
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
     }
 }

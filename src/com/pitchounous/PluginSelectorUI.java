@@ -93,10 +93,16 @@ public class PluginSelectorUI implements Observable {
                 tilCB.addItemListener(new ItemListener() {
                     public void itemStateChanged(ItemEvent e) {
                         if (e.getStateChange() == ItemEvent.SELECTED) {
-                            dc.selectPluginDescriptor(pd);
+                            dc.selectPluginDescriptor(pd);                            
                         } else {
                             dc.unselectPluginDescriptor(pd);
                         }
+                        
+                        FieldChangedEventArgs args = new FieldChangedEventArgs();
+                    	args.command = dc.baseClass.getSimpleName();
+                    	args.args = new HashMap<>();
+                    	args.args.put("type", "Toggle");
+                        notifyObject(args);
                     }
                 });
                 panel.add(tilCB);
