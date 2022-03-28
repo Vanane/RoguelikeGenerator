@@ -1,7 +1,6 @@
 package plugins.roguelike.entities.creatures;
 
 import java.awt.Color;
-import java.lang.reflect.InvocationTargetException;
 
 import plugins.roguelike.entities.Entity;
 import plugins.roguelike.entities.behaviours.Behaviour;
@@ -53,7 +52,7 @@ public abstract class Creature extends Entity {
 	 * make them attack if necessary
 	 */
 	public void update() {
-		behaviour.update();
+		this.behaviour.update();
 	}
 
 	/**
@@ -78,11 +77,7 @@ public abstract class Creature extends Entity {
 		this.world = world;
 	}
 
-	public void setBehaviour(Class<?> b) throws InstantiationException, IllegalAccessException,
-			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		if (b == null)
-			throw new InvocationTargetException(null,
-					"Given Behaviour for " + this.getClass().getSimpleName() + " was null");
-		this.behaviour = (Behaviour) b.getDeclaredConstructor(new Class<?>[] { Creature.class }).newInstance(this);
+	public void setBehaviour(Behaviour b) {
+		this.behaviour = b;
 	}
 }

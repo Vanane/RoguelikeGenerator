@@ -1,13 +1,15 @@
 [
     /* Roguelike game main logic */
     {
-        "pluginName": "roguelike",
+        "pluginName": "Roguelike",
         "description": "Roguelike game",
-        "className": "roguelike.Roguelike",
+        "className": "plugins.roguelike.Roguelike",
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
-        "pluginDependencies": ["terminal_ui"],
+        "pluginDependencies": [
+            "terminal_ui"
+        ],
         "autorun": true,
         "attributes": {
             "default_arguments": []
@@ -15,72 +17,69 @@
     },
     /* Tiles */
     {
-        "pluginName": "grass_tile",
+        "pluginName": "Grass Tile",
         "description": "Add a grass tile",
-        "className": "grass_tile.Grass",
+        "className": "plugins.grass_tile.Grass",
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
-        "pluginDependencies": ["roguelike"],
+        "pluginDependencies": [
+            "roguelike"
+        ],
         "autorun": false,
         "attributes": {}
     },
     {
-        "pluginName": "fire_tile",
+        "pluginName": "Fire Tile",
         "description": "Add a fire tile that burns",
-        "className": "fire_tile.Fire",
+        "className": "plugins.fire_tile.Fire",
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
-        "pluginDependencies": ["roguelike"],
+        "pluginDependencies": [
+            "roguelike"
+        ],
         "autorun": false,
         "attributes": {}
     },
     {
-        "pluginName": "health_potion",
+        "pluginName": "Health Potion",
         "description": "Add a tile containing a potion that restores hp",
-        "className": "health_potion.HealthPotion",
+        "className": "plugins.health_potion.HealthPotion",
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
-        "pluginDependencies": ["roguelike"],
+        "pluginDependencies": [
+            "roguelike"
+        ],
         "autorun": false,
         "attributes": {}
     },
     /* Creatures */
     {
-        "pluginName": "wolf_creature",
+        "pluginName": "Wolf Creature",
         "description": "A big predator",
-        "className": "wolf_creature.Wolf",
+        "className": "plugins.wolf_creature.Wolf",
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
-        "pluginDependencies": ["roguelike"],
+        "pluginDependencies": [
+            "roguelike"
+        ],
         "autorun": false,
         "attributes": {}
     },
     /* Behaviours */
     {
-        "pluginName": "DefaultBehaviour",
-        "description": "DefaultBehaviour",
-        "className": "roguelike.entities.behaviours.DefaultBehaviour",
-        "version": "0.1",
-        "language": "en",
-        "jarDependencies": [],
-        "pluginDependencies": ["roguelike"],
-        "autorun": false,
-        "attributes": {
-            "canUseThisBehaviour": []
-        }
-    },
-    {
-        "pluginName": "CircleBehaviour",
+        "pluginName": "Circle Behaviour",
         "description": "Creatures will run in circle",
-        "className": "roguelike.entities.behaviours.CircleBehaviour",
+        "className": "plugins.circle_behaviour.CircleBehaviour",
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
-        "pluginDependencies": ["roguelike"],
+        "pluginDependencies": [
+            "roguelike"
+        ],
         "autorun": false,
         "attributes": {
             "canUseThisBehaviour": []
@@ -88,29 +87,32 @@
     },
     /* UI classes */
     {
-        "pluginName": "terminal_ui",
+        "pluginName": "Terminal UI",
         "description": "Add a terminal like interface",
-        "className": "terminal_ui.Interface",
+        "className": "plugins.terminal_ui.Interface",
         "version": "0.1",
         "language": "en",
         "jarDependencies": [
             "ascii-panel-1.2.jar"
         ],
-        "pluginDependencies": ["roguelike"],
+        "pluginDependencies": [
+            "roguelike"
+        ],
         "autorun": false,
         "attributes": {}
     },
     {
-        "pluginName": "awt_ui",
+        "pluginName": "AWT UI",
         "description": "Add a pure AWT interface",
-        "className": "awt_ui.GameWindow",
+        "className": "plugins.awt_ui.GameWindow",
         "version": "0.1",
         "language": "en",
         "jarDependencies": [],
-        "pluginDependencies": ["roguelike"],
+        "pluginDependencies": [
+            "roguelike"
+        ],
         "autorun": false,
         "attributes": {}
     }
-
     /* Player classes not implemented yet */
 ]

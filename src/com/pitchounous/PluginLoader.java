@@ -86,7 +86,7 @@ public class PluginLoader {
 			String className = pd.getClassName();
 			try {
 				// Try to load class to ensure everything is ok
-				Class<?> pluginClass = Class.forName(pd.getFullClassPath());
+				Class<?> pluginClass = Class.forName(pd.getClassName());
 				missingJarFile = new ArrayList<>();
 				for (String jarFilename : pd.getJarDependencies()) {
 					if (!(new File("lib" + File.separator + jarFilename).exists())) {
@@ -108,7 +108,7 @@ public class PluginLoader {
 				System.out.println("Class " + className + " loaded from plugin " + pd.getPluginName());
 			} catch (ClassNotFoundException e) {
 				System.err.println(
-						"X - Class " + pd.getClassName() + " not found for plugin " + pd.getFullClassPath());
+						"X - Class " + pd.getClassName() + " not found for plugin " + pd.getClassName());
 			}
 		}
 	}
@@ -128,12 +128,27 @@ public class PluginLoader {
 	 */
 	public Class<?> getPluginDescriptorClass(PluginDescriptor pd) {
 		try {
-			return Class.forName(pd.getFullClassPath());
+			System.out.println(pd.getClassName());
+			System.out.println(pd.getPluginName());
+			return Class.forName(pd.getClassName());
 		} catch (ClassNotFoundException e) {
 			// Should never happened as it has already been tested
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public PluginDescriptor createPluginDescriptorFromClass(Class<?> c, HashMap<String, Object> attributes) {
+		return new PluginDescriptor(
+				c.getSimpleName(),
+				"Default plugin creation from inside the project for " + c.getClass(),
+				c.getName(),
+				"1.0",
+				"en",
+				attributes,
+				new ArrayList<>(),
+				new ArrayList<>(),
+				false);
 	}
 
 	/**

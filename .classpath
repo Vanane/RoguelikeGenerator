@@ -8,5 +8,7 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/alvin/Desktop/Travail/2021/M2/Architecture Logicielle/RoguelikeGenerator/lib/ascii-panel-1.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/alvin/Desktop/Travail/2021/M2/Architecture Logicielle/RoguelikeGenerator/lib/gson-2.8.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sam/eclipse-workspace/Roguelike/lib/ascii-panel-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sam/eclipse-workspace/Roguelike/lib/gson-2.8.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

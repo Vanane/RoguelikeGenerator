@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import plugins.roguelike.entities.behaviours.Behaviour;
 import plugins.roguelike.entities.behaviours.DefaultBehaviour;
 import plugins.roguelike.entities.creatures.Creature;
 import plugins.roguelike.entities.creatures.Player;
@@ -105,10 +106,14 @@ public class WorldBuilder {
 
 		try {
 			c = (Creature) creatureType.getDeclaredConstructor(creatureParams).newInstance(x, y);
-			c.setBehaviour(creatureBehaviour);
+			Behaviour behaviour = (Behaviour) creatureBehaviour
+					.getDeclaredConstructor(new Class<?>[] { Creature.class })
+					.newInstance(c);
+			c.setBehaviour(behaviour);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-			System.err.println("WorldBuilder.java:createCreature::107 - " + e.getMessage());
+			System.err.println("WorldBuilder.java:createCreature::107");
+			e.printStackTrace();
 		}
 		return c;
 	}

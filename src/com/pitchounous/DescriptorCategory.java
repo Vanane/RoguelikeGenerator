@@ -30,7 +30,7 @@ public class DescriptorCategory {
      */
     public void selectPluginDescriptor(PluginDescriptor pd) {
         if (!descriptors.contains(pd)) {
-            System.err.println("You tried to add " + pd.getFullClassPath() + " to the wrong category");
+            System.err.println("You tried to add " + pd.getClassName() + " to the wrong category");
         } else {
             selectedDescriptors.add(pd);
         }
@@ -43,7 +43,7 @@ public class DescriptorCategory {
      */
     public void unselectPluginDescriptor(PluginDescriptor pd) {
         if (!selectedDescriptors.contains(pd)) {
-            System.err.println("You tried to delete " + pd.getFullClassPath() + " while it has not been selected");
+            System.err.println("You tried to delete " + pd.getClassName() + " while it has not been selected");
         } else {
             selectedDescriptors.remove(pd);
         }

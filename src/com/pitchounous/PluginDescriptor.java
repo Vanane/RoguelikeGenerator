@@ -117,12 +117,4 @@ public class PluginDescriptor {
     public void setAutorun(boolean autorun) {
         this.autorun = autorun;
     }
-
-    /**
-     *
-     * @return
-     */
-    public String getFullClassPath() {
-        return "plugins." + getClassName();
-    }
 }
