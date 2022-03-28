@@ -13,6 +13,8 @@ import com.pitchounous.PluginSelectorUI;
 
 import plugins.roguelike.entities.behaviours.Behaviour;
 import plugins.roguelike.entities.creatures.Creature;
+import plugins.roguelike.patterns.Observable;
+import plugins.roguelike.patterns.Observer;
 import plugins.roguelike.ui.BasicUI;
 import plugins.roguelike.world.World;
 import plugins.roguelike.world.WorldBuilder;
@@ -21,11 +23,15 @@ import plugins.roguelike.world.tiles.Tile;
 /**
  * Main plugin
  */
-public class Roguelike {
+public class Roguelike implements Observer {
 
     PluginLoader pl;
+    PluginSelectorUI pluginSelector;
+    BasicUI gameUI;
     Set<Class<?>> pluginCreatures;
     Set<Class<?>> pluginTiles;
+    
+    World world;
 
     /**
      * Plugin Behaviour d�fini pour chaque cr�ature
@@ -46,13 +52,29 @@ public class Roguelike {
      */
     public Roguelike() {
         // Load config variables from plugins.json
-        this.pl = PluginLoader.getInstance();
-
+        this.pl = PluginLoader.getInstance();      
+    	this.startWorld();
+    }
+    
+    
+    private void startWorld()
+    {
         this.showPluginSelectorUI();
-        World world = createWorld();
-        BasicUI ui = buildUI(world);
+        world = createWorld();
+        if(gameUI == null)
+        {        	
+        	gameUI = buildUI(world);
+        	gameUI.start();
+        }
+        else
+        	gameUI.setWorld(world);
 
-        ui.start();
+    }
+    
+    
+    private void stopWorld()
+    {
+    	world = null;
     }
 
     /**
@@ -89,22 +111,33 @@ public class Roguelike {
                     creaturePd, new DescriptorCategory(Behaviour.class, compatibleBehaviours, true));
         }
 
-        // Open the windows and wait for the user to select his favorite plugins
-        PluginSelectorUI ui = new PluginSelectorUI(sortedDescriptors, choiceDescriptors);
-        ui.showWindowDemo();
-        while (ui.isOpen) {
-            try {
-                Thread.sleep(1500);
-            } catch (InterruptedException e) {
-            }
+    	// If pluginSelector is null, it usually means that this is the first time the world is loaded
+        // If it is not null, it means that the window is already opened. Therefore, this method should only read the selected plugins, as it is forcibly a hot reload
+        if(pluginSelector == null)
+        {
+        	// Open the windows and wait for the user to select his favorite plugins
+        	pluginSelector = new PluginSelectorUI(sortedDescriptors, choiceDescriptors);
+        	pluginSelector.addObserver(this);
+	        pluginSelector.showWindowDemo();
+	        while (pluginSelector.isOpen) {
+	            try {
+	                Thread.sleep(1500);
+	            } catch (InterruptedException e) {
+	            }
+	        }
         }
+        this.readAndLoadSelectedPlugins();
+    }
+    
+    
+    private void readAndLoadSelectedPlugins()
+    {
+        List<PluginDescriptor> tileDescriptors = pluginSelector.getSelectedPluginForBaseClass(Tile.class);
+        List<PluginDescriptor> creatureDescriptors = pluginSelector.getSelectedPluginForBaseClass(Creature.class);
+        List<PluginDescriptor> uiDescriptors = pluginSelector.getSelectedPluginForBaseClass(BasicUI.class);
+        HashMap<PluginDescriptor, PluginDescriptor> behaviourDescriptors = pluginSelector.getSelectedPluginsForBehaviours();
 
-        List<PluginDescriptor> tileDescriptors = ui.getSelectedPluginForBaseClass(Tile.class);
-        List<PluginDescriptor> creatureDescriptors = ui.getSelectedPluginForBaseClass(Creature.class);
-        List<PluginDescriptor> uiDescriptors = ui.getSelectedPluginForBaseClass(BasicUI.class);
-        HashMap<PluginDescriptor, PluginDescriptor> behaviourDescriptors = ui.getSelectedPluginsForBehaviours();
-
-        this.loadSelectedPlugins(tileDescriptors, creatureDescriptors, behaviourDescriptors, uiDescriptors.get(0));
+        this.loadSelectedPlugins(tileDescriptors, creatureDescriptors, behaviourDescriptors, uiDescriptors.get(0));    	
     }
 
     /**
@@ -165,4 +198,14 @@ public class Roguelike {
         Object[] parameters = { world };
         return (BasicUI) pl.instantiatePluginClass(pluginUIClass, parameters);
     }
+
+	@Override
+	public void onNotify(Observable source, String data) {
+		if(source == pluginSelector)
+		{
+			System.out.println("Received message : " + data);
+			this.stopWorld();
+			this.startWorld();
+		}
+	}
 }

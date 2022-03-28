@@ -18,14 +18,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-public class PluginSelectorUI {
+import plugins.roguelike.patterns.Observable;
+import plugins.roguelike.patterns.Observer;
+
+public class PluginSelectorUI implements Observable {
 
     Frame mainFrame;
+	private List<Observer> observers;
 
     List<DescriptorCategory> checkboxCategories;
     HashMap<PluginDescriptor, DescriptorCategory> choiceCategories;
 
     public boolean isOpen;
+    public boolean isStarted;
 
     /**
      * Simple ui to make the user select his favorite plugins to load
@@ -35,6 +40,7 @@ public class PluginSelectorUI {
     public PluginSelectorUI(List<DescriptorCategory> chkCat, HashMap<PluginDescriptor, DescriptorCategory> choiceCat) {
         this.checkboxCategories = chkCat;
         this.choiceCategories = choiceCat;
+        isStarted = false;
 
         mainFrame = new Frame("Plugin Loader Window");
         mainFrame.setSize(600, 600);
@@ -52,9 +58,22 @@ public class PluginSelectorUI {
         exit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 hide();
+                isStarted = true;
             }
         });
+        
+        
+        Button reload = new Button("Reload");
+        reload.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	if(!isStarted) return;
+            	notifyObject("Reload");
+                hide();
+            }
+        });
+
         mainFrame.add(exit);
+        mainFrame.add(reload);
         mainFrame.setVisible(true);
     }
 
@@ -183,4 +202,26 @@ public class PluginSelectorUI {
 
         return plugins;
     }
+    
+    
+
+	@Override
+	public void notifyObject(String data) {
+		for(Observer observer : observers)
+			observer.onNotify(this,  data);
+		
+	}
+
+	@Override
+	public void addObserver(Observer o) {
+		if(observers == null) observers = new ArrayList<Observer>();
+		observers.add(o);
+		
+	}
+
+	@Override
+	public void removeObserver(Observer o) {
+		observers.remove(o);
+		
+	}
 }
