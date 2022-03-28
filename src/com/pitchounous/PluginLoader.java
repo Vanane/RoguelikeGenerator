@@ -171,8 +171,26 @@ public class PluginLoader {
 				}
 				constructorTypes[i] = type;
 			}
-
-			Constructor<?> c = pluginClass.getDeclaredConstructor(constructorTypes);
+			
+			plugin = instantiatePluginClass(pluginClass, args, constructorTypes);
+		} catch (IllegalArgumentException | SecurityException e) {
+			System.err.println("La classe " + pluginClass.getSimpleName() + " n'a pas pu être chargée");
+			e.printStackTrace();
+		}
+		return plugin;
+	}
+	
+	/**
+	 * Instantiate directly a class with passed arguments, and their respective types.
+	 * @param pluginClass
+	 * @param args
+	 * @param types
+	 * @return
+	 */
+	public Object instantiatePluginClass(Class<?> pluginClass, Object[] args, Class[] types) {
+		Object plugin = null;
+		try {
+			Constructor<?> c = pluginClass.getDeclaredConstructor(types);
 			plugin = c.newInstance(args);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
@@ -181,4 +199,5 @@ public class PluginLoader {
 		}
 		return plugin;
 	}
+
 }

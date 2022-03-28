@@ -5,6 +5,8 @@ import java.util.Random;
 import plugins.roguelike.entities.creatures.Creature;
 
 public class DefaultBehaviour extends Behaviour {
+	public DefaultBehaviour() {}
+	
 	public DefaultBehaviour(Creature c) {
 		super(c);
 	}

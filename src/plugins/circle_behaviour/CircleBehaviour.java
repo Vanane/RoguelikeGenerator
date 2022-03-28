@@ -13,6 +13,9 @@ public class CircleBehaviour extends Behaviour {
     long lastMoveTime = 0;
     long timeBetweenMoves = 500;
 
+    public CircleBehaviour() {}
+    
+    
     public CircleBehaviour(Creature c) {
         super(c);
     }

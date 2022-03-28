@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import plugins.roguelike.FieldChangedEventArgs;
 import plugins.roguelike.patterns.Observable;
 import plugins.roguelike.patterns.Observer;
 
@@ -62,18 +63,8 @@ public class PluginSelectorUI implements Observable {
             }
         });
 
-
-        Button reload = new Button("Reload");
-        reload.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	if(!isStarted) return;
-            	notifyObject("Reload");
-                hide();
-            }
-        });
-
+        
         mainFrame.add(exit);
-        mainFrame.add(reload);
         mainFrame.setVisible(true);
     }
 
@@ -126,6 +117,14 @@ public class PluginSelectorUI implements Observable {
                             dc.unselectPluginDescriptor(dc.descriptors.get(lastIndex));
                         }
                         PluginDescriptor pd = dc.descriptors.get(comboBox.getSelectedIndex());
+                        
+                        FieldChangedEventArgs args = new FieldChangedEventArgs();
+                    	args.command = dc.baseClass.getSimpleName();
+                    	args.args = new HashMap<>();
+                    	args.args.put("type", key.getClassName());
+                    	args.args.put("newPlugin", pd.getClassName());
+                        notifyObject(args);
+                        
                         dc.selectPluginDescriptor(pd);
                         lastIndex = comboBox.getSelectedIndex();
                         System.out.println("Setting " + pd.getClassName() + " for " + key.getPluginName());
@@ -197,9 +196,9 @@ public class PluginSelectorUI implements Observable {
 
 
 	@Override
-	public void notifyObject(String data) {
+	public void notifyObject(FieldChangedEventArgs data) {
 		for(Observer observer : observers)
-			observer.onNotify(this,  data);
+			observer.onFieldChanged(this, data);
 
 	}
 

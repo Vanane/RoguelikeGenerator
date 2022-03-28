@@ -70,8 +70,9 @@ public class Roguelike implements Observer {
 
     }
 
-    private void stopWorld() {
+    private void resetWorld() {
         world = null;
+        startWorld();
     }
 
     /**
@@ -208,11 +209,44 @@ public class Roguelike implements Observer {
     }
 
     @Override
-    public void onNotify(Observable source, String data) {
-        if (source == pluginSelector) {
-            System.out.println("Received message : " + data);
-            this.stopWorld();
-            this.startWorld();
+    public void onFieldChanged(Observable source, FieldChangedEventArgs args) {
+        System.out.println("Received message : " + args);
+        try
+        {        	
+	    	if (source == pluginSelector) {    		
+	        	switch(args.command) {
+	        		case "Behaviour" : // Redefine the behaviour of a creature
+	        			List<Creature> creatures = world.getAliveCreatures();
+	        			for(Creature c : creatures)
+	        			{
+	        				String creatureClass = c.getClass().getTypeName();
+	        				String givenClass = args.args.get("type");
+	        				String givenBehaviour = args.args.get("newPlugin");
+	        				if(givenClass == creatureClass)
+	        				{
+	        					Behaviour b = (Behaviour) pl.instantiatePluginClass(Class.forName(givenBehaviour),
+        							new Object[] { c },
+        							new Class[] { Creature.class});
+	        					c.setBehaviour(b);
+	        				}
+	        			}
+	    			break;
+	        	}
+	    	}
+        } catch(Exception e) {
+        	System.out.println("Roguelike.java:onFieldChanged : " + e.getMessage());
         }
+    }
+    
+    
+    /* Hot Reload part */
+    /**
+     * Updates every creature of the given type in the world, with a new behaviour
+     * @param behaviour
+     * @param creature
+     */
+    private void loadBehaviourForCreature(Behaviour behaviour, Creature creature)
+    {
+    	
     }
 }
