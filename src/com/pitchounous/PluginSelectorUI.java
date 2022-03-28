@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Set;
 
 import plugins.roguelike.FieldChangedEventArgs;
+import javax.swing.JPanel;
+
 import plugins.roguelike.patterns.Observable;
 import plugins.roguelike.patterns.Observer;
 
@@ -73,8 +75,10 @@ public class PluginSelectorUI implements Observable {
      */
     private void addCheckBoxForDescriptorCategories() {
         for (DescriptorCategory dc : this.checkboxCategories) {
-            mainFrame.add(new Label(dc.baseClass.getSimpleName() + " plugins"));
+            JPanel panel = new JPanel();
+        	panel.add(new Label(dc.baseClass.getSimpleName() + " plugins"));
 
+            
             CheckboxGroup checkboxGroup = (dc.atLeastOneRequired) ? new CheckboxGroup() : null;
             for (int i = 0; i < dc.descriptors.size(); i++) {
                 PluginDescriptor pd = dc.descriptors.get(i);
@@ -95,14 +99,17 @@ public class PluginSelectorUI implements Observable {
                         }
                     }
                 });
-                mainFrame.add(tilCB);
+                panel.add(tilCB);
             }
+            mainFrame.add(panel);
         }
+        
     }
 
     private void addComboBoxForDescriptorCategories() {
         for (PluginDescriptor key : this.comboBoxCategories.keySet()) {
-            mainFrame.add(new Label(key.getPluginName() + " for " + key.getPluginName() + " :"));
+            JPanel panel = new JPanel();
+        	panel.add(new Label(key.getPluginName() + " for " + key.getPluginName() + " :"));
 
             DescriptorCategory dc = this.comboBoxCategories.get(key);
 
@@ -141,7 +148,8 @@ public class PluginSelectorUI implements Observable {
             dc.selectPluginDescriptor(pd);
             System.out.println("Setting " + pd.getClassName() + " for " + key.getPluginName());
 
-            mainFrame.add(comboBox);
+            panel.add(comboBox);
+            mainFrame.add(panel);
         }
     }
 
