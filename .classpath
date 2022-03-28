@@ -6,7 +6,8 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/BigF00t/Documents/CoursM2/archi/RoguelikeGenerator/lib/ascii-panel-1.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/BigF00t/Documents/CoursM2/archi/RoguelikeGenerator/lib/gson-2.8.2.jar"/>
+
+	<classpathentry exported="true" kind="lib" path="lib/ascii-panel-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/gson-2.8.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

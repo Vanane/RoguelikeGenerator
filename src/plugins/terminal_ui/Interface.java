@@ -13,6 +13,7 @@ public class Interface extends BasicUI {
 
 	private AsciiPanel terminal;
 	private AsciiCamera camera;
+	private Boolean closing;
 
 	private final int SCREEN_WIDTH = 80;
 	private final int SCREEN_HEIGHT = 60;
@@ -72,6 +73,7 @@ public class Interface extends BasicUI {
 		long sleepTime;
 
 		isRunning = true;
+		closing = false;
 		while (isRunning) {
 
 			startTime = System.nanoTime();
@@ -88,6 +90,15 @@ public class Interface extends BasicUI {
 					e.printStackTrace();
 				}
 			}
+		}
+		if(closing)
+		{
+			world = null;
+			terminal.setEnabled(false);
+			terminal.clear();
+			terminal = null;
+			camera = null;
+			return;
 		}
 		try {
 			// Waiting after showing the GAME OVER screen and before exiting
@@ -117,4 +128,18 @@ public class Interface extends BasicUI {
 	protected void processInput() {
 		world.processInput(kl.getLastInput());
 	};
+	
+	
+	@Override
+	public void stop()
+	{
+		closing = true;
+		isRunning = false;
+	}
+	
+	@Override
+	public void setWorld(World w)
+	{
+		this.world = w;
+	}
 }

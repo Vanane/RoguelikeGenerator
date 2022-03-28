@@ -39,5 +39,17 @@ public class GameWindow extends BasicUI {
     public void processInput() {
         // GamePanel is processing input instead
     }
+    
+    
+    @Override
+    public void stop() {
+    	// TODO  Implement the window stopping (not the game over !) logic
+    }
+    
+    @Override
+    public void setWorld(World w) {
+    	this.world = w;
+    	
+    }
 
 }

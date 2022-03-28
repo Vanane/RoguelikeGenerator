@@ -19,51 +19,69 @@ import java.util.List;
 import java.util.Set;
 
 import javax.swing.JPanel;
+import plugins.roguelike.patterns.Observable;
+import plugins.roguelike.patterns.Observer;
 
-public class PluginSelectorUI {
+public class PluginSelectorUI implements Observable {
 
-	Frame mainFrame;
+    Frame mainFrame;
+	private List<Observer> observers;
 
-	List<DescriptorCategory> checkboxCategories;
-	HashMap<PluginDescriptor, DescriptorCategory> choiceCategories;
+    List<DescriptorCategory> checkboxCategories;
+    HashMap<PluginDescriptor, DescriptorCategory> comboBoxCategories;
 
-	public boolean isOpen;
+    public boolean isStarted;
+    public boolean gameLaunched;
 
-	/**
-	 * Simple ui to make the user select his favorite plugins to load
-	 *
-	 * @param chkCat
-	 */
-	public PluginSelectorUI(List<DescriptorCategory> chkCat, HashMap<PluginDescriptor, DescriptorCategory> choiceCat) {
-		this.checkboxCategories = chkCat;
-		this.choiceCategories = choiceCat;
+    /**
+     * Simple ui to make the user select his favorite plugins to load
+     *
+     * @param chkCat
+     */
+    public PluginSelectorUI(List<DescriptorCategory> chkCat, HashMap<PluginDescriptor, DescriptorCategory> choiceCat) {
+        this.checkboxCategories = chkCat;
+        isStarted = false;
+        this.comboBoxCategories = choiceCat;
 
-		mainFrame = new Frame("Plugin Loader Window");
-		mainFrame.setSize(600, 600);
-		mainFrame.setLayout(new GridLayout(10, 5));
-		mainFrame.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent windowEvent) {
-				hide();
-			}
-		});
+        mainFrame = new Frame("Plugin Loader Window");
+        mainFrame.setSize(600, 600);
+        mainFrame.setLayout(new GridLayout(10, 1));
+        mainFrame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent windowEvent) {
+                hide();
+            }
+        });
 
-		this.addCheckBoxForCategories();
-		this.addComboBoxForBehaviours();
+        this.addCheckBoxForDescriptorCategories();
+        this.addComboBoxForDescriptorCategories();
 
-		Button exit = new Button("Start the game");
-		exit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				hide();
-			}
-		});
-		mainFrame.add(exit);
-		mainFrame.setVisible(true);
-	}
+        Button exit = new Button("Start the game");
+        exit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                hide();
+                isStarted = true;
+            }
+        });
 
-	/**
-	 * For each plugin categories we create dedicated checkboxes
-	 */
-	private void addCheckBoxForCategories() {
+
+        Button reload = new Button("Reload");
+        reload.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	if(!isStarted) return;
+            	notifyObject("Reload");
+                hide();
+            }
+        });
+
+        mainFrame.add(exit);
+        mainFrame.add(reload);
+        mainFrame.setVisible(true);
+    }
+
+    /**
+     * For each plugin categories we create dedicated checkboxes
+     */
+    private void addCheckBoxForCategories() {
 		CheckboxGroup checkboxGroup;
 		boolean selectedByDefault;
 		for (DescriptorCategory dc : this.checkboxCategories) {		
@@ -99,93 +117,110 @@ public class PluginSelectorUI {
 		
 	}
 
-	private void addComboBoxForBehaviours() {
-		/*
-		 * TODO : Pour chaque creature : Creer une categorie Creer un Combobox
-		 * avec en choix les PluginDescriptor Il faut proposer que les pluginDescriptors
-		 * compatibles avec la creature
-		 */
-		for (PluginDescriptor key : this.choiceCategories.keySet()) {
-			System.out.println("Drawing behaviour for " + key.getPluginName());
-			mainFrame.add(new Label("Behaviour for " + key.getPluginName() + " :"));
+    private void addComboBoxForDescriptorCategories() {
+        for (PluginDescriptor key : this.comboBoxCategories.keySet()) {
+            mainFrame.add(new Label(key.getPluginName() + " for " + key.getPluginName() + " :"));
 
-			DescriptorCategory dc = this.choiceCategories.get(key);
+            DescriptorCategory dc = this.comboBoxCategories.get(key);
 
-			// Creer la combobox qui va bien
-			Choice comboBox = new Choice();
-			comboBox.addItemListener(new ItemListener() {
-				int lastIndex = -1;
+            Choice comboBox = new Choice();
+            comboBox.addItemListener(new ItemListener() {
+                int lastIndex = -1;
 
-				@Override
-				public void itemStateChanged(ItemEvent e) {
-					if (e.getStateChange() == ItemEvent.SELECTED) {
-						if (lastIndex > -1) {
-							dc.unselectPluginDescriptor(dc.descriptors.get(lastIndex));
-						}
-						dc.selectPluginDescriptor(dc.descriptors.get(comboBox.getSelectedIndex()));
-						lastIndex = comboBox.getSelectedIndex();
-					}
-				}
-			});
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+                    if (e.getStateChange() == ItemEvent.SELECTED) {
+                        if (lastIndex > -1) {
+                            dc.unselectPluginDescriptor(dc.descriptors.get(lastIndex));
+                        }
+                        PluginDescriptor pd = dc.descriptors.get(comboBox.getSelectedIndex());
+                        dc.selectPluginDescriptor(pd);
+                        lastIndex = comboBox.getSelectedIndex();
+                        System.out.println("Setting " + pd.getClassName() + " for " + key.getPluginName());
+                    }
+                }
+            });
 
-			// Pour chaque Behaviour de la creature, on l'ajoute e la combobox
-			for (PluginDescriptor pd : dc.descriptors) {
-				System.out.println("    - For creature " + key.getPluginName() + ", plugin " + pd.getClassName());
-				comboBox.add(pd.getPluginName());
-			}
+            for (PluginDescriptor pd : dc.descriptors) {
+                comboBox.add(pd.getPluginName());
+            }
 
-			// Select first element by default
-			dc.selectPluginDescriptor(dc.descriptors.get(0));
-			mainFrame.add((comboBox));
-		}
+            // Select first element by default
+            PluginDescriptor pd = dc.descriptors.get(0);
+            dc.selectPluginDescriptor(pd);
+            System.out.println("Setting " + pd.getClassName() + " for " + key.getPluginName());
+
+            mainFrame.add(comboBox);
+        }
+    }
+
+    public void showWindowDemo() {
+        gameLaunched = true;
+        mainFrame.setVisible(true);
+    }
+
+    public void hide() {
+        gameLaunched = false;
+        // mainFrame.setVisible(false);
+    }
+
+    /**
+     * We return selected plugins
+     *
+     * @param baseClass
+     * @return
+     */
+    public List<PluginDescriptor> getSelectedPluginForBaseClass(Class<?> baseClass) {
+        DescriptorCategory dc = null;
+        for (DescriptorCategory cat : this.checkboxCategories) {
+            if (cat.baseClass == baseClass) {
+                dc = cat;
+                break;
+            }
+        }
+
+        List<PluginDescriptor> selectedDescriptors = new ArrayList<>();
+        if (dc != null) {
+            selectedDescriptors.addAll(dc.getSelectedDescriptors());
+        }
+        return selectedDescriptors;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public HashMap<PluginDescriptor, PluginDescriptor> getSelectedPluginsForCombo() {
+        HashMap<PluginDescriptor, PluginDescriptor> plugins = new HashMap<>();
+
+        for (PluginDescriptor pd : this.comboBoxCategories.keySet()) {
+            Set<PluginDescriptor> descriptors = this.comboBoxCategories.get(pd).getSelectedDescriptors();
+            // Getting the first element as only one can be selected
+            plugins.put(pd, descriptors.iterator().next());
+        }
+
+        return plugins;
+    }
+
+
+
+	@Override
+	public void notifyObject(String data) {
+		for(Observer observer : observers)
+			observer.onNotify(this,  data);
+
 	}
 
-	public void showWindowDemo() {
-		isOpen = true;
-		mainFrame.setVisible(true);
+	@Override
+	public void addObserver(Observer o) {
+		if(observers == null) observers = new ArrayList<Observer>();
+		observers.add(o);
+
 	}
 
-	public void hide() {
-		isOpen = false;
-		// mainFrame.setVisible(false);
-	}
+	@Override
+	public void removeObserver(Observer o) {
+		observers.remove(o);
 
-	/**
-	 * We return selected plugins
-	 *
-	 * @param baseClass
-	 * @return
-	 */
-	public List<PluginDescriptor> getSelectedPluginForBaseClass(Class<?> baseClass) {
-		DescriptorCategory dc = null;
-		for (DescriptorCategory cat : this.checkboxCategories) {
-			if (cat.baseClass == baseClass) {
-				dc = cat;
-				break;
-			}
-		}
-
-		List<PluginDescriptor> selectedDescriptors = new ArrayList<>();
-		if (dc != null) {
-			selectedDescriptors.addAll(dc.getSelectedDescriptors());
-		}
-		return selectedDescriptors;
-	}
-
-	/**
-	 * Retourne le Behaviour selectionne pour chaque creature
-	 *
-	 * @return
-	 */
-	public HashMap<PluginDescriptor, PluginDescriptor> getSelectedPluginsForBehaviours() {
-		HashMap<PluginDescriptor, PluginDescriptor> plugins = new HashMap<>();
-
-		for (PluginDescriptor pd : this.choiceCategories.keySet()) {
-			Set<PluginDescriptor> descriptors = this.choiceCategories.get(pd).getSelectedDescriptors();
-			PluginDescriptor selectedBehaviour = descriptors.iterator().next();
-			plugins.put(pd, selectedBehaviour);
-		}
-
-		return plugins;
 	}
 }

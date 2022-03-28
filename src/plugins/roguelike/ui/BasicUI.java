@@ -42,4 +42,8 @@ public abstract class BasicUI extends Frame {
     public abstract void start();
 
     protected abstract void processInput();
+    
+    public abstract void stop();
+    
+    public abstract void setWorld(World w);
 }
