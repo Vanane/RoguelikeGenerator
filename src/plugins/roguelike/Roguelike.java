@@ -129,7 +129,7 @@ public class Roguelike implements Observer {
             pluginSelector = new PluginSelectorUI(sortedDescriptors, choiceDescriptors);
             pluginSelector.addObserver(this);
             pluginSelector.showWindowDemo();
-            while (pluginSelector.isOpen) {
+            while (pluginSelector.gameLaunched) {
                 try {
                     Thread.sleep(1500);
                 } catch (InterruptedException e) {
